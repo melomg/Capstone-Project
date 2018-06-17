@@ -2,26 +2,106 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
+
+    lintOptions {
+        abortOnError false
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    testBuildType "debug"
+
     defaultConfig {
         applicationId "com.projects.melih.wonderandwander"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resValue "string", "app_name", "WonderAndWander"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
+
     buildTypes {
+        debug {
+            signingConfig null
+            debuggable true
+        }
         release {
-            minifyEnabled false
+            debuggable false
+            zipAlignEnabled true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+ext {
+    supportLibrary = "27.1.1"
+    aac = "1.1.1"
+    room = "1.1.0"
+    dagger = "2.15"
+    retrofit = "2.3.0"
+    glide = "4.6.1"
+    leakcanary = "1.5.4"
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    // Support
+    implementation "com.android.support:appcompat-v7:${supportLibrary}"
+    implementation "com.android.support:support-annotations:${supportLibrary}"
+    implementation "com.android.support:design:${supportLibrary}"
+    implementation "com.android.support:recyclerview-v7:${supportLibrary}"
+    implementation "com.android.support:cardview-v7:${supportLibrary}"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+
+    // Android Architecture Components
+    implementation "android.arch.lifecycle:extensions:${aac}"
+    implementation 'android.arch.lifecycle:runtime:1.1.1'
+    annotationProcessor "android.arch.lifecycle:compiler:${aac}"
+
+    // Room components
+    implementation "android.arch.persistence.room:runtime:${room}"
+    annotationProcessor "android.arch.persistence.room:compiler:${room}"
+    androidTestImplementation "android.arch.persistence.room:testing:${room}"
+
+    // Dagger
+    implementation "com.google.dagger:dagger:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+
+    // Dagger.Android
+    implementation "com.google.dagger:dagger-android-support:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${dagger}"
+
+    // Network
+    implementation "com.squareup.retrofit2:converter-gson:${retrofit}"
+    implementation "com.squareup.retrofit2:retrofit:${retrofit}"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+
+    // Image and Video
+    implementation "com.github.bumptech.glide:glide:${glide}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${glide}"
+    implementation 'com.google.android.exoplayer:exoplayer:2.8.0'
+
+    // Utils
+    implementation 'com.jakewharton.timber:timber:4.6.0'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${leakcanary}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanary}"
+
+    // Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
