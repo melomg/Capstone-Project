@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="x_large_size">24dp</dimen>
+    <dimen name="large_size">16dp</dimen>
+    <dimen name="normal_size">12dp</dimen>
+    <dimen name="min_size">8dp</dimen>
+    <dimen name="x_min_size">4dp</dimen>
+    <dimen name="xx_min_size">2dp</dimen>
+    <dimen name="list_item_width">300dp</dimen>
+</resources>
