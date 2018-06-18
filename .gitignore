@@ -59,3 +59,4 @@ gradlew
 /gradle.properties
 *.sketch
 *.json
+/app/src/free/res/values/ads.xml

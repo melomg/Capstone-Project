@@ -31,7 +31,6 @@ android {
 
     buildTypes {
         debug {
-            signingConfig null
             debuggable true
         }
         release {
@@ -39,6 +38,18 @@ android {
             zipAlignEnabled true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        free {
+            dimension "default"
+            applicationIdSuffix ".free"
+        }
+        paid {
+            dimension "default"
+            applicationIdSuffix ".paid"
         }
     }
 
@@ -52,6 +63,7 @@ ext {
     supportLibrary = "27.1.1"
     aac = "1.1.1"
     room = "1.1.0"
+    playServices = "12.0.0"
     dagger = "2.15"
     retrofit = "2.3.0"
     glide = "4.6.1"
@@ -101,8 +113,15 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${leakcanary}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanary}"
 
+    // Maps
+    implementation "com.google.android.gms:play-services-maps:$playServices"
+
+    // Ads
+    freeImplementation "com.google.firebase:firebase-ads:$playServices"
+
     // Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+apply plugin: 'com.google.gms.google-services'
