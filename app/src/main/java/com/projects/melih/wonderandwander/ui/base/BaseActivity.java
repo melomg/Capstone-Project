@@ -10,7 +10,6 @@ import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.projects.melih.wonderandwander.R;
@@ -18,10 +17,12 @@ import com.projects.melih.wonderandwander.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import dagger.android.support.DaggerAppCompatActivity;
+
 /**
  * Created by Melih Gültekin on 22.04.2018
  */
-public abstract class BaseActivity extends AppCompatActivity implements NavigationListener {
+public abstract class BaseActivity extends DaggerAppCompatActivity implements NavigationListener {
     @SuppressWarnings("WeakerAccess")
     public static final int NONE = 0;
     @SuppressWarnings("WeakerAccess")
