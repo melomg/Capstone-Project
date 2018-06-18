@@ -1,12 +1,14 @@
-package com.projects.melih.wonderandwander;
+package com.projects.melih.wonderandwander.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.projects.melih.wonderandwander.R;
+import com.projects.melih.wonderandwander.ui.base.BaseActivity;
 
 /**
  * Created by Melih Gültekin on 15.06.2018
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
