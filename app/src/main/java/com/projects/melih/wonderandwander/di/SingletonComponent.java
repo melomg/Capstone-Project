@@ -1,6 +1,7 @@
 package com.projects.melih.wonderandwander.di;
 
 import com.projects.melih.wonderandwander.WonderAndWanderApplication;
+import com.projects.melih.wonderandwander.repository.ApiAndDataModule;
 
 import javax.inject.Singleton;
 
@@ -15,7 +16,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         SingletonModule.class,
-        ActivityBuilder.class
+        ActivityBuilder.class,
+        ApiAndDataModule.class
 })
 public interface SingletonComponent extends AndroidInjector<WonderAndWanderApplication> {
 
