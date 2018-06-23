@@ -39,7 +39,7 @@ public class ApiAndDataModule {
     @Provides
     Retrofit provideRetrofit(@NonNull OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl(WonderAndWanderService.BASE_URL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
