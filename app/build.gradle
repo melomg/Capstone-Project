@@ -27,6 +27,8 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+
+        buildConfigField("String", "BASE_URL", '"https://api.teleport.org/api/"')
     }
 
     buildTypes {
