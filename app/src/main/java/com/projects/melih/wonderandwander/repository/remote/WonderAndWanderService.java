@@ -6,14 +6,15 @@ import com.projects.melih.wonderandwander.repository.remote.response.ResponseCit
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Melih Gültekin on 18.06.2018
  */
 public interface WonderAndWanderService {
 
-    @GET("cities/?search={city}&embed=city:search-results/city:item")
-    Call<ResponseCities> getCities(@Path("city") String cityName);
+    @GET("cities")
+    Call<ResponseCities> getCities(@Query(value = "search", encoded = true) String cityName, @Query(value = "embed", encoded = true) String embed);
 
     @GET("cities/geonameid:{geonameid}")
     Call<City> getCity(@Path("geonameid") int geoNameId);

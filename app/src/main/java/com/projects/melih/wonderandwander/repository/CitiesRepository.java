@@ -43,7 +43,7 @@ public class CitiesRepository {
         if (!Utils.isNetworkConnected(context)) {
             callback.onComplete(null, ErrorState.NO_NETWORK);
         } else {
-            call = service.getCities(cityName);
+            call = service.getCities(cityName, "city:search-results/city:item");
             call.enqueue(new Callback<ResponseCities>() {
                 @Override
                 public void onResponse(@NonNull Call<ResponseCities> call, @NonNull Response<ResponseCities> response) {
