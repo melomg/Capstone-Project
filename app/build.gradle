@@ -117,6 +117,7 @@ dependencies {
 
     // Maps
     implementation "com.google.android.gms:play-services-maps:$playServices"
+    implementation "com.google.android.gms:play-services-places:$playServices"
 
     // Ads
     freeImplementation "com.google.firebase:firebase-ads:$playServices"

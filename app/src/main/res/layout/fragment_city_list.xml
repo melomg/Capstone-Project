@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary100">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/search"
+            style="@style/SearchButton"
+            android:drawableEnd="@drawable/ic_search_black"
+            android:layout_margin="@dimen/normal_size"
+            android:text="@string/search_city"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/search"
+            app:layout_constraintStart_toStartOf="@+id/search"
+            app:layout_constraintTop_toBottomOf="@+id/search"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

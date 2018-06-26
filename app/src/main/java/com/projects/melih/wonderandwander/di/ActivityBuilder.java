@@ -1,6 +1,6 @@
 package com.projects.melih.wonderandwander.di;
 
-import com.projects.melih.wonderandwander.ui.MainActivity;
+import com.projects.melih.wonderandwander.ui.main.MainActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
