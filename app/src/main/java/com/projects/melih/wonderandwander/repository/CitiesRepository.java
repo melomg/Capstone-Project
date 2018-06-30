@@ -5,12 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.projects.melih.wonderandwander.common.AppExecutors;
+import com.projects.melih.wonderandwander.common.CollectionUtils;
 import com.projects.melih.wonderandwander.common.Utils;
+import com.projects.melih.wonderandwander.model.City;
+import com.projects.melih.wonderandwander.model.Photo;
 import com.projects.melih.wonderandwander.repository.remote.DataCallback;
 import com.projects.melih.wonderandwander.repository.remote.ErrorState;
 import com.projects.melih.wonderandwander.repository.remote.WonderAndWanderService;
 import com.projects.melih.wonderandwander.repository.remote.response.ResponseCities;
+import com.projects.melih.wonderandwander.repository.remote.response.ResponsePhotos;
 
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,8 +23,6 @@ import javax.inject.Singleton;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.projects.melih.wonderandwander.common.Constants.UNKNOWN_ERROR;
 
 /**
  * Created by Melih Gültekin on 21.06.2018
@@ -38,7 +41,7 @@ public class CitiesRepository {
     }
 
     @Nullable
-    public Call<ResponseCities> fetchCitiesFromNetwork(@NonNull String cityName, @NonNull DataCallback<ResponseCities> callback) {
+    public Call<ResponseCities> fetchCitiesFromNetwork(@NonNull String cityName, @NonNull DataCallback<List<City>> callback) {
         Call<ResponseCities> call = null;
         if (!Utils.isNetworkConnected(context)) {
             callback.onComplete(null, ErrorState.NO_NETWORK);
@@ -47,14 +50,45 @@ public class CitiesRepository {
             call.enqueue(new Callback<ResponseCities>() {
                 @Override
                 public void onResponse(@NonNull Call<ResponseCities> call, @NonNull Response<ResponseCities> response) {
-                    final ResponseCities cities = response.body();
-                    //TODO
+                    List<City> cities = Utils.createCityListFromResponse(response);
+                    if (CollectionUtils.isNotEmpty(cities)) {
+                        callback.onComplete(cities, null);
+                    } else {
+                        callback.onComplete(null, ErrorState.EMPTY);
+                    }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<ResponseCities> call, @NonNull Throwable t) {
-                    final String message = t.getMessage();
-                    callback.onComplete(null, ErrorState.error((message == null) ? UNKNOWN_ERROR : message));
+                    callback.onComplete(null, ErrorState.FAILED);
+                }
+            });
+        }
+        return call;
+    }
+
+    @Nullable
+    public Call<ResponsePhotos> fetchPhotosFromNetwork(@NonNull String formattedUrbanAreaName, @NonNull DataCallback<List<Photo>> callback) {
+        Call<ResponsePhotos> call = null;
+        if (!Utils.isNetworkConnected(context)) {
+            callback.onComplete(null, ErrorState.NO_NETWORK);
+        } else {
+            call = service.getImages(formattedUrbanAreaName);
+            call.enqueue(new Callback<ResponsePhotos>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponsePhotos> call, @NonNull Response<ResponsePhotos> response) {
+                    final ResponsePhotos responsePhotos = response.body();
+                    List<Photo> photos = responsePhotos == null ? null : responsePhotos.getPhotos();
+                    if (CollectionUtils.isNotEmpty(photos)) {
+                        callback.onComplete(photos, null);
+                    } else {
+                        callback.onComplete(null, ErrorState.EMPTY);
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ResponsePhotos> call, @NonNull Throwable t) {
+                    callback.onComplete(null, ErrorState.FAILED);
                 }
             });
         }
