@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.projects.melih.wonderandwander.R;
 import com.projects.melih.wonderandwander.ui.base.BaseActivity;
-import com.projects.melih.wonderandwander.ui.cities.CityListFragment;
+import com.projects.melih.wonderandwander.ui.home.HomeFragment;
 
 /**
  * Created by Melih Gültekin on 15.06.2018
@@ -19,7 +19,7 @@ public class MainActivity extends BaseActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, CityListFragment.newInstance())
+                    .add(R.id.container, HomeFragment.newInstance())
                     .addToBackStack("")
                     .commit();
         }
