@@ -11,14 +11,14 @@ import com.google.gson.annotations.SerializedName;
 public class EmbeddedOfEmbeddedCity {
     @SerializedName("city:item")
     @Nullable
-    private City city;
+    private CityItem cityItem;
 
     @Nullable
-    public City getCity() {
-        return city;
+    public CityItem getCityItem() {
+        return cityItem;
     }
 
-    public void setCity(@Nullable City city) {
-        this.city = city;
+    public void setCityItem(@Nullable CityItem cityItem) {
+        this.cityItem = cityItem;
     }
 }
