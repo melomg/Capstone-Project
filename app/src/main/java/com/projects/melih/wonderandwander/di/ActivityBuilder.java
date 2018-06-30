@@ -1,6 +1,7 @@
 package com.projects.melih.wonderandwander.di;
 
 import com.projects.melih.wonderandwander.ui.main.MainActivity;
+import com.projects.melih.wonderandwander.ui.main.MainActivityFragmentBuildersModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -12,6 +13,6 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ActivityBuilder {
 
     @ScopeActivity
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = {MainActivityFragmentBuildersModule.class})
     abstract MainActivity bindMainActivity();
 }
