@@ -3,7 +3,10 @@ package com.projects.melih.wonderandwander;
 import android.os.StrictMode;
 
 import com.projects.melih.wonderandwander.di.DaggerSingletonComponent;
+import com.projects.melih.wonderandwander.di.SingletonComponent;
 import com.squareup.leakcanary.LeakCanary;
+
+import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
@@ -13,6 +16,9 @@ import timber.log.Timber;
  * Created by Melih Gültekin on 18.06.2018
  */
 public class WonderAndWanderApplication extends DaggerApplication {
+    @Inject
+    SingletonComponent singletonComponent;
+
     @Override
     public void onCreate() {
         if (BuildConfig.DEBUG) {
@@ -41,5 +47,9 @@ public class WonderAndWanderApplication extends DaggerApplication {
     @Override
     protected AndroidInjector<? extends WonderAndWanderApplication> applicationInjector() {
         return DaggerSingletonComponent.builder().create(this);
+    }
+
+    public SingletonComponent getSingletonComponent() {
+        return singletonComponent;
     }
 }

@@ -17,7 +17,7 @@ public abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(CitiesViewModel.class)
-    abstract ViewModel bindRecipesViewModel(CitiesViewModel citiesViewModel);
+    abstract ViewModel bindCitiesViewModel(CitiesViewModel citiesViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(WonderAndWanderViewModelFactory viewModelFactory);

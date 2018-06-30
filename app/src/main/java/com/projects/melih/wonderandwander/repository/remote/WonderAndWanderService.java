@@ -2,6 +2,7 @@ package com.projects.melih.wonderandwander.repository.remote;
 
 import com.projects.melih.wonderandwander.model.City;
 import com.projects.melih.wonderandwander.repository.remote.response.ResponseCities;
+import com.projects.melih.wonderandwander.repository.remote.response.ResponsePhotos;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -23,5 +24,5 @@ public interface WonderAndWanderService {
     Call<City> getScores(@Path("area") String area);
 
     @GET("urban_areas/slug:{area}/images/")
-    Call<City> getImages(@Path("area") String area);
+    Call<ResponsePhotos> getImages(@Path("area") String area);
 }
