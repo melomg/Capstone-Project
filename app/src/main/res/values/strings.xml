@@ -3,7 +3,7 @@
     <string name="network_error">Make sure you are connected to internet!</string>
     <string name="search_city">Search a City</string>
 
-   <!-- BOTTOM NAVIGATION BAR -->
+    <!-- BOTTOM NAVIGATION BAR -->
     <string name="action_search">Search City</string>
     <string name="action_profile">Profile</string>
 </resources>
