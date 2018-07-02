@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.projects.melih.wonderandwander.ui.cities.CityListFragment;
-import com.projects.melih.wonderandwander.ui.profile.LoginFragment;
+import com.projects.melih.wonderandwander.ui.user.LoginFragment;
 
 /**
  * Created by Melih Gültekin on 30.06.2018

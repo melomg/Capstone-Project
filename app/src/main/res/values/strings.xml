@@ -6,4 +6,8 @@
     <!-- BOTTOM NAVIGATION BAR -->
     <string name="action_search">Search City</string>
     <string name="action_profile">Profile</string>
+
+    <!-- UserFragment -->
+    <string name="profile_u">PROFILE</string>
+    <string name="compare_u">COMPARE</string>
 </resources>

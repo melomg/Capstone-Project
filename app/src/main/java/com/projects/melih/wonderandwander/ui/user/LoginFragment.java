@@ -1,4 +1,4 @@
-package com.projects.melih.wonderandwander.ui.profile;
+package com.projects.melih.wonderandwander.ui.user;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,14 +29,12 @@ import java.util.List;
  */
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
     private static final int RC_SIGN_IN = 123;
+    private final List<AuthUI.IdpConfig> providers = Collections.singletonList(new AuthUI.IdpConfig.GoogleBuilder().build());
     private FragmentLoginBinding binding;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }
-
-    List<AuthUI.IdpConfig> providers = Collections.singletonList(new AuthUI.IdpConfig.GoogleBuilder().build());
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
