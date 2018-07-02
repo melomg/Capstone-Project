@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.projects.melih.wonderandwander.ui.profile.LoginFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_login_placeholder"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/Text.AlegreyaExtraBold.App"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/app_name"/>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/login"
+            android:layout_width="@dimen/login_width_size"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/x_large_size"
+            android:layout_gravity="center|bottom"/>
+    </FrameLayout>
+</layout>

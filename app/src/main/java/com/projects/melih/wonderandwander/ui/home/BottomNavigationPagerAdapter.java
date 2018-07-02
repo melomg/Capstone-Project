@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.projects.melih.wonderandwander.ui.cities.CityListFragment;
+import com.projects.melih.wonderandwander.ui.profile.LoginFragment;
 
 /**
  * Created by Melih Gültekin on 30.06.2018
@@ -23,7 +24,7 @@ class BottomNavigationPagerAdapter extends FragmentStatePagerAdapter {
         Fragment fragment;
         switch (position) {
             case PROFILE:
-                fragment = CityListFragment.newInstance();
+                fragment = LoginFragment.newInstance();
                 break;
             case SEARCH:
             default:

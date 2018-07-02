@@ -3,6 +3,8 @@ package com.projects.melih.wonderandwander.ui.base;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.widget.Toast;
 
 import dagger.android.support.DaggerFragment;
@@ -28,6 +30,10 @@ public class BaseFragment extends DaggerFragment {
 
     protected void showToast(@NonNull String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    protected void showSnackBar(View snackView, @StringRes int message) {
+        Snackbar.make(snackView, message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

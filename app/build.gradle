@@ -64,8 +64,8 @@ android {
 ext {
     supportLibrary = "27.1.1"
     aac = "1.1.1"
-    room = "1.1.0"
-    playServices = "12.0.0"
+    room = "1.1.1"
+    playServices = "15.0.1"
     dagger = "2.15"
     retrofit = "2.3.0"
     glide = "4.6.1"
@@ -118,6 +118,10 @@ dependencies {
     // Maps
     implementation "com.google.android.gms:play-services-maps:$playServices"
     implementation "com.google.android.gms:play-services-places:$playServices"
+
+    // Firebase Auth
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.firebaseui:firebase-ui-auth:4.0.0'
 
     // Ads
     freeImplementation "com.google.firebase:firebase-ads:$playServices"

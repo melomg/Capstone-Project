@@ -3,6 +3,7 @@ package com.projects.melih.wonderandwander.ui.main;
 import com.projects.melih.wonderandwander.di.ScopeFragment;
 import com.projects.melih.wonderandwander.ui.cities.CityListFragment;
 import com.projects.melih.wonderandwander.ui.home.HomeFragment;
+import com.projects.melih.wonderandwander.ui.profile.LoginFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -19,4 +20,8 @@ public abstract class MainActivityFragmentBuildersModule {
     @ScopeFragment
     @ContributesAndroidInjector
     abstract CityListFragment bindCityListFragment();
+
+    @ScopeFragment
+    @ContributesAndroidInjector
+    abstract LoginFragment bindLoginFragment();
 }
