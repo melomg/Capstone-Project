@@ -31,6 +31,7 @@ public class HomeFragment extends BaseFragment {
 
         binding.viewPager.setAdapter(new BottomNavigationPagerAdapter(getChildFragmentManager()));
         binding.viewPager.setOffscreenPageLimit(TAB_COUNT - 1);
+        binding.viewPager.setCanScroll(false);
         ViewPager.OnPageChangeListener listener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
