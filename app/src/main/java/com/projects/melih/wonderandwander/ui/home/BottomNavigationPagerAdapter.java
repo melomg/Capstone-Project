@@ -24,11 +24,11 @@ class BottomNavigationPagerAdapter extends FragmentStatePagerAdapter {
         Fragment fragment;
         switch (position) {
             case PROFILE:
-                fragment = CityListFragment.newInstance();
+                fragment = LoginFragment.newInstance();
                 break;
             case SEARCH:
             default:
-                fragment = LoginFragment.newInstance();
+                fragment = CityListFragment.newInstance();
                 break;
         }
         return fragment;

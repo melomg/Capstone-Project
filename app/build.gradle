@@ -65,7 +65,7 @@ ext {
     supportLibrary = "27.1.1"
     aac = "1.1.1"
     room = "1.1.1"
-    playServices = "12.0.0"
+    playServices = "15.0.1"
     dagger = "2.15"
     retrofit = "2.3.0"
     glide = "4.6.1"

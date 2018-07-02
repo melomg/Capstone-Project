@@ -24,8 +24,8 @@
         <com.google.android.gms.common.SignInButton
             android:id="@+id/login"
             android:layout_width="@dimen/login_width_size"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/large_size"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/x_large_size"
             android:layout_gravity="center|bottom"/>
     </FrameLayout>
 </layout>
