@@ -1,10 +1,13 @@
 package com.projects.melih.wonderandwander.repository;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.projects.melih.wonderandwander.BuildConfig;
+import com.projects.melih.wonderandwander.repository.local.LocalUserDataSource;
+import com.projects.melih.wonderandwander.repository.local.WonderAndWanderDatabase;
 import com.projects.melih.wonderandwander.repository.remote.WonderAndWanderService;
 
 import java.util.ArrayList;
@@ -28,6 +31,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiAndDataModule {
     private static final long TIMEOUT_SECOND = 60;
+
+    @Singleton
+    @Provides
+    LocalUserDataSource provideLocalUserDataSource(@NonNull WonderAndWanderDatabase database) {
+        return new LocalUserDataSource(database.userDao());
+    }
+
+    @Singleton
+    @Provides
+    WonderAndWanderDatabase provideDatabase(@NonNull Context context) {
+        return WonderAndWanderDatabase.getInstance(context);
+    }
 
     @Singleton
     @Provides

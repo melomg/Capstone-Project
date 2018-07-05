@@ -52,7 +52,7 @@ public class CitiesRepository {
                 public void onResponse(@NonNull Call<ResponseCities> call, @NonNull Response<ResponseCities> response) {
                     List<City> cities = Utils.createCityListFromResponse(response);
                     if (CollectionUtils.isNotEmpty(cities)) {
-                        callback.onComplete(cities, null);
+                        callback.onComplete(cities, ErrorState.NO_ERROR);
                     } else {
                         callback.onComplete(null, ErrorState.EMPTY);
                     }
@@ -80,7 +80,7 @@ public class CitiesRepository {
                     final ResponsePhotos responsePhotos = response.body();
                     List<Photo> photos = responsePhotos == null ? null : responsePhotos.getPhotos();
                     if (CollectionUtils.isNotEmpty(photos)) {
-                        callback.onComplete(photos, null);
+                        callback.onComplete(photos, ErrorState.NO_ERROR);
                     } else {
                         callback.onComplete(null, ErrorState.EMPTY);
                     }

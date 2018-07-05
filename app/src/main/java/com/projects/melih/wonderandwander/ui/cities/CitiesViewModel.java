@@ -26,7 +26,7 @@ import retrofit2.Call;
 public class CitiesViewModel extends ViewModel {
 
     private final CitiesRepository citiesRepository;
-    private final SingleLiveEvent<ErrorState> errorLiveData;
+    private final SingleLiveEvent<Integer> errorLiveData;
     private final MutableLiveData<Boolean> loadingLiveData;
     private final MutableLiveData<List<City>> citiesLiveData;
     private final MutableLiveData<Pair<Integer, List<Photo>>> photosLiveData;
@@ -41,6 +41,10 @@ public class CitiesViewModel extends ViewModel {
         loadingLiveData = new MutableLiveData<>();
         citiesLiveData = new MutableLiveData<>();
         photosLiveData = new MutableLiveData<>();
+    }
+
+    public SingleLiveEvent<Integer> getErrorLiveData() {
+        return errorLiveData;
     }
 
     public LiveData<Boolean> getLoadingLiveData() {
@@ -61,7 +65,7 @@ public class CitiesViewModel extends ViewModel {
         }
         loadingLiveData.setValue(true);
         callCities = citiesRepository.fetchCitiesFromNetwork(cityName, (cities, errorState) -> {
-            if (errorState == null) {
+            if (errorState == ErrorState.NO_ERROR) {
                 citiesLiveData.setValue(cities);
             } else {
                 errorLiveData.setValue(errorState);
@@ -72,10 +76,8 @@ public class CitiesViewModel extends ViewModel {
 
     public void getImageUrl(final int position, @NonNull String formattedUrbanAreaName) {
         callImageUrl = citiesRepository.fetchPhotosFromNetwork(formattedUrbanAreaName, (photos, errorState) -> {
-            if (errorState == null) {
+            if (errorState == ErrorState.NO_ERROR) {
                 photosLiveData.setValue(Pair.create(position, photos));
-            } else {
-                errorLiveData.setValue(errorState);
             }
         });
     }

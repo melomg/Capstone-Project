@@ -1,6 +1,8 @@
 package com.projects.melih.wonderandwander.ui.user;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -24,13 +26,19 @@ import com.projects.melih.wonderandwander.ui.base.BaseFragment;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by Melih Gültekin on 01.07.2018
  */
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
     private static final int RC_SIGN_IN = 123;
+
+    @Inject
+    public ViewModelProvider.Factory viewModelFactory;
     private final List<AuthUI.IdpConfig> providers = Collections.singletonList(new AuthUI.IdpConfig.GoogleBuilder().build());
     private FragmentLoginBinding binding;
+    private UserViewModel userViewModel;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -39,6 +47,15 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
+        //noinspection ConstantConditions
+        userViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(UserViewModel.class);
+        userViewModel.getErrorLiveData().observe(this, errorCode -> {
+            //TODO show error
+        });
+        userViewModel.getLoadingLiveData().observe(this, isLoading -> {
+            //TODO show loading
+        });
+        userViewModel.getUserLiveData().observe(this, user -> navigationListener.replaceFragment(UserFragment.newInstance()));
         return binding.getRoot();
     }
 
@@ -55,6 +72,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                userViewModel.saveUser(user);
             } else {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise checks

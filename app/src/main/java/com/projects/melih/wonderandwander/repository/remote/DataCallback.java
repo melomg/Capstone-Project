@@ -6,5 +6,5 @@ import android.support.annotation.Nullable;
  * Created by Melih Gültekin on 18.06.2018
  */
 public interface DataCallback<T> {
-    void onComplete(@Nullable T data, @Nullable ErrorState errorState);
+    void onComplete(@Nullable T data, @ErrorState.Code int errorState);
 }
