@@ -1,6 +1,7 @@
 package com.projects.melih.wonderandwander.ui.main;
 
 import com.projects.melih.wonderandwander.di.ScopeFragment;
+import com.projects.melih.wonderandwander.di.ScopeUser;
 import com.projects.melih.wonderandwander.ui.cities.CityListFragment;
 import com.projects.melih.wonderandwander.ui.home.HomeFragment;
 import com.projects.melih.wonderandwander.ui.user.CompareFragment;
@@ -24,7 +25,7 @@ public abstract class MainActivityFragmentBuildersModule {
     @ContributesAndroidInjector
     abstract CityListFragment bindCityListFragment();
 
-    @ScopeFragment
+    @ScopeUser
     @ContributesAndroidInjector
     abstract UserFragment bindUserFragment();
 
@@ -32,11 +33,11 @@ public abstract class MainActivityFragmentBuildersModule {
     @ContributesAndroidInjector
     abstract LoginFragment bindLoginFragment();
 
-    @ScopeFragment
+    @ScopeUser
     @ContributesAndroidInjector
     abstract ProfileFragment bindProfileFragment();
 
-    @ScopeFragment
+    @ScopeUser
     @ContributesAndroidInjector
     abstract CompareFragment bindCompareFragment();
 }
