@@ -4,16 +4,69 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="com.projects.melih.wonderandwander.ui.user.ProfileFragment">
 
+    <data>
+        <variable
+            name="user"
+            type="com.projects.melih.wonderandwander.model.User"/>
+    </data>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary100">
 
-        <TextView
+        <View
+            android:id="@+id/name_area"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:text="PROFILE"/>
+            android:background="@color/black_transparent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/large_size"
+            android:layout_marginTop="@dimen/large_size"
+            android:layout_marginEnd="@dimen/large_size"
+            app:layout_constraintBottom_toBottomOf="@+id/username"
+            app:layout_constraintTop_toTopOf="parent"/>
 
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/image_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/large_size"
+            app:layout_constraintBottom_toBottomOf="@+id/name_area"
+            app:layout_constraintStart_toStartOf="@+id/name_area"
+            app:layout_constraintTop_toTopOf="@+id/name_area"
+            app:srcCompat="@drawable/ic_profile_black"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/hi"
+            style="@style/Text.NunitoSemiBold"
+            android:layout_width="0dp"
+            android:textColor="@color/black"
+            android:text="@string/hi"
+            android:layout_marginTop="@dimen/large_size"
+            android:layout_marginStart="@dimen/large_size"
+            app:layout_constraintEnd_toEndOf="@+id/name_area"
+            app:layout_constraintStart_toEndOf="@+id/image_profile"
+            app:layout_constraintTop_toTopOf="@+id/name_area"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/username"
+            style="@style/Text.NunitoBold.H6"
+            android:layout_width="0dp"
+            android:textColor="@color/black"
+            android:paddingBottom="@dimen/large_size"
+            app:layout_constraintEnd_toEndOf="@+id/name_area"
+            app:layout_constraintStart_toStartOf="@+id/hi"
+            app:layout_constraintTop_toBottomOf="@+id/hi"
+            android:text="@{user.displayName}"
+            tools:text="Melih"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/logout"
+            style="@style/Button.Red"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_size"
+            android:text="@string/logout"
+            app:layout_constraintTop_toBottomOf="@+id/name_area"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

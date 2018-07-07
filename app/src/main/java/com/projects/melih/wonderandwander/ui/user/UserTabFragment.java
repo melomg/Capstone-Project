@@ -38,15 +38,14 @@ public class UserTabFragment extends BaseTabFragment {
         userViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(UserViewModel.class);
         userViewModel.getIsLoginLiveData().observe(this, isLogin -> {
             if (savedInstanceState == null) {
-                //TODO
+                BaseFragment childFragment;
+                if ((isLogin != null) && isLogin) {
+                    childFragment = UserFragment.newInstance();
+                } else {
+                    childFragment = LoginFragment.newInstance();
+                }
+                openChildFragment(R.id.container, childFragment, false);
             }
-            BaseFragment childFragment;
-            if ((isLogin != null) && isLogin) {
-                childFragment = UserFragment.newInstance();
-            } else {
-                childFragment = LoginFragment.newInstance();
-            }
-            openChildFragment(R.id.container, childFragment, false);
         });
         return binding.getRoot();
     }
