@@ -28,9 +28,9 @@ public class UserRepository {
         this.appExecutors = appExecutors;
     }
 
-    public void getUser(@NonNull final String uId, @NonNull DataCallback<User> callback) {
+    public void getUser(@NonNull DataCallback<User> callback) {
         appExecutors.diskIO().execute(() -> {
-            final User user = localUserDataSource.getUser(uId);
+            final User user = localUserDataSource.getUser();
             // notify on the main thread
             appExecutors.mainThread().execute(() -> {
                 if (user != null) {

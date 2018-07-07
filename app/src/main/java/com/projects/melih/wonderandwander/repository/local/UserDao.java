@@ -12,8 +12,8 @@ import com.projects.melih.wonderandwander.model.User;
  */
 @Dao
 public interface UserDao {
-    @Query("SELECT * from user where uId = :uId LIMIT 1")
-    User getUser(String uId);
+    @Query("SELECT * from user LIMIT 1")
+    User getUser();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(User user);

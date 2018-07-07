@@ -9,10 +9,9 @@ public interface UserDataSource {
     /**
      * Gets user from the data source.
      *
-     * @param uId primary key
      * @return user from the data source.
      */
-    User getUser(String uId);
+    User getUser();
 
     /**
      * Inserts the user in the data source, or, if it is an existing user, it updates it.

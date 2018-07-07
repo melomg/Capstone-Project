@@ -2,6 +2,7 @@ package com.projects.melih.wonderandwander.ui.base;
 
 import android.arch.lifecycle.Lifecycle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -30,6 +31,8 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Na
     @SuppressWarnings("WeakerAccess")
     public static final int BOTTOM_TO_TOP = LEFT_TO_RIGHT + 1;
 
+    @IdRes
+    protected int currentFragmentId;
     private BaseFragment fragment;
     private boolean checkOpenFragment;
     private boolean addToBackStack;
@@ -48,20 +51,19 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Na
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() > 1) {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStackImmediate();
         } else {
             super.finish();
         }
     }
 
-    @Override
-    public void replaceFragment(@NonNull BaseFragment newFragment) {
-        replaceFragment(newFragment, NONE, true);
+    protected void replaceFragment(@NonNull BaseFragment newFragment, @IdRes int fragmentId) {
+        replaceFragment(newFragment, NONE, true, fragmentId);
     }
 
-    @Override
-    public void replaceFragment(@NonNull BaseFragment fragment, @SlideAnimType int animType, boolean addToBackStack) {
+    protected void replaceFragment(@NonNull BaseFragment fragment, @SlideAnimType int animType, boolean addToBackStack, @IdRes int fragmentId) {
+        this.currentFragmentId = fragmentId;
         this.fragment = fragment;
         this.addToBackStack = addToBackStack;
         this.animType = animType;
@@ -76,7 +78,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity implements Na
         checkOpenFragment = false;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Fragment currentFragment = fragmentManager.findFragmentById(R.id.container);
+        Fragment currentFragment = fragmentManager.findFragmentById(currentFragmentId);
         if (currentFragment != null) {
             // Exit for Previous Fragment
             TransitionSet exitTransitionSet = new TransitionSet();

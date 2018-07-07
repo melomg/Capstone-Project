@@ -20,8 +20,8 @@ public class LocalUserDataSource implements UserDataSource {
     }
 
     @Override
-    public User getUser(String uId) {
-        return userDao.getUser(uId);
+    public User getUser() {
+        return userDao.getUser();
     }
 
     @Override
