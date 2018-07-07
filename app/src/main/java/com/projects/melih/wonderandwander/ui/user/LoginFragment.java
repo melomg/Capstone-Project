@@ -55,7 +55,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         userViewModel.getLoadingLiveData().observe(this, isLoading -> {
             //TODO show loading
         });
-        userViewModel.getUserLiveData().observe(this, user -> navigationListener.replaceFragment(UserFragment.newInstance()));
         return binding.getRoot();
     }
 

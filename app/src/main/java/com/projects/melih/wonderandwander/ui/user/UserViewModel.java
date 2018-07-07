@@ -44,11 +44,7 @@ public class UserViewModel extends ViewModel {
     public MutableLiveData<Boolean> getIsLoginLiveData() {
         if (isLoginLiveData == null) {
             isLoginLiveData = new MutableLiveData<>();
-            userRepository.getUser((user, errorState) -> {
-                if (errorState == ErrorState.NO_ERROR) {
-                    isLoginLiveData.setValue(user != null);
-                }
-            });
+            userRepository.getUser((user, errorState) -> isLoginLiveData.setValue(user != null));
         }
         return isLoginLiveData;
     }
@@ -65,6 +61,7 @@ public class UserViewModel extends ViewModel {
                 //TODO think what to do when user delete is successful
                 if (errorState == ErrorState.NO_ERROR) {
                     userLiveData.setValue(null);
+                    isLoginLiveData.setValue(false);
                 } else {
                     errorLiveData.setValue(errorState);
                 }
@@ -78,6 +75,7 @@ public class UserViewModel extends ViewModel {
             userRepository.saveUser(user, (isSaveSuccessful, errorState) -> {
                 if (errorState == ErrorState.NO_ERROR) {
                     userLiveData.setValue(user);
+                    isLoginLiveData.setValue(true);
                 } else {
                     errorLiveData.setValue(errorState);
                 }

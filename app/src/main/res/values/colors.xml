@@ -7,10 +7,13 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="red">#FA3336</color>
+    <color name="red_transparent">#99FF3131</color>
     <color name="gray_dark">#818181</color>
     <color name="gray">#999999</color>
     <color name="gray_light">#EDEDED</color>
     <color name="orange">#FF9900</color>
     <color name="green">#009900</color>
     <color name="blue">#000099</color>
+    <color name="black_transparent">#16000000</color>
 </resources>

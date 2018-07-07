@@ -24,7 +24,7 @@
                 app:tabIndicatorColor="@color/colorPrimaryDark"
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/white"
+                app:tabSelectedTextColor="@color/colorPrimaryDark"
                 app:tabTextColor="@color/black">
 
                 <android.support.design.widget.TabItem
