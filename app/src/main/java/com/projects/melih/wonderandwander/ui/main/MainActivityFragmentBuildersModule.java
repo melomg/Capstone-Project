@@ -3,11 +3,11 @@ package com.projects.melih.wonderandwander.ui.main;
 import com.projects.melih.wonderandwander.di.ScopeFragment;
 import com.projects.melih.wonderandwander.di.ScopeUser;
 import com.projects.melih.wonderandwander.ui.cities.CityListFragment;
-import com.projects.melih.wonderandwander.ui.home.HomeFragment;
 import com.projects.melih.wonderandwander.ui.user.CompareFragment;
 import com.projects.melih.wonderandwander.ui.user.LoginFragment;
 import com.projects.melih.wonderandwander.ui.user.ProfileFragment;
 import com.projects.melih.wonderandwander.ui.user.UserFragment;
+import com.projects.melih.wonderandwander.ui.user.UserTabFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -19,11 +19,11 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class MainActivityFragmentBuildersModule {
     @ScopeFragment
     @ContributesAndroidInjector
-    abstract HomeFragment bindHomeFragment();
+    abstract CityListFragment bindCityListFragment();
 
     @ScopeFragment
     @ContributesAndroidInjector
-    abstract CityListFragment bindCityListFragment();
+    abstract UserTabFragment bindUserTabFragment();
 
     @ScopeUser
     @ContributesAndroidInjector
