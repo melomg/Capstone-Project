@@ -10,4 +10,8 @@
     <!-- UserFragment -->
     <string name="profile_u">PROFILE</string>
     <string name="compare_u">COMPARE</string>
+
+    <!-- ProfileFragment -->
+    <string name="logout">Logout</string>
+    <string name="hi">Hi, </string>
 </resources>
