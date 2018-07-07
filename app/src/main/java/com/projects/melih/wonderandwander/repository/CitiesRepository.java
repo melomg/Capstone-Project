@@ -8,12 +8,10 @@ import com.projects.melih.wonderandwander.common.AppExecutors;
 import com.projects.melih.wonderandwander.common.CollectionUtils;
 import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.model.City;
-import com.projects.melih.wonderandwander.model.Photo;
 import com.projects.melih.wonderandwander.repository.remote.DataCallback;
 import com.projects.melih.wonderandwander.repository.remote.ErrorState;
 import com.projects.melih.wonderandwander.repository.remote.WonderAndWanderService;
 import com.projects.melih.wonderandwander.repository.remote.response.ResponseCities;
-import com.projects.melih.wonderandwander.repository.remote.response.ResponsePhotos;
 
 import java.util.List;
 
@@ -29,6 +27,7 @@ import retrofit2.Response;
  */
 @Singleton
 public class CitiesRepository {
+    private static final int LIMIT = 1;
     private final Context context;
     private final WonderAndWanderService service;
     private final AppExecutors appExecutors;
@@ -46,7 +45,7 @@ public class CitiesRepository {
         if (!Utils.isNetworkConnected(context)) {
             callback.onComplete(null, ErrorState.NO_NETWORK);
         } else {
-            call = service.getCities(cityName, "city:search-results/city:item");
+            call = service.getCity(cityName, LIMIT, "city:search-results/city:item/city:urban_area/ua:scores", "city:search-results/city:item/city:urban_area/ua:images");
             call.enqueue(new Callback<ResponseCities>() {
                 @Override
                 public void onResponse(@NonNull Call<ResponseCities> call, @NonNull Response<ResponseCities> response) {
@@ -60,34 +59,6 @@ public class CitiesRepository {
 
                 @Override
                 public void onFailure(@NonNull Call<ResponseCities> call, @NonNull Throwable t) {
-                    callback.onComplete(null, ErrorState.FAILED);
-                }
-            });
-        }
-        return call;
-    }
-
-    @Nullable
-    public Call<ResponsePhotos> fetchPhotosFromNetwork(@NonNull String formattedUrbanAreaName, @NonNull DataCallback<List<Photo>> callback) {
-        Call<ResponsePhotos> call = null;
-        if (!Utils.isNetworkConnected(context)) {
-            callback.onComplete(null, ErrorState.NO_NETWORK);
-        } else {
-            call = service.getImages(formattedUrbanAreaName);
-            call.enqueue(new Callback<ResponsePhotos>() {
-                @Override
-                public void onResponse(@NonNull Call<ResponsePhotos> call, @NonNull Response<ResponsePhotos> response) {
-                    final ResponsePhotos responsePhotos = response.body();
-                    List<Photo> photos = responsePhotos == null ? null : responsePhotos.getPhotos();
-                    if (CollectionUtils.isNotEmpty(photos)) {
-                        callback.onComplete(photos, ErrorState.NO_ERROR);
-                    } else {
-                        callback.onComplete(null, ErrorState.EMPTY);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<ResponsePhotos> call, @NonNull Throwable t) {
                     callback.onComplete(null, ErrorState.FAILED);
                 }
             });

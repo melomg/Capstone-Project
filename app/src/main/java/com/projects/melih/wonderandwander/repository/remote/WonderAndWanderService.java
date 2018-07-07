@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 public interface WonderAndWanderService {
 
     @GET("cities")
-    Call<ResponseCities> getCities(@Query(value = "search", encoded = true) String cityName, @Query(value = "embed", encoded = true) String embed);
+    Call<ResponseCities> getCity(@Query(value = "search", encoded = true) String cityName, @Query("limit") int limit, @Query(value = "embed", encoded = true) String scores, @Query(value = "embed", encoded = true) String images);
 
     @GET("cities/geonameid:{geonameid}")
     Call<City> getCity(@Path("geonameid") int geoNameId);
