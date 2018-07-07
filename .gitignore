@@ -58,5 +58,5 @@ gradlew
 *.jar
 /gradle.properties
 *.sketch
-*.json
-/app/src/free/res/values/ads.xml
+sampledata/
+schemas/
