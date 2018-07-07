@@ -52,16 +52,6 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         citiesViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(CitiesViewModel.class);
         citiesViewModel.getLoadingLiveData().observe(this, showLoading -> binding.swipeRefresh.setRefreshing((showLoading != null) && showLoading));
         citiesViewModel.getCitiesLiveData().observe(this, cities -> adapter.submitCityList(cities));
-        citiesViewModel.getPhotosLiveData().observe(this, photoListPair -> {
-            if ((photoListPair != null) && CollectionUtils.isNotEmpty(photoListPair.second)) {
-                if (photoListPair.first != null) {
-                    int position = photoListPair.first;
-                    final Image image = photoListPair.second.get(0).getImage();
-                    final String imageUrl = (image == null) ? "" : image.getMobile();
-                    adapter.setPhotoOfItem(position, imageUrl);
-                }
-            }
-        });
         return binding.getRoot();
     }
 
@@ -80,11 +70,6 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onFavoriteAdded(@NonNull City city) {
                 //TODO
-            }
-
-            @Override
-            public void onGetImageUrl(int position, @NonNull String formattedUrbanAreaName) {
-                citiesViewModel.getImageUrl(position, formattedUrbanAreaName);
             }
 
             @Override

@@ -12,7 +12,14 @@ import com.projects.melih.wonderandwander.model.CityLinks;
 import com.projects.melih.wonderandwander.model.Embedded;
 import com.projects.melih.wonderandwander.model.EmbeddedCity;
 import com.projects.melih.wonderandwander.model.EmbeddedOfEmbeddedCity;
+import com.projects.melih.wonderandwander.model.EmbeddedOfImagesAndScores;
+import com.projects.melih.wonderandwander.model.EmbeddedOfUrbanArea;
+import com.projects.melih.wonderandwander.model.Image;
+import com.projects.melih.wonderandwander.model.Photo;
+import com.projects.melih.wonderandwander.model.UrbanArea;
 import com.projects.melih.wonderandwander.repository.remote.response.ResponseCities;
+import com.projects.melih.wonderandwander.repository.remote.response.ResponsePhotos;
+import com.projects.melih.wonderandwander.repository.remote.response.ResponseScores;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -93,7 +100,30 @@ public final class Utils {
                         city.setUrbanArea(cityLinks.getUrbanArea());
                         city.setSelf(cityLinks.getSelf());
                     }
+                    EmbeddedOfUrbanArea embeddedOfUrbanArea = cityItem.getEmbeddedOfUrbanArea();
+                    UrbanArea urbanArea = (embeddedOfUrbanArea == null) ? null : embeddedOfUrbanArea.getUrbanArea();
+                    if (urbanArea != null) {
+                        city.setContinent(urbanArea.getContinent());
+                        city.setGovernmentPartner(urbanArea.isGovernmentPartner());
+                        city.setMayor(urbanArea.getMayor());
+                        EmbeddedOfImagesAndScores embeddedOfImagesAndScores = urbanArea.getEmbeddedOfImagesAndScores();
+                        if (embeddedOfImagesAndScores != null) {
+                            ResponseScores scores = embeddedOfImagesAndScores.getResponseScores();
+                            if (scores != null) {
+                                city.setSummary(scores.getSummary());
+                                city.setTeleportCityScore(scores.getTeleportCityScore());
+                                city.setScoresOfCategories(scores.getCategories());
+                            }
+                            ResponsePhotos responsePhotos = embeddedOfImagesAndScores.getResponsePhotos();
+                            List<Photo> photos = (responsePhotos == null) ? null : responsePhotos.getPhotos();
+                            if (CollectionUtils.isNotEmpty(photos)) {
+                                final Image image = photos.get(0).getImage();
+                                city.setImageUrl((image == null) ? "" : image.getMobile());
+                            }
+                        }
+                    }
                 }
+
                 cities.add(city);
             }
         }

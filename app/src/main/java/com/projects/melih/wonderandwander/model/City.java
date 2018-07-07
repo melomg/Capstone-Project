@@ -12,7 +12,6 @@ import java.util.List;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class City {
-
     @Nullable
     private String fullName;
 
@@ -52,6 +51,22 @@ public class City {
 
     @Nullable
     private String imageUrl;
+
+    @Nullable
+    private List<Category> scoresOfCategories;
+
+    @Nullable
+    private String summary;
+
+    private float teleportCityScore;
+
+    @Nullable
+    private String continent;
+
+    private boolean isGovernmentPartner;
+
+    @Nullable
+    private String mayor;
 
     @Nullable
     public String getFullName() {
@@ -175,6 +190,58 @@ public class City {
 
     public void setImageUrl(@Nullable String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Nullable
+    public List<Category> getScoresOfCategories() {
+        return scoresOfCategories;
+    }
+
+    public void setScoresOfCategories(@Nullable List<Category> scoresOfCategories) {
+        this.scoresOfCategories = scoresOfCategories;
+    }
+
+    @Nullable
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(@Nullable String summary) {
+        this.summary = summary;
+    }
+
+    public float getTeleportCityScore() {
+        return teleportCityScore;
+    }
+
+    public void setTeleportCityScore(float teleportCityScore) {
+        this.teleportCityScore = teleportCityScore;
+    }
+
+    @Nullable
+    public String getContinent() {
+        return continent;
+    }
+
+    public void setContinent(@Nullable String continent) {
+        this.continent = continent;
+    }
+
+    public boolean isGovernmentPartner() {
+        return isGovernmentPartner;
+    }
+
+    public void setGovernmentPartner(boolean governmentPartner) {
+        isGovernmentPartner = governmentPartner;
+    }
+
+    @Nullable
+    public String getMayor() {
+        return mayor;
+    }
+
+    public void setMayor(@Nullable String mayor) {
+        this.mayor = mayor;
     }
 
     public static final DiffUtil.ItemCallback<City> DIFF_CALLBACK = new DiffUtil.ItemCallback<City>() {

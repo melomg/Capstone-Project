@@ -4,15 +4,12 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
 
 import com.projects.melih.wonderandwander.common.SingleLiveEvent;
 import com.projects.melih.wonderandwander.model.City;
-import com.projects.melih.wonderandwander.model.Photo;
 import com.projects.melih.wonderandwander.repository.CitiesRepository;
 import com.projects.melih.wonderandwander.repository.remote.ErrorState;
 import com.projects.melih.wonderandwander.repository.remote.response.ResponseCities;
-import com.projects.melih.wonderandwander.repository.remote.response.ResponsePhotos;
 
 import java.util.List;
 
@@ -29,9 +26,7 @@ public class CitiesViewModel extends ViewModel {
     private final SingleLiveEvent<Integer> errorLiveData;
     private final MutableLiveData<Boolean> loadingLiveData;
     private final MutableLiveData<List<City>> citiesLiveData;
-    private final MutableLiveData<Pair<Integer, List<Photo>>> photosLiveData;
     private Call<ResponseCities> callCities;
-    private Call<ResponsePhotos> callImageUrl;
 
     @SuppressWarnings("WeakerAccess")
     @Inject
@@ -40,7 +35,6 @@ public class CitiesViewModel extends ViewModel {
         errorLiveData = new SingleLiveEvent<>();
         loadingLiveData = new MutableLiveData<>();
         citiesLiveData = new MutableLiveData<>();
-        photosLiveData = new MutableLiveData<>();
     }
 
     public SingleLiveEvent<Integer> getErrorLiveData() {
@@ -53,10 +47,6 @@ public class CitiesViewModel extends ViewModel {
 
     public LiveData<List<City>> getCitiesLiveData() {
         return citiesLiveData;
-    }
-
-    public LiveData<Pair<Integer, List<Photo>>> getPhotosLiveData() {
-        return photosLiveData;
     }
 
     public void search(@NonNull String cityName) {
@@ -74,22 +64,11 @@ public class CitiesViewModel extends ViewModel {
         });
     }
 
-    public void getImageUrl(final int position, @NonNull String formattedUrbanAreaName) {
-        callImageUrl = citiesRepository.fetchPhotosFromNetwork(formattedUrbanAreaName, (photos, errorState) -> {
-            if (errorState == ErrorState.NO_ERROR) {
-                photosLiveData.setValue(Pair.create(position, photos));
-            }
-        });
-    }
-
     @Override
     protected void onCleared() {
         super.onCleared();
         if (callCities != null) {
             callCities.cancel();
-        }
-        if (callImageUrl != null) {
-            callImageUrl.cancel();
         }
     }
 }

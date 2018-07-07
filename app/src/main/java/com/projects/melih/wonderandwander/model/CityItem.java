@@ -9,6 +9,9 @@ import com.google.gson.annotations.SerializedName;
  */
 @SuppressWarnings("unused")
 public class CityItem {
+    @SerializedName("_embedded")
+    @Nullable
+    private EmbeddedOfUrbanArea embeddedOfUrbanArea;
 
     @SerializedName("full_name")
     @Nullable
@@ -31,6 +34,15 @@ public class CityItem {
     @SerializedName("_links")
     @Nullable
     private CityLinks cityLinks;
+
+    @Nullable
+    public EmbeddedOfUrbanArea getEmbeddedOfUrbanArea() {
+        return embeddedOfUrbanArea;
+    }
+
+    public void setEmbeddedOfUrbanArea(@Nullable EmbeddedOfUrbanArea embeddedOfUrbanArea) {
+        this.embeddedOfUrbanArea = embeddedOfUrbanArea;
+    }
 
     @Nullable
     public String getFullName() {

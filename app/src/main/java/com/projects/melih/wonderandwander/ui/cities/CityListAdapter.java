@@ -50,11 +50,6 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
         differ.submitList(cityList);
     }
 
-    void setPhotoOfItem(int position, String imageUrl) {
-        differ.getCurrentList().get(position).setImageUrl(imageUrl);
-        differ.submitList(differ.getCurrentList());
-    }
-
     static class CityViewHolder extends RecyclerView.ViewHolder {
         private final ItemCityListBinding binding;
         private final CityItemListener cityItemListener;
@@ -68,15 +63,6 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
         void bindTo(@Nullable final City city) {
             if (city != null) {
                 binding.setCity(city);
-                Curie urbanArea = city.getUrbanArea();
-                String urbanAreaName = (urbanArea == null) ? null : urbanArea.getName();
-                String formattedUrbanAreaName = Utils.getUrlFormattedUrbanArea(urbanAreaName);
-                if (!TextUtils.isEmpty(formattedUrbanAreaName)) {
-                    final int adapterPosition = getAdapterPosition();
-                    if (adapterPosition != RecyclerView.NO_POSITION) {
-                        cityItemListener.onGetImageUrl(adapterPosition, formattedUrbanAreaName);
-                    }
-                }
                 itemView.setOnClickListener(v -> {
                     Utils.await(v);
                     cityItemListener.onItemClick(city);
@@ -99,7 +85,5 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
         void onFavoriteDelete(@NonNull City city);
 
         void onFavoriteAdded(@NonNull City city);
-
-        void onGetImageUrl(int position, @NonNull String formattedUrbanAreaName);
     }
 }

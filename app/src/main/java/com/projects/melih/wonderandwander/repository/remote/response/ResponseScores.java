@@ -1,8 +1,9 @@
-package com.projects.melih.wonderandwander.model;
+package com.projects.melih.wonderandwander.repository.remote.response;
 
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
+import com.projects.melih.wonderandwander.model.Category;
 
 import java.util.List;
 
@@ -10,8 +11,7 @@ import java.util.List;
  * Created by Melih Gültekin on 20.06.2018
  */
 @SuppressWarnings("unused")
-public class Score {
-
+public class ResponseScores {
     @SerializedName("categories")
     @Nullable
     private List<Category> categories;
