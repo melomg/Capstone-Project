@@ -65,7 +65,7 @@ public class Curie implements Parcelable {
     public Curie() {
     }
 
-    protected Curie(Parcel in) {
+    private Curie(Parcel in) {
         this.href = in.readString();
         this.name = in.readString();
         this.templated = in.readByte() != 0;

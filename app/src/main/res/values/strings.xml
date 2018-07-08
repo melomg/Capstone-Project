@@ -17,4 +17,7 @@
     <!-- ProfileFragment -->
     <string name="logout">Logout</string>
     <string name="hi">Hi, </string>
+
+    <!-- CityDetailActivity -->
+    <string name="no_data_to_show">No data</string>
 </resources>
