@@ -16,6 +16,7 @@ public class Location {
     private String geoHash;
 
     @SerializedName("latlon")
+    @Nullable
     private LatLng latLng;
 
     @Nullable
@@ -27,11 +28,12 @@ public class Location {
         this.geoHash = geoHash;
     }
 
+    @Nullable
     public LatLng getLatLng() {
         return latLng;
     }
 
-    public void setLatLng(LatLng latLng) {
+    public void setLatLng(@Nullable LatLng latLng) {
         this.latLng = latLng;
     }
 }

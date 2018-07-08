@@ -4,8 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.projects.melih.wonderandwander.model.City;
 import com.projects.melih.wonderandwander.model.CityItem;
 import com.projects.melih.wonderandwander.model.CityLinks;
@@ -15,6 +17,7 @@ import com.projects.melih.wonderandwander.model.EmbeddedOfEmbeddedCity;
 import com.projects.melih.wonderandwander.model.EmbeddedOfImagesAndScores;
 import com.projects.melih.wonderandwander.model.EmbeddedOfUrbanArea;
 import com.projects.melih.wonderandwander.model.Image;
+import com.projects.melih.wonderandwander.model.Location;
 import com.projects.melih.wonderandwander.model.Photo;
 import com.projects.melih.wonderandwander.model.UrbanArea;
 import com.projects.melih.wonderandwander.repository.remote.response.ResponseCities;
@@ -88,7 +91,20 @@ public final class Utils {
                 if (cityItem != null) {
                     city.setFullName(cityItem.getFullName());
                     city.setGeoNameId(cityItem.getGeoNameId());
-                    city.setLocation(cityItem.getLocation());
+                    final Location location = cityItem.getLocation();
+                    if (location != null) {
+                        final LatLng latLng = location.getLatLng();
+                        if (latLng != null) {
+                            city.setLatitude(latLng.latitude);
+                            city.setLongitude(latLng.longitude);
+                        }
+                        final String geoHash = location.getGeoHash();
+                        if (!TextUtils.isEmpty(geoHash)) {
+                            city.setGeoHash(geoHash);
+                        }
+                    } else {
+                        //TODO since geohash will be used as primary key create a unique string to store city in database
+                    }
                     city.setName(cityItem.getName());
                     city.setPopulation(cityItem.getPopulation());
                     CityLinks cityLinks = cityItem.getCityLinks();
