@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 27
 
@@ -12,6 +16,15 @@ android {
     }
 
     testBuildType "debug"
+
+    signingConfigs {
+        free {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
 
     defaultConfig {
         applicationId "com.projects.melih.wonderandwander"
@@ -33,6 +46,7 @@ android {
 
     buildTypes {
         debug {
+            signingConfig null
             debuggable true
         }
         release {
@@ -46,6 +60,7 @@ android {
     flavorDimensions "default"
     productFlavors {
         free {
+            signingConfig signingConfigs.free
             dimension "default"
             applicationIdSuffix ".free"
         }
