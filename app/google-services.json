@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1074647890901",
+    "firebase_url": "https://gistpub-174018.firebaseio.com",
+    "project_id": "gistpub-174018",
+    "storage_bucket": "gistpub-174018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074647890901:android:6f9ca9b7c6a31c1a",
+        "android_client_info": {
+          "package_name": "com.projects.melih.wonderandwander.free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074647890901-hl7i97qltb2fisuh73mhlgab9fmn8ii1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIfhX9cW_TJxxNBMiZfOsthVIVD8dMxDo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
