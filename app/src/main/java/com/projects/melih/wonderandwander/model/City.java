@@ -1,5 +1,8 @@
 package com.projects.melih.wonderandwander.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
@@ -11,38 +14,47 @@ import java.util.List;
  * Created by Melih Gültekin on 20.06.2018
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
+@Entity(tableName = "last_searched_cities")
 public class City {
+    @PrimaryKey
+    @NonNull
+    private String geoHash;
+
     @Nullable
     private String fullName;
 
     private int geoNameId;
 
     @Nullable
-    private Location location;
-
-    @Nullable
     private String name;
 
     private double population;
 
+    @Ignore
     @Nullable
     private Curie adminDivision;
 
+    @Ignore
     @Nullable
     private Curie alternateNames;
 
+    @Ignore
     @Nullable
     private Curie country;
 
+    @Ignore
     @Nullable
     private Curie timezone;
 
+    @Ignore
     @Nullable
     private Curie urbanArea;
 
+    @Ignore
     @Nullable
     private Curie self;
 
+    @Ignore
     @Nullable
     private List<Curie> matchingAlternateNames;
 
@@ -68,6 +80,23 @@ public class City {
     @Nullable
     private String mayor;
 
+    private double latitude;
+
+    private double longitude;
+
+    public City() {
+        geoHash = "";//TODO create a unique string
+    }
+
+    @NonNull
+    public String getGeoHash() {
+        return geoHash;
+    }
+
+    public void setGeoHash(@NonNull String geoHash) {
+        this.geoHash = geoHash;
+    }
+
     @Nullable
     public String getFullName() {
         return fullName;
@@ -83,15 +112,6 @@ public class City {
 
     public void setGeoNameId(int geoNameId) {
         this.geoNameId = geoNameId;
-    }
-
-    @Nullable
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(@Nullable Location location) {
-        this.location = location;
     }
 
     @Nullable
@@ -244,14 +264,26 @@ public class City {
         this.mayor = mayor;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     public static final DiffUtil.ItemCallback<City> DIFF_CALLBACK = new DiffUtil.ItemCallback<City>() {
         @Override
         public boolean areItemsTheSame(@NonNull City oldCity, @NonNull City newCity) {
-            final Location oldCityLocation = oldCity.getLocation();
-            final Location newCityLocation = newCity.getLocation();
-            return TextUtils.equals(oldCity.getMatchingFullName(), newCity.getMatchingFullName())
-                    && ((oldCityLocation != null) && (newCityLocation != null)
-                    && TextUtils.equals(oldCityLocation.getGeoHash(), newCityLocation.getGeoHash()));
+            return TextUtils.equals(oldCity.getGeoHash(), newCity.getGeoHash());
         }
 
         @Override

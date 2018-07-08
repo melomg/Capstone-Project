@@ -26,6 +26,7 @@ public class CitiesViewModel extends ViewModel {
     private final SingleLiveEvent<Integer> errorLiveData;
     private final MutableLiveData<Boolean> loadingLiveData;
     private final MutableLiveData<List<City>> citiesLiveData;
+    private final LiveData<List<City>> lastSearchedCitiesLiveData;
     private Call<ResponseCities> callCities;
 
     @SuppressWarnings("WeakerAccess")
@@ -35,6 +36,7 @@ public class CitiesViewModel extends ViewModel {
         errorLiveData = new SingleLiveEvent<>();
         loadingLiveData = new MutableLiveData<>();
         citiesLiveData = new MutableLiveData<>();
+        lastSearchedCitiesLiveData = citiesRepository.getLastSearchedCitiesLiveData();
     }
 
     public SingleLiveEvent<Integer> getErrorLiveData() {
@@ -47,6 +49,10 @@ public class CitiesViewModel extends ViewModel {
 
     public LiveData<List<City>> getCitiesLiveData() {
         return citiesLiveData;
+    }
+
+    public LiveData<List<City>> getLastSearchedCitiesLiveData() {
+        return lastSearchedCitiesLiveData;
     }
 
     public void search(@NonNull String cityName) {

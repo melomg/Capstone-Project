@@ -15,5 +15,6 @@
     <color name="orange">#FF9900</color>
     <color name="green">#009900</color>
     <color name="blue">#000099</color>
-    <color name="black_transparent">#16000000</color>
+    <color name="black_transparent_10">#16000000</color>
+    <color name="black_transparent_40">#64000000</color>
 </resources>

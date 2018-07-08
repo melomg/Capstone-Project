@@ -24,7 +24,6 @@ import com.projects.melih.wonderandwander.common.CollectionUtils;
 import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.databinding.FragmentCityListBinding;
 import com.projects.melih.wonderandwander.model.City;
-import com.projects.melih.wonderandwander.model.Image;
 import com.projects.melih.wonderandwander.ui.base.BaseFragment;
 
 import javax.inject.Inject;
@@ -38,7 +37,8 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
     public ViewModelProvider.Factory viewModelFactory;
     private FragmentCityListBinding binding;
     private CitiesViewModel citiesViewModel;
-    private CityListAdapter adapter;
+    private CityListAdapter searchAdapter;
+    private CityListAdapter lastSearchedCitiesAdapter;
 
     public static CityListFragment newInstance() {
         return new CityListFragment();
@@ -50,18 +50,18 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_city_list, container, false);
         //noinspection ConstantConditions
         citiesViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(CitiesViewModel.class);
-        citiesViewModel.getLoadingLiveData().observe(this, showLoading -> binding.swipeRefresh.setRefreshing((showLoading != null) && showLoading));
-        citiesViewModel.getCitiesLiveData().observe(this, cities -> adapter.submitCityList(cities));
+        citiesViewModel.getCitiesLiveData().observe(this, cities -> {
+            searchAdapter.submitCityList(cities);
+            binding.lastSearchesDivider.setVisibility(CollectionUtils.isNotEmpty(cities) ? View.VISIBLE : View.INVISIBLE);
+        });
+        citiesViewModel.getLastSearchedCitiesLiveData().observe(this, cities -> lastSearchedCitiesAdapter.submitCityList(cities));
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        binding.swipeRefresh.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
-
-        adapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
+        searchAdapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
             @Override
             public void onFavoriteDelete(@NonNull City city) {
                 //TODO
@@ -77,9 +77,31 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
                 //TODO
             }
         });
+        lastSearchedCitiesAdapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
+            @Override
+            public void onFavoriteDelete(@NonNull City city) {
+                //TODO
+            }
+
+            @Override
+            public void onFavoriteAdded(@NonNull City city) {
+                //TODO
+            }
+
+            @Override
+            public void onItemClick(@NonNull City city) {
+                //TODO
+            }
+        });
+
         binding.recyclerView.setHasFixedSize(false);
-        binding.recyclerView.setAdapter(adapter);
-        binding.swipeRefresh.setOnRefreshListener(() -> citiesViewModel.search(binding.search.getText().toString().trim()));
+        binding.recyclerView.setNestedScrollingEnabled(false);
+        binding.recyclerView.setAdapter(searchAdapter);
+
+        binding.lastSearchesRecyclerView.setHasFixedSize(false);
+        binding.lastSearchesRecyclerView.setNestedScrollingEnabled(false);
+        binding.lastSearchesRecyclerView.setAdapter(lastSearchedCitiesAdapter);
+
         binding.search.setOnClickListener(this);
     }
 
@@ -89,7 +111,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(context, data);
-                final CharSequence name = place.getName();
+                CharSequence name = place.getName();
                 if (name != null) {
                     citiesViewModel.search(name.toString());
                     binding.search.setText(name);

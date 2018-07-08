@@ -11,6 +11,10 @@ import android.support.annotation.Nullable;
 @SuppressWarnings("unused")
 @Entity(tableName = "user")
 public class User {
+    @PrimaryKey
+    @NonNull
+    private String uId;
+
     @Nullable
     private String displayName;
 
@@ -25,17 +29,22 @@ public class User {
 
     private boolean isAnonymous;
 
-    @PrimaryKey
-    @NonNull
-    private String uId;
-
     public User(@Nullable String displayName, @Nullable String email, @Nullable String phoneNumber,
-                @Nullable String photoUrl, @Nullable boolean isAnonymous, @NonNull String uId) {
+                @Nullable String photoUrl, boolean isAnonymous, @NonNull String uId) {
         this.displayName = displayName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
         this.isAnonymous = isAnonymous;
+        this.uId = uId;
+    }
+
+    @NonNull
+    public String getUId() {
+        return uId;
+    }
+
+    public void setUId(@NonNull String uId) {
         this.uId = uId;
     }
 
@@ -81,14 +90,5 @@ public class User {
 
     public void setAnonymous(boolean anonymous) {
         isAnonymous = anonymous;
-    }
-
-    @NonNull
-    public String getUId() {
-        return uId;
-    }
-
-    public void setUId(@NonNull String uId) {
-        this.uId = uId;
     }
 }
