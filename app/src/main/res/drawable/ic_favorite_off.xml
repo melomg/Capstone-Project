@@ -6,12 +6,12 @@
         android:width="22dp">
     <path
         android:fillAlpha="0.54"
-        android:fillColor="#000000"
+        android:fillColor="#FFFFFF"
         android:fillType="evenOdd"
         android:pathData="M8,20C6.9,20 6,19.1 6,18L6,8C6,7.45 6.22,6.95 6.58,6.59L13.17,0L14.23,1.05C14.5,1.32 14.67,1.7 14.67,2.11L14.64,2.43L13.69,7L20,7C21.1,7 22,7.9 22,9L22,11C22,11.26 21.95,11.5 21.86,11.73L18.84,18.78C18.54,19.5 17.83,20 17,20L8,20ZM8,8L8,18L17,18L20,11L20,9L11,9L12.34,3.66L8,8Z"/>
     <path
         android:fillAlpha="0.54"
-        android:fillColor="#000000"
+        android:fillColor="#FFFFFF"
         android:fillType="evenOdd"
         android:pathData="M0,8h4v12h-4z"/>
 </vector>

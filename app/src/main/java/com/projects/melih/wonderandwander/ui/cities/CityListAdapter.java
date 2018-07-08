@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.recyclerview.extensions.AsyncListDiffer;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -13,7 +12,6 @@ import com.projects.melih.wonderandwander.R;
 import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.databinding.ItemCityListBinding;
 import com.projects.melih.wonderandwander.model.City;
-import com.projects.melih.wonderandwander.model.Curie;
 import com.projects.melih.wonderandwander.ui.base.ItemClickListener;
 
 import java.util.List;
