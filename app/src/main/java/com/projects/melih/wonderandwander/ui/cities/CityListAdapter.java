@@ -17,7 +17,7 @@ import com.projects.melih.wonderandwander.ui.base.ItemClickListener;
 import java.util.List;
 
 /**
- * Created by Melih Gültekin on 05.05.2018
+ * Created by Melih Gültekin on 30.06.2018
  */
 class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolder> {
     private final CityItemListener cityItemListener;

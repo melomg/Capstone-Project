@@ -25,11 +25,15 @@ import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.databinding.FragmentCityListBinding;
 import com.projects.melih.wonderandwander.model.City;
 import com.projects.melih.wonderandwander.ui.base.BaseFragment;
+import com.projects.melih.wonderandwander.ui.citydetail.CityDetailActivity;
 
 import javax.inject.Inject;
 
 import timber.log.Timber;
 
+/**
+ * Created by Melih Gültekin on 26.06.2018
+ */
 public class CityListFragment extends BaseFragment implements View.OnClickListener {
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
@@ -74,7 +78,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
 
             @Override
             public void onItemClick(@NonNull City city) {
-                //TODO
+                startActivity(CityDetailActivity.newIntent(context, city));
             }
         });
         lastSearchedCitiesAdapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
@@ -90,7 +94,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
 
             @Override
             public void onItemClick(@NonNull City city) {
-                //TODO
+                startActivity(CityDetailActivity.newIntent(context, city));
             }
         });
 

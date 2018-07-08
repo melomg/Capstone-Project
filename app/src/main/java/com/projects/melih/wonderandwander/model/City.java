@@ -3,11 +3,14 @@ package com.projects.melih.wonderandwander.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +18,7 @@ import java.util.List;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 @Entity(tableName = "last_searched_cities")
-public class City {
+public class City implements Parcelable {
     @PrimaryKey
     @NonNull
     private String geoHash;
@@ -289,6 +292,77 @@ public class City {
         @Override
         public boolean areContentsTheSame(@NonNull City oldCity, @NonNull City newCity) {
             return oldCity.equals(newCity);
+        }
+    };
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.geoHash);
+        dest.writeString(this.fullName);
+        dest.writeInt(this.geoNameId);
+        dest.writeString(this.name);
+        dest.writeDouble(this.population);
+        dest.writeParcelable(this.adminDivision, flags);
+        dest.writeParcelable(this.alternateNames, flags);
+        dest.writeParcelable(this.country, flags);
+        dest.writeParcelable(this.timezone, flags);
+        dest.writeParcelable(this.urbanArea, flags);
+        dest.writeParcelable(this.self, flags);
+        dest.writeList(this.matchingAlternateNames);
+        dest.writeString(this.matchingFullName);
+        dest.writeString(this.imageUrl);
+        dest.writeList(this.scoresOfCategories);
+        dest.writeString(this.summary);
+        dest.writeFloat(this.teleportCityScore);
+        dest.writeString(this.continent);
+        dest.writeByte(this.isGovernmentPartner ? (byte) 1 : (byte) 0);
+        dest.writeString(this.mayor);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+    }
+
+    protected City(Parcel in) {
+        this.geoHash = in.readString();
+        this.fullName = in.readString();
+        this.geoNameId = in.readInt();
+        this.name = in.readString();
+        this.population = in.readDouble();
+        this.adminDivision = in.readParcelable(Curie.class.getClassLoader());
+        this.alternateNames = in.readParcelable(Curie.class.getClassLoader());
+        this.country = in.readParcelable(Curie.class.getClassLoader());
+        this.timezone = in.readParcelable(Curie.class.getClassLoader());
+        this.urbanArea = in.readParcelable(Curie.class.getClassLoader());
+        this.self = in.readParcelable(Curie.class.getClassLoader());
+        this.matchingAlternateNames = new ArrayList<Curie>();
+        in.readList(this.matchingAlternateNames, Curie.class.getClassLoader());
+        this.matchingFullName = in.readString();
+        this.imageUrl = in.readString();
+        this.scoresOfCategories = new ArrayList<Category>();
+        in.readList(this.scoresOfCategories, Category.class.getClassLoader());
+        this.summary = in.readString();
+        this.teleportCityScore = in.readFloat();
+        this.continent = in.readString();
+        this.isGovernmentPartner = in.readByte() != 0;
+        this.mayor = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<City> CREATOR = new Parcelable.Creator<City>() {
+        @Override
+        public City createFromParcel(Parcel source) {
+            return new City(source);
+        }
+
+        @Override
+        public City[] newArray(int size) {
+            return new City[size];
         }
     };
 }

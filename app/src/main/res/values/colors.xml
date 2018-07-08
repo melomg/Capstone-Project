@@ -17,4 +17,9 @@
     <color name="blue">#000099</color>
     <color name="black_transparent_10">#16000000</color>
     <color name="black_transparent_40">#64000000</color>
+
+    <color name="chart_red">#D75957</color>
+    <color name="chart_yellow">#FFF176</color>
+    <color name="chart_blue">#75A3CF</color>
+    <color name="chart_green">#54C48C</color>
 </resources>
