@@ -58,7 +58,16 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
             searchAdapter.submitCityList(cities);
             binding.lastSearchesDivider.setVisibility(CollectionUtils.isNotEmpty(cities) ? View.VISIBLE : View.INVISIBLE);
         });
-        citiesViewModel.getLastSearchedCitiesLiveData().observe(this, cities -> lastSearchedCitiesAdapter.submitCityList(cities));
+        citiesViewModel.getLastSearchedCitiesLiveData().observe(this, cities -> {
+            lastSearchedCitiesAdapter.submitCityList(cities);
+            if (CollectionUtils.isNotEmpty(cities)) {
+                binding.clearHistory.setVisibility(View.VISIBLE);
+                binding.emptyViewLastSearches.setVisibility(View.GONE);
+            } else {
+                binding.clearHistory.setVisibility(View.INVISIBLE);
+                binding.emptyViewLastSearches.setVisibility(View.VISIBLE);
+            }
+        });
         return binding.getRoot();
     }
 
@@ -107,6 +116,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         binding.lastSearchesRecyclerView.setAdapter(lastSearchedCitiesAdapter);
 
         binding.search.setOnClickListener(this);
+        binding.clearHistory.setOnClickListener(this);
     }
 
     @Override
@@ -149,6 +159,9 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
                 } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     Timber.e(e);
                 }
+                break;
+            case R.id.clear_history:
+                citiesViewModel.clearHistory();
                 break;
         }
     }
