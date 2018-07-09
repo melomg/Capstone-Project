@@ -18,6 +18,15 @@
         <item name="fontFamily">@font/nunito_semibold</item>
     </style>
 
+    <style name="Text.NunitoSemiBoldItalic">
+        <item name="android:fontFamily">@font/nunito_semibolditalic</item>
+        <item name="fontFamily">@font/nunito_semibolditalic</item>
+    </style>
+
+    <style name="Text.NunitoSemiBoldItalic.H6">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="Text.NunitoBold">
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="fontFamily">@font/nunito_bold</item>

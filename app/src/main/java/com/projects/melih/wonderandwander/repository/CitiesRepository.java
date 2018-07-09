@@ -95,4 +95,8 @@ public class CitiesRepository {
             lastSearchedCitiesLiveData = localCityDataSource.getLastSearchedCities();
         });
     }
+
+    public void removeLastSearchedCities() {
+        appExecutors.diskIO().execute(localCityDataSource::deleteAll);
+    }
 }

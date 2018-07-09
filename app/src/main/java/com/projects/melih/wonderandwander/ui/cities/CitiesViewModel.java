@@ -70,6 +70,10 @@ public class CitiesViewModel extends ViewModel {
         });
     }
 
+    public void clearHistory() {
+        citiesRepository.removeLastSearchedCities();
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();

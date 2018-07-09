@@ -71,6 +71,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/last_searches_divider"
                 app:layout_goneMarginTop="@dimen/button_height"/>
 
+            <Button
+                android:id="@+id/clear_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                android:clickable="true"
+                android:backgroundTint="@color/colorAccent"
+                android:text="@string/clear_history"
+                android:background="?android:attr/selectableItemBackground"
+                android:focusable="true"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/normal_size"
+                app:layout_constraintBaseline_toBaselineOf="@+id/last_searches"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/last_searches"
+                tools:visibility="visible"/>
+
             <com.projects.melih.wonderandwander.components.AutofitRecyclerView
                 android:id="@+id/last_searches_recycler_view"
                 android:layout_width="match_parent"
@@ -80,8 +97,21 @@
                 android:numColumns="auto_fit"
                 android:padding="@dimen/x_min_size"
                 app:itemWidth="@dimen/list_item_width"
-                app:layout_constraintTop_toBottomOf="@+id/last_searches"
+                app:layout_constraintTop_toBottomOf="@+id/clear_history"
                 tools:listitem="@layout/item_city_list"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/empty_view_last_searches"
+                style="@style/Text.NunitoSemiBoldItalic.H6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/normal_size"
+                android:text="@string/empty_last_searches"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clear_history"
+                tools:visibility="visible"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </layout>

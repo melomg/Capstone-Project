@@ -9,6 +9,8 @@
 
     <!-- CityListFragment-->
     <string name="last_searches">Last Searches:</string>
+    <string name="clear_history">Clear History</string>
+    <string name="empty_last_searches">Start typing a city</string>
 
     <!-- UserFragment -->
     <string name="profile_u">PROFILE</string>
