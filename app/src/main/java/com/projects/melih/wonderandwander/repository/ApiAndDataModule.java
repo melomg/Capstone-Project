@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.projects.melih.wonderandwander.BuildConfig;
 import com.projects.melih.wonderandwander.repository.local.LocalCityDataSource;
+import com.projects.melih.wonderandwander.repository.local.LocalFavoritesDataSource;
 import com.projects.melih.wonderandwander.repository.local.LocalUserDataSource;
 import com.projects.melih.wonderandwander.repository.local.WonderAndWanderDatabase;
 import com.projects.melih.wonderandwander.repository.remote.WonderAndWanderService;
@@ -32,6 +33,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiAndDataModule {
     private static final long TIMEOUT_SECOND = 60;
+
+    @Singleton
+    @Provides
+    LocalFavoritesDataSource provideLocalFavoritesDataSource(@NonNull WonderAndWanderDatabase database) {
+        return new LocalFavoritesDataSource(database.favoritedCityDao());
+    }
 
     @Singleton
     @Provides

@@ -92,7 +92,6 @@ public class CitiesRepository {
                 }
                 localCityDataSource.insertCity(city);
             }
-            lastSearchedCitiesLiveData = localCityDataSource.getLastSearchedCities();
         });
     }
 

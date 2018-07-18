@@ -1,6 +1,7 @@
 package com.projects.melih.wonderandwander.repository.local;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.projects.melih.wonderandwander.model.User;
 
@@ -19,6 +20,7 @@ public class LocalUserDataSource implements UserDataSource {
         this.userDao = userDao;
     }
 
+    @Nullable
     @Override
     public User getUser() {
         return userDao.getUser();
