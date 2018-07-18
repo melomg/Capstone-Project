@@ -24,8 +24,10 @@ import com.projects.melih.wonderandwander.common.CollectionUtils;
 import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.databinding.FragmentCityListBinding;
 import com.projects.melih.wonderandwander.model.City;
+import com.projects.melih.wonderandwander.repository.remote.ErrorState;
 import com.projects.melih.wonderandwander.ui.base.BaseFragment;
 import com.projects.melih.wonderandwander.ui.citydetail.CityDetailActivity;
+import com.projects.melih.wonderandwander.ui.user.UserViewModel;
 
 import javax.inject.Inject;
 
@@ -41,6 +43,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
     public ViewModelProvider.Factory viewModelFactory;
     private FragmentCityListBinding binding;
     private CitiesViewModel citiesViewModel;
+    private UserViewModel userViewModel;
     private CityListAdapter searchAdapter;
     private CityListAdapter lastSearchedCitiesAdapter;
 
@@ -54,18 +57,35 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_city_list, container, false);
         //noinspection ConstantConditions
         citiesViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(CitiesViewModel.class);
+        userViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(UserViewModel.class);
+        //TODO show loading
         citiesViewModel.getCitiesLiveData().observe(this, cities -> {
-            searchAdapter.submitCityList(cities);
+            searchAdapter.submitCityList(cities, userViewModel.getFavoritesLiveData().getValue());
             binding.lastSearchesDivider.setVisibility(CollectionUtils.isNotEmpty(cities) ? View.VISIBLE : View.INVISIBLE);
         });
         citiesViewModel.getLastSearchedCitiesLiveData().observe(this, cities -> {
-            lastSearchedCitiesAdapter.submitCityList(cities);
+            lastSearchedCitiesAdapter.submitCityList(cities, userViewModel.getFavoritesLiveData().getValue());
             if (CollectionUtils.isNotEmpty(cities)) {
                 binding.clearHistory.setVisibility(View.VISIBLE);
                 binding.emptyViewLastSearches.setVisibility(View.GONE);
             } else {
                 binding.clearHistory.setVisibility(View.INVISIBLE);
                 binding.emptyViewLastSearches.setVisibility(View.VISIBLE);
+            }
+        });
+        userViewModel.getFavoritesLiveData().observe(this, favoritedCities -> {
+            if (favoritedCities != null) {
+                lastSearchedCitiesAdapter.updateCitiesFavoriteInfo(favoritedCities);
+                searchAdapter.updateCitiesFavoriteInfo(favoritedCities);
+            }
+        });
+        userViewModel.getErrorLiveData().observe(this, errorCode -> {
+            if (errorCode != null) {
+                switch (errorCode) {
+                    case ErrorState.NO_NETWORK:
+                        showToast(R.string.network_error);
+                        break;
+                }
             }
         });
         return binding.getRoot();
@@ -77,12 +97,12 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         searchAdapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
             @Override
             public void onFavoriteDelete(@NonNull City city) {
-                //TODO
+                //userViewModel.deleteCityFromFavorites(city);
             }
 
             @Override
             public void onFavoriteAdded(@NonNull City city) {
-                //TODO
+                userViewModel.addCityToFavoriteList(city);
             }
 
             @Override
@@ -98,7 +118,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
 
             @Override
             public void onFavoriteAdded(@NonNull City city) {
-                //TODO
+                userViewModel.addCityToFavoriteList(city);
             }
 
             @Override

@@ -48,7 +48,6 @@ public class CityDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_city_detail);
-        //viewModel = ViewModelProviders.of(this).get(VehicleDetailViewModel.class);
         final Intent intent = getIntent();
         city = intent.getParcelableExtra(KEY_CITY);
         final ActionBar supportActionBar = getSupportActionBar();
@@ -82,7 +81,6 @@ public class CityDetailActivity extends BaseActivity {
                 colors[i] = ContextCompat.getColor(this, color);
                 i++;
             }
-
         }
         BarData data = binding.barChart.getData();
         BarDataSet dataSet = (BarDataSet) data.getDataSetByIndex(0);
