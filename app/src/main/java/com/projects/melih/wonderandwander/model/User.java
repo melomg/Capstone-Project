@@ -1,6 +1,7 @@
 package com.projects.melih.wonderandwander.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +29,11 @@ public class User {
     private String photoUrl;
 
     private boolean isAnonymous;
+
+    @Ignore
+    public User() {
+        this.uId = "";//TODO
+    }
 
     public User(@Nullable String displayName, @Nullable String email, @Nullable String phoneNumber,
                 @Nullable String photoUrl, boolean isAnonymous, @NonNull String uId) {

@@ -63,3 +63,8 @@
 
 ### MPAndroidChart ###
 -keep class com.github.mikephil.charting.** { *; }
+
+### Firebase Database ###
+-keepclassmembers class com.projects.melih.wonderandwander.model.** {
+  *;
+}

@@ -21,12 +21,11 @@ import retrofit2.Call;
  * Created by Melih Gültekin on 18.06.2018
  */
 public class CitiesViewModel extends ViewModel {
-
-    private final CitiesRepository citiesRepository;
     private final SingleLiveEvent<Integer> errorLiveData;
     private final MutableLiveData<Boolean> loadingLiveData;
     private final MutableLiveData<List<City>> citiesLiveData;
     private final LiveData<List<City>> lastSearchedCitiesLiveData;
+    private final CitiesRepository citiesRepository;
     private Call<ResponseCities> callCities;
 
     @SuppressWarnings("WeakerAccess")

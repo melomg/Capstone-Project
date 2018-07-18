@@ -5,13 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.recyclerview.extensions.AsyncListDiffer;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.projects.melih.wonderandwander.R;
+import com.projects.melih.wonderandwander.common.CollectionUtils;
 import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.databinding.ItemCityListBinding;
 import com.projects.melih.wonderandwander.model.City;
+import com.projects.melih.wonderandwander.model.FavoritedCity;
 import com.projects.melih.wonderandwander.ui.base.ItemClickListener;
 
 import java.util.List;
@@ -21,7 +24,7 @@ import java.util.List;
  */
 class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolder> {
     private final CityItemListener cityItemListener;
-    private final AsyncListDiffer<City> differ = new AsyncListDiffer<>(this, City.DIFF_CALLBACK);
+    private final AsyncListDiffer<City> differ = new AsyncListDiffer<>(this, new CityListDiffCallback());
 
     CityListAdapter(@NonNull CityItemListener cityItemListener) {
         this.cityItemListener = cityItemListener;
@@ -44,8 +47,39 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
         return differ.getCurrentList().size();
     }
 
-    void submitCityList(@Nullable List<City> cityList) {
+    void submitCityList(@Nullable List<City> cityList, @Nullable List<FavoritedCity> favoritedCityList) {
+        if (CollectionUtils.isNotEmpty(cityList) && CollectionUtils.isNotEmpty(favoritedCityList)) {
+            for (City city : cityList) {
+                city.setFavorited(false);
+                for (FavoritedCity favoritedCity : favoritedCityList) {
+                    if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
+                        city.setFavorited(true);
+                        break;
+                    }
+                }
+            }
+        }
         differ.submitList(cityList);
+    }
+
+    public void updateCitiesFavoriteInfo(@NonNull List<FavoritedCity> favoritedCities) {
+        List<City> cityList = differ.getCurrentList();
+        int favoriteListSize = favoritedCities.size();
+        for (City city : cityList) {
+            int i = 0;
+            city.setFavorited(false);
+            int favoriteLookupSize = favoriteListSize;
+            boolean lookupDoneForTheCity = false;
+            while ((favoriteLookupSize > 0) && !lookupDoneForTheCity && (i < favoriteListSize)) {
+                if (TextUtils.equals(favoritedCities.get(i).getGeoHash(), city.getGeoHash())) {
+                    favoriteLookupSize--;
+                    city.setFavorited(true);
+                    lookupDoneForTheCity = true;
+                }
+                i++;
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class CityViewHolder extends RecyclerView.ViewHolder {
@@ -61,6 +95,7 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
         void bindTo(@Nullable final City city) {
             if (city != null) {
                 binding.setCity(city);
+                binding.favoriteCheck.setChecked(city.isFavorited());
                 itemView.setOnClickListener(v -> {
                     Utils.await(v);
                     cityItemListener.onItemClick(city);

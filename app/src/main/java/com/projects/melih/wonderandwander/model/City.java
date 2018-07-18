@@ -7,8 +7,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
-import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +84,8 @@ public class City implements Parcelable {
     private double latitude;
 
     private double longitude;
+
+    private boolean isFavorited;
 
     public City() {
         geoHash = "";//TODO create a unique string
@@ -283,18 +283,13 @@ public class City implements Parcelable {
         this.longitude = longitude;
     }
 
-    public static final DiffUtil.ItemCallback<City> DIFF_CALLBACK = new DiffUtil.ItemCallback<City>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull City oldCity, @NonNull City newCity) {
-            return TextUtils.equals(oldCity.getGeoHash(), newCity.getGeoHash());
-        }
+    public boolean isFavorited() {
+        return isFavorited;
+    }
 
-        @Override
-        public boolean areContentsTheSame(@NonNull City oldCity, @NonNull City newCity) {
-            return oldCity.equals(newCity);
-        }
-    };
-
+    public void setFavorited(boolean favorited) {
+        isFavorited = favorited;
+    }
 
     @Override
     public int describeContents() {
@@ -325,6 +320,7 @@ public class City implements Parcelable {
         dest.writeString(this.mayor);
         dest.writeDouble(this.latitude);
         dest.writeDouble(this.longitude);
+        dest.writeByte(this.isFavorited ? (byte) 1 : (byte) 0);
     }
 
     protected City(Parcel in) {
@@ -352,6 +348,7 @@ public class City implements Parcelable {
         this.mayor = in.readString();
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
+        this.isFavorited = in.readByte() != 0;
     }
 
     public static final Parcelable.Creator<City> CREATOR = new Parcelable.Creator<City>() {

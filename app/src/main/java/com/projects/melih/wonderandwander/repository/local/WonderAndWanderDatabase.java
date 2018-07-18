@@ -9,12 +9,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.projects.melih.wonderandwander.model.City;
+import com.projects.melih.wonderandwander.model.FavoritedCity;
 import com.projects.melih.wonderandwander.model.User;
 
 /**
  * Created by Melih Gültekin on 03.07.2018
  */
-@Database(entities = {User.class, City.class}, version = 5)
+@Database(entities = {User.class, City.class, FavoritedCity.class}, version = 10)
 @TypeConverters({Converters.class})
 public abstract class WonderAndWanderDatabase extends RoomDatabase {
     private static final Object lock = new Object();
@@ -25,6 +26,8 @@ public abstract class WonderAndWanderDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract CityDao cityDao();
+
+    public abstract FavoritedCityDao favoritedCityDao();
 
     public static WonderAndWanderDatabase getInstance(@NonNull Context context) {
         synchronized (lock) {

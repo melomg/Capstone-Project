@@ -138,7 +138,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.firebaseui:firebase-ui-auth:4.0.0'
 
-    // Ads
+    // Firebase Database
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+
+    // Firebase Ads
     freeImplementation "com.google.firebase:firebase-ads:$playServices"
 
     // Chart
