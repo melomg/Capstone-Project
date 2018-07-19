@@ -97,7 +97,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         searchAdapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
             @Override
             public void onFavoriteDelete(@NonNull City city) {
-                //userViewModel.deleteCityFromFavorites(city);
+                userViewModel.removeFromFavoriteList(city);
             }
 
             @Override
@@ -113,7 +113,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         lastSearchedCitiesAdapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
             @Override
             public void onFavoriteDelete(@NonNull City city) {
-                //TODO
+                userViewModel.removeFromFavoriteList(city);
             }
 
             @Override

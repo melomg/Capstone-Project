@@ -7,6 +7,7 @@ import android.arch.lifecycle.Transformations;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -141,6 +142,36 @@ public class UserRepository {
                                 favoritedCityList = new ArrayList<>();
                             }
                             favoritedCityList.add(favoritedCity);
+                            favoriteListLocalLiveData.setValue(favoritedCityList);
+                        }
+                    }
+                });
+            });
+        }
+    }
+
+    public void removeCityFromFavoriteList(@NonNull final String favoritedCityId, @NonNull final DataCallback<String> callback) {
+        if (!Utils.isNetworkConnected(context)) {
+            callback.onComplete(null, ErrorState.NO_NETWORK);
+        } else {
+            appExecutors.diskIO().execute(() -> {
+                final User user = localUserDataSource.getUser();
+                // notify on the main thread
+                appExecutors.mainThread().execute(() -> {
+                    if (user != null) {
+                        final DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference().child("/user-favorites").child(user.getUId());
+                        favoritesRef.child(favoritedCityId).removeValue();
+
+                        if (favoriteListLiveData != null) {
+                            List<FavoritedCity> favoritedCityList = favoriteListLiveData.getValue();
+                            if (CollectionUtils.isNotEmpty(favoritedCityList)) {
+                                for (FavoritedCity favoritedCity : favoritedCityList) {
+                                    if (TextUtils.equals(favoritedCity.getGeoHash(), favoritedCityId)) {
+                                        favoritedCityList.remove(favoritedCity);
+                                        break;
+                                    }
+                                }
+                            }
                             favoriteListLocalLiveData.setValue(favoritedCityList);
                         }
                     }

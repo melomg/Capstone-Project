@@ -89,6 +89,13 @@ public class UserViewModel extends ViewModel {
         });
     }
 
+    public void removeFromFavoriteList(@NonNull final City city) {
+        userRepository.removeCityFromFavoriteList(city.getGeoHash(), (geoHash, errorState) -> {
+            errorLiveData.setValue(errorState);
+            favoritesLiveData.setValue(favoritesLiveData.getValue());
+        });
+    }
+
     public void saveUser(FirebaseUser firebaseUser) {
         loadingLiveData.setValue(true);
         if (firebaseUser == null) { // No user is signed in, deletes users
