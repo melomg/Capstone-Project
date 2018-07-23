@@ -160,7 +160,9 @@ public class UserRepository {
                 appExecutors.mainThread().execute(() -> {
                     if (user != null) {
                         final DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference().child("/user-favorites").child(user.getUId());
-                        favoritesRef.child(favoritedCityId).removeValue();
+                        if (favoritesRef != null) {
+                            favoritesRef.child(favoritedCityId).removeValue();
+                        }
 
                         if (favoriteListLiveData != null) {
                             List<FavoritedCity> favoritedCityList = favoriteListLiveData.getValue();

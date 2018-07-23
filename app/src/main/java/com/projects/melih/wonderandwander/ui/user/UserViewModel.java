@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.projects.melih.wonderandwander.common.SingleLiveEvent;
@@ -17,6 +18,7 @@ import com.projects.melih.wonderandwander.model.User;
 import com.projects.melih.wonderandwander.repository.UserRepository;
 import com.projects.melih.wonderandwander.repository.remote.ErrorState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,6 +31,7 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<Boolean> loadingLiveData;
     private final MutableLiveData<User> userLiveData;
     private final UserRepository userRepository;
+    @Nullable
     private LiveData<List<FavoritedCity>> favoritesListeningLiveData;
     private MediatorLiveData<List<FavoritedCity>> favoritesLiveData;
     private MutableLiveData<Boolean> isLoginLiveData;
@@ -45,14 +48,16 @@ public class UserViewModel extends ViewModel {
             if ((user != null) && (favoritesListeningLiveData == null)) {
                 final String uId = user.getUId();
                 favoritesListeningLiveData = userRepository.fetchFavoriteList(uId);
-                if (!Utils.isNetworkConnected(applicationContext)) {
-                    userRepository.getLocalFavoriteList(uId, (data, errorState) -> {
-                        if (errorState == ErrorState.NO_ERROR) {
-                            favoritesLiveData.setValue(data);
-                        }
-                    });
-                }
+                userRepository.getLocalFavoriteList(uId, (data, errorState) -> {
+                    if (errorState == ErrorState.NO_ERROR) {
+                        favoritesLiveData.setValue(data);
+                    }
+                });
                 favoritesLiveData.addSource(favoritesListeningLiveData, favoritedCities -> favoritesLiveData.setValue(favoritedCities));
+            } else {
+                favoritesLiveData.setValue(new ArrayList<>());
+                favoritesLiveData.removeSource(favoritesListeningLiveData);
+                favoritesListeningLiveData = null;
             }
         });
     }
@@ -89,8 +94,8 @@ public class UserViewModel extends ViewModel {
         });
     }
 
-    public void removeFromFavoriteList(@NonNull final City city) {
-        userRepository.removeCityFromFavoriteList(city.getGeoHash(), (geoHash, errorState) -> {
+    public void removeFromFavoriteList(@NonNull final String geoHash) {
+        userRepository.removeCityFromFavoriteList(geoHash, (id, errorState) -> {
             errorLiveData.setValue(errorState);
             favoritesLiveData.setValue(favoritesLiveData.getValue());
         });

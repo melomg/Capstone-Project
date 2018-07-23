@@ -91,6 +91,14 @@ public class City implements Parcelable {
         geoHash = "";//TODO create a unique string
     }
 
+    @Ignore
+    public City(@NonNull String geoHash, @Nullable String fullName, @Nullable String name, @Nullable String imageUrl) {
+        this.geoHash = geoHash;
+        this.fullName = fullName;
+        this.name = name;
+        this.imageUrl = imageUrl;
+    }
+
     @NonNull
     public String getGeoHash() {
         return geoHash;

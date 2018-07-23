@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        binding.viewPager.addOnPageChangeListener(listener);
+        binding.viewPager.removeOnPageChangeListener(listener);
         super.onDestroy();
     }
 

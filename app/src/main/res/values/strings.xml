@@ -19,7 +19,9 @@
     <!-- ProfileFragment -->
     <string name="logout">Logout</string>
     <string name="hi">Hi, </string>
+    <string name="my_favorite_cities">My Favorite Cities</string>
 
     <!-- CityDetailActivity -->
     <string name="no_data_to_show">No data</string>
+    <string name="no_favorite_city">No favorite city yet</string>
 </resources>

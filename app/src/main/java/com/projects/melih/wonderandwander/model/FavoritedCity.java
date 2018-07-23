@@ -4,6 +4,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -23,7 +25,7 @@ import java.util.Map;
                 parentColumns = "uId",
                 childColumns = "userId",
                 onDelete = ForeignKey.CASCADE))
-public class FavoritedCity {
+public class FavoritedCity implements Parcelable {
     @PrimaryKey
     @NonNull
     private String geoHash;
@@ -96,4 +98,45 @@ public class FavoritedCity {
         result.put("imageUrl", imageUrl);
         return result;
     }
+
+    @Exclude
+    @NonNull
+    public City toCity() {
+        return new City(geoHash, fullName, name, imageUrl);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.geoHash);
+        dest.writeString(this.fullName);
+        dest.writeString(this.name);
+        dest.writeString(this.imageUrl);
+        dest.writeString(this.userId);
+    }
+
+    @Ignore
+    protected FavoritedCity(Parcel in) {
+        this.geoHash = in.readString();
+        this.fullName = in.readString();
+        this.name = in.readString();
+        this.imageUrl = in.readString();
+        this.userId = in.readString();
+    }
+
+    public static final Parcelable.Creator<FavoritedCity> CREATOR = new Parcelable.Creator<FavoritedCity>() {
+        @Override
+        public FavoritedCity createFromParcel(Parcel source) {
+            return new FavoritedCity(source);
+        }
+
+        @Override
+        public FavoritedCity[] newArray(int size) {
+            return new FavoritedCity[size];
+        }
+    };
 }

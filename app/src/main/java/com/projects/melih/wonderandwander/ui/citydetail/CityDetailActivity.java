@@ -21,6 +21,7 @@ import com.projects.melih.wonderandwander.common.CollectionUtils;
 import com.projects.melih.wonderandwander.databinding.ActivityCityDetailBinding;
 import com.projects.melih.wonderandwander.model.Category;
 import com.projects.melih.wonderandwander.model.City;
+import com.projects.melih.wonderandwander.model.FavoritedCity;
 import com.projects.melih.wonderandwander.ui.base.BaseActivity;
 import com.projects.melih.wonderandwander.ui.base.BaseFragment;
 
@@ -35,9 +36,14 @@ public class CityDetailActivity extends BaseActivity {
     private static final int DEFAULT_LABEL_COUNT = 30;
     private static final int OUT_OF_10 = 10;
     private ActivityCityDetailBinding binding;
-    private City city;
 
     public static Intent newIntent(@NonNull Context context, @NonNull City city) {
+        Intent intent = new Intent(context, CityDetailActivity.class);
+        intent.putExtra(CityDetailActivity.KEY_CITY, city);
+        return intent;
+    }
+
+    public static Intent newIntent(@NonNull Context context, @NonNull FavoritedCity city) {
         Intent intent = new Intent(context, CityDetailActivity.class);
         intent.putExtra(CityDetailActivity.KEY_CITY, city);
         return intent;
@@ -48,17 +54,19 @@ public class CityDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_city_detail);
-        final Intent intent = getIntent();
-        city = intent.getParcelableExtra(KEY_CITY);
-        final ActionBar supportActionBar = getSupportActionBar();
-        if (supportActionBar != null) {
-            supportActionBar.setTitle(city.getName());
-        }
         initChart();
-        updateUI(city);
+        final Intent intent = getIntent();
+        City city = intent.getParcelableExtra(KEY_CITY);
+        if (city != null) {
+            updateUI(city);
+        } else {
+            FavoritedCity favoritedCity = intent.getParcelableExtra(KEY_CITY);
+            //TODO get city detail from favoritedCity.getName()
+        }
     }
 
     private void updateUI(City city) {
+        initToolbar(city);
         final List<Category> scoresOfCategories = city.getScoresOfCategories();
         List<BarEntry> entries = new ArrayList<>();
         int[] colors = new int[CollectionUtils.size(scoresOfCategories) * 2];
@@ -90,6 +98,13 @@ public class CityDetailActivity extends BaseActivity {
         data.notifyDataChanged();
         binding.barChart.notifyDataSetChanged();
         binding.barChart.invalidate();
+    }
+
+    private void initToolbar(City city) {
+        final ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setTitle(city.getName());
+        }
     }
 
     private void initChart() {

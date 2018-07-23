@@ -10,4 +10,6 @@
     <dimen name="button_height">50dp</dimen>
     <dimen name="login_width_size">250dp</dimen>
     <dimen name="radius_4">4dp</dimen>
+    <dimen name="radius_16">16dp</dimen>
+    <dimen name="bottom_sheet_peak_height">280dp</dimen>
 </resources>
