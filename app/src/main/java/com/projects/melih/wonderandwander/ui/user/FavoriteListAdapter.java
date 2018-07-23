@@ -3,10 +3,7 @@ package com.projects.melih.wonderandwander.ui.user;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.recyclerview.extensions.AsyncListDiffer;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -24,7 +21,6 @@ import java.util.List;
  */
 class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapter.FavoriteViewHolder> {
     private final FavoriteItemListener favoriteItemListener;
-    private final AsyncListDiffer<FavoritedCity> differ = new AsyncListDiffer<>(this, new FavoriteListDiffCallback());
     private List<FavoritedCity> favoriteList;
 
     FavoriteListAdapter(@NonNull FavoriteItemListener favoriteItemListener) {
@@ -81,17 +77,5 @@ class FavoriteListAdapter extends RecyclerView.Adapter<FavoriteListAdapter.Favor
 
     interface FavoriteItemListener extends ItemClickListener<FavoritedCity> {
         void onFavoriteDelete(@NonNull FavoritedCity city);
-    }
-
-    static class FavoriteListDiffCallback extends DiffUtil.ItemCallback<FavoritedCity> {
-        @Override
-        public boolean areItemsTheSame(@NonNull FavoritedCity oldCity, @NonNull FavoritedCity newCity) {
-            return TextUtils.equals(oldCity.getGeoHash(), newCity.getGeoHash());
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull FavoritedCity oldCity, @NonNull FavoritedCity newCity) {
-            return oldCity.equals(newCity);
-        }
     }
 }
