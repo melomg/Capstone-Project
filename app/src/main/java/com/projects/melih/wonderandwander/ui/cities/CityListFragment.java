@@ -29,6 +29,9 @@ import com.projects.melih.wonderandwander.ui.base.BaseFragment;
 import com.projects.melih.wonderandwander.ui.citydetail.CityDetailActivity;
 import com.projects.melih.wonderandwander.ui.user.UserViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import timber.log.Timber;
@@ -59,7 +62,11 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         citiesViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(CitiesViewModel.class);
         userViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(UserViewModel.class);
         //TODO show loading
-        citiesViewModel.getCitiesLiveData().observe(this, cities -> {
+        citiesViewModel.getCityLiveData().observe(this, city -> {
+            List<City> cities = new ArrayList<>();
+            if (city != null) {
+                cities.add(city);
+            }
             searchAdapter.submitCityList(cities, userViewModel.getFavoritesLiveData().getValue());
             binding.lastSearchesDivider.setVisibility(CollectionUtils.isNotEmpty(cities) ? View.VISIBLE : View.INVISIBLE);
         });

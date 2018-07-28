@@ -16,5 +16,18 @@
             android:layout_margin="@dimen/normal_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/compare"
+            style="@style/Widget.Design.FloatingActionButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/ic_compare"
+            app:backgroundTint="@color/red"
+            contentPadding="@dimen/large_size"
+            android:layout_margin="@dimen/large_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/red_transparent"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

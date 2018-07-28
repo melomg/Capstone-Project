@@ -2,11 +2,15 @@ package com.projects.melih.wonderandwander.repository;
 
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 
 import com.projects.melih.wonderandwander.common.AppExecutors;
 import com.projects.melih.wonderandwander.common.CollectionUtils;
+import com.projects.melih.wonderandwander.common.Constants;
 import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.model.City;
 import com.projects.melih.wonderandwander.repository.local.LocalCityDataSource;
@@ -15,6 +19,7 @@ import com.projects.melih.wonderandwander.repository.remote.ErrorState;
 import com.projects.melih.wonderandwander.repository.remote.WonderAndWanderService;
 import com.projects.melih.wonderandwander.repository.remote.response.ResponseCities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,6 +43,8 @@ public class CitiesRepository {
     private final WonderAndWanderService service;
     private final AppExecutors appExecutors;
     private LiveData<List<City>> lastSearchedCitiesLiveData;
+    @NonNull
+    private List<City> comparedCities = new ArrayList<>();
 
     @Inject
     CitiesRepository(@NonNull Context applicationContext, @NonNull LocalCityDataSource localCityDataSource, @NonNull WonderAndWanderService service, @NonNull AppExecutors appExecutors) {
@@ -97,5 +104,46 @@ public class CitiesRepository {
 
     public void removeLastSearchedCities() {
         appExecutors.diskIO().execute(localCityDataSource::deleteAll);
+    }
+
+    @NonNull
+    public List<City> getComparedCities() {
+        return comparedCities;
+    }
+
+    public boolean isCompareListContains(@Nullable City city) {
+        if (city != null) {
+            for (City comparedCity : comparedCities) {
+                if (TextUtils.equals(comparedCity.getGeoHash(), city.getGeoHash())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean addToCompareList(@NonNull City city) {
+        if (CollectionUtils.size(comparedCities) == Constants.COMPARE_CAPACITY) {
+            return false;
+        }
+        for (City comparedCity : comparedCities) {
+            if (TextUtils.equals(comparedCity.getGeoHash(), city.getGeoHash())) {
+                return true;
+            }
+        }
+        comparedCities.add(city);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
+        return true;
+    }
+
+    public boolean removeFromCompareList(@NonNull City city) {
+        for (City comparedCity : comparedCities) {
+            if (TextUtils.equals(comparedCity.getGeoHash(), city.getGeoHash())) {
+                comparedCities.remove(comparedCity);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
+                return true;
+            }
+        }
+        return false;
     }
 }

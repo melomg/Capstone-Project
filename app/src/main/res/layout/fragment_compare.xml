@@ -8,12 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/bar_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:text="COMPARE"/>
-
+            android:layout_margin="@dimen/normal_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

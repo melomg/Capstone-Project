@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.projects.melih.wonderandwander.ui.cities.CitiesViewModel;
+import com.projects.melih.wonderandwander.ui.user.CompareViewModel;
 import com.projects.melih.wonderandwander.ui.user.UserViewModel;
 
 import dagger.Binds;
@@ -24,6 +25,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(UserViewModel.class)
     abstract ViewModel bindUserViewModel(UserViewModel userViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CompareViewModel.class)
+    abstract ViewModel bindCompareViewModel(CompareViewModel compareViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(WonderAndWanderViewModelFactory viewModelFactory);

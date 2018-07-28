@@ -11,6 +11,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.view.View;
 
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -19,13 +20,16 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.projects.melih.wonderandwander.R;
 import com.projects.melih.wonderandwander.common.CollectionUtils;
+import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.databinding.ActivityCityDetailBinding;
 import com.projects.melih.wonderandwander.model.Category;
 import com.projects.melih.wonderandwander.model.City;
 import com.projects.melih.wonderandwander.model.FavoritedCity;
+import com.projects.melih.wonderandwander.repository.remote.ErrorState;
 import com.projects.melih.wonderandwander.ui.base.BaseActivity;
 import com.projects.melih.wonderandwander.ui.base.BaseFragment;
 import com.projects.melih.wonderandwander.ui.cities.CitiesViewModel;
+import com.projects.melih.wonderandwander.ui.user.CompareViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +39,7 @@ import javax.inject.Inject;
 /**
  * Created by Melih Gültekin on 07.07.2018
  */
-public class CityDetailActivity extends BaseActivity {
+public class CityDetailActivity extends BaseActivity implements View.OnClickListener {
     private static final String KEY_CITY = "key_city";
     private static final String KEY_FAVORITED_CITY = "favorited_key_city";
     private static final int DEFAULT_LABEL_COUNT = 30;
@@ -43,6 +47,8 @@ public class CityDetailActivity extends BaseActivity {
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
     private ActivityCityDetailBinding binding;
+    private CompareViewModel compareViewModel;
+    private CitiesViewModel citiesViewModel;
     private List<Category> scores;
 
     public static Intent newIntent(@NonNull Context context, @NonNull City city) {
@@ -62,10 +68,19 @@ public class CityDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_city_detail);
-        CitiesViewModel citiesViewModel = ViewModelProviders.of(this, viewModelFactory).get(CitiesViewModel.class);
-        citiesViewModel.getCitiesLiveData().observe(this, cities -> {
-            if (CollectionUtils.isNotEmpty(cities)) {
-                final City city = cities.get(0);
+        citiesViewModel = ViewModelProviders.of(this, viewModelFactory).get(CitiesViewModel.class);
+        compareViewModel = ViewModelProviders.of(this, viewModelFactory).get(CompareViewModel.class);
+        compareViewModel.getErrorLiveData().observe(this, errorState -> {
+            if (errorState != null) {
+                switch (errorState) {
+                    case ErrorState.ALREADY_ADDED_TO_COMPARE_LIST:
+                        //TODO show alert
+                        break;
+                }
+            }
+        });
+        citiesViewModel.getCityLiveData().observe(this, city -> {
+            if (city != null) {
                 scores = city.getScoresOfCategories();
                 updateUI(city);
             }
@@ -78,12 +93,11 @@ public class CityDetailActivity extends BaseActivity {
             }
         });
 
+        initChart();
         final Intent intent = getIntent();
         City city = intent.getParcelableExtra(KEY_CITY);
         if (city != null) {
-            scores = city.getScoresOfCategories();
-            initChart();
-            updateUI(city);
+            citiesViewModel.setCity(city);
         } else {
             FavoritedCity favoritedCity = intent.getParcelableExtra(KEY_FAVORITED_CITY);
             final String name = favoritedCity.getName();
@@ -92,8 +106,8 @@ public class CityDetailActivity extends BaseActivity {
             } else {
                 //TODO show empty view
             }
-            initChart();
         }
+        binding.compare.setOnClickListener(this);
     }
 
     private void initToolbar(City city) {
@@ -148,7 +162,7 @@ public class CityDetailActivity extends BaseActivity {
         binding.barChart.notifyDataSetChanged();
     }
 
-    private void updateUI(City city) {
+    private void updateUI(@NonNull City city) {
         initToolbar(city);
         final List<Category> scoresOfCategories = city.getScoresOfCategories();
         List<BarEntry> entries = new ArrayList<>();
@@ -202,5 +216,15 @@ public class CityDetailActivity extends BaseActivity {
     @Override
     public void replaceFragment(@NonNull BaseFragment newFragment, int animType, boolean addToBackStack) {
         super.replaceFragment(newFragment, animType, addToBackStack, R.id.container);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Utils.await(v);
+        switch (v.getId()) {
+            case R.id.compare:
+                compareViewModel.addToCompareList(citiesViewModel.getCityLiveData().getValue());
+                break;
+        }
     }
 }
