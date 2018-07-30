@@ -144,6 +144,8 @@ public class UserRepository {
                             favoritedCityList.add(favoritedCity);
                             favoriteListLocalLiveData.setValue(favoritedCityList);
                         }
+                    } else {
+                        //TODO show authenticate error
                     }
                 });
             });
@@ -182,9 +184,9 @@ public class UserRepository {
         }
     }
 
-    public void getLocalFavoriteList(@NonNull String uId, @NonNull final DataCallback<List<FavoritedCity>> callback) {
+    public void getLocalFavoriteList(@NonNull final DataCallback<List<FavoritedCity>> callback) {
         appExecutors.diskIO().execute(() -> {
-            final List<FavoritedCity> favoritedCities = localFavoritesDataSource.getFavoritesOfUser(uId);
+            final List<FavoritedCity> favoritedCities = localFavoritesDataSource.getFavorites();
             appExecutors.mainThread().execute(() -> callback.onComplete(favoritedCities, ErrorState.NO_ERROR));
         });
     }

@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+    <TextView
+        android:id="@+id/my_favorites"
+        style="@style/Text.NunitoSemiBold.H6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normal_size"
+        android:layout_marginStart="@dimen/normal_size"
+        android:text="@string/my_favorite_cities"/>
+
+    <ListView
+        android:id="@+id/list_view_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/appwidget_text"
+        android:layout_below="@+id/my_favorites"/>
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textIsSelectable="true"
+        android:gravity="center"
+        android:text="@string/appwidget_empty_view"/>
+</RelativeLayout>

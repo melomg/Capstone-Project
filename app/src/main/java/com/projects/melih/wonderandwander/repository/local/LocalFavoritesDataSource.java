@@ -22,8 +22,8 @@ public class LocalFavoritesDataSource implements FavoritesDataSource {
     }
 
     @Override
-    public List<FavoritedCity> getFavoritesOfUser(@NonNull String userId) {
-        return favoritedCityDao.findFavoritesForUser(userId);
+    public List<FavoritedCity> getFavorites() {
+        return favoritedCityDao.getFavorites();
     }
 
     @Override

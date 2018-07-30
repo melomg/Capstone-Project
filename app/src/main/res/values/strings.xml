@@ -24,4 +24,8 @@
     <!-- CityDetailActivity -->
     <string name="no_data_to_show">No data</string>
     <string name="no_favorite_city">No favorite city yet</string>
+
+    <!-- Widget -->
+    <string name="appwidget_empty_view">Favorites are empty</string>
+    <string name="appwidget_text">My Favorite Cities</string>
 </resources>

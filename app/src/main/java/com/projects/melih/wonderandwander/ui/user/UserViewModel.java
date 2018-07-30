@@ -48,7 +48,7 @@ public class UserViewModel extends ViewModel {
             if ((user != null) && (favoritesListeningLiveData == null)) {
                 final String uId = user.getUId();
                 favoritesListeningLiveData = userRepository.fetchFavoriteList(uId);
-                userRepository.getLocalFavoriteList(uId, (data, errorState) -> {
+                userRepository.getLocalFavoriteList((data, errorState) -> {
                     if (errorState == ErrorState.NO_ERROR) {
                         favoritesLiveData.setValue(data);
                     }

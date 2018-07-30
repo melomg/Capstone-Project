@@ -14,8 +14,8 @@ import java.util.List;
  */
 @Dao
 public interface FavoritedCityDao {
-    @Query("SELECT * FROM favorites WHERE userId=:userId")
-    List<FavoritedCity> findFavoritesForUser(final String userId);
+    @Query("SELECT * FROM favorites")
+    List<FavoritedCity> getFavorites();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<FavoritedCity> favoritedCities);

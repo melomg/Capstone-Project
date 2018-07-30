@@ -1,10 +1,6 @@
 package com.projects.melih.wonderandwander.repository.local;
 
-import android.support.annotation.NonNull;
-
-import com.projects.melih.wonderandwander.model.City;
 import com.projects.melih.wonderandwander.model.FavoritedCity;
-import com.projects.melih.wonderandwander.model.User;
 
 import java.util.List;
 
@@ -28,8 +24,7 @@ public interface FavoritesDataSource {
     int deleteAll();
 
     /**
-     * @param userId to query
      * @return a list of favorited cities of user.
      */
-    List<FavoritedCity> getFavoritesOfUser(@NonNull String userId);
+    List<FavoritedCity> getFavorites();
 }
