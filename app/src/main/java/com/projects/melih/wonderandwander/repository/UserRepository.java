@@ -1,15 +1,9 @@
 package com.projects.melih.wonderandwander.repository;
 
-import android.arch.core.util.Function;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.Transformations;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.projects.melih.wonderandwander.common.AppExecutors;
@@ -22,7 +16,6 @@ import com.projects.melih.wonderandwander.repository.local.LocalUserDataSource;
 import com.projects.melih.wonderandwander.repository.remote.DataCallback;
 import com.projects.melih.wonderandwander.repository.remote.ErrorState;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,17 +32,14 @@ public class UserRepository {
     private final LocalFavoritesDataSource localFavoritesDataSource;
     private final AppExecutors appExecutors;
     private final Context context;
-    private final MediatorLiveData<List<FavoritedCity>> favoriteListLocalLiveData;
-    @Nullable
-    private LiveData<List<FavoritedCity>> favoriteListLiveData;
 
+    @SuppressWarnings("WeakerAccess")
     @Inject
     public UserRepository(@NonNull Context applicationContext, @NonNull LocalUserDataSource localUserDataSource, @NonNull LocalFavoritesDataSource localFavoritesDataSource, @NonNull AppExecutors appExecutors) {
         this.context = applicationContext;
         this.localUserDataSource = localUserDataSource;
         this.localFavoritesDataSource = localFavoritesDataSource;
         this.appExecutors = appExecutors;
-        this.favoriteListLocalLiveData = new MediatorLiveData<>();
     }
 
     public void getUser(@NonNull DataCallback<User> callback) {
@@ -108,19 +98,6 @@ public class UserRepository {
         });
     }
 
-    public LiveData<List<FavoritedCity>> fetchFavoriteList(String uId) {
-        if (favoriteListLiveData == null) {
-            final DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference().child("/user-favorites").child(uId);
-            FirebaseQueryLiveData favoritesQueryLiveData = new FirebaseQueryLiveData(favoritesRef);
-            favoriteListLiveData = Transformations.map(favoritesQueryLiveData, new FavoritedCityListDeserializer());
-            favoriteListLocalLiveData.addSource(favoriteListLiveData, favoritedCityList -> {
-                favoriteListLocalLiveData.setValue(favoritedCityList);
-                refreshLocalFavoriteList(uId, favoritedCityList);
-            });
-        }
-        return favoriteListLiveData;
-    }
-
     public void pushCityToFavoriteList(@NonNull final FavoritedCity favoritedCity, @NonNull final DataCallback<String> callback) {
         if (!Utils.isNetworkConnected(context)) {
             callback.onComplete(null, ErrorState.NO_NETWORK);
@@ -135,15 +112,6 @@ public class UserRepository {
                         Map<String, Object> postValues = favoritedCity.toMap();
                         childUpdates.put("/" + favoritedCity.getGeoHash(), postValues);
                         favoritesRef.updateChildren(childUpdates);
-
-                        if (favoriteListLiveData != null) {
-                            List<FavoritedCity> favoritedCityList = favoriteListLiveData.getValue();
-                            if (favoritedCityList == null) {
-                                favoritedCityList = new ArrayList<>();
-                            }
-                            favoritedCityList.add(favoritedCity);
-                            favoriteListLocalLiveData.setValue(favoritedCityList);
-                        }
                     } else {
                         //TODO show authenticate error
                     }
@@ -162,22 +130,7 @@ public class UserRepository {
                 appExecutors.mainThread().execute(() -> {
                     if (user != null) {
                         final DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference().child("/user-favorites").child(user.getUId());
-                        if (favoritesRef != null) {
-                            favoritesRef.child(favoritedCityId).removeValue();
-                        }
-
-                        if (favoriteListLiveData != null) {
-                            List<FavoritedCity> favoritedCityList = favoriteListLiveData.getValue();
-                            if (CollectionUtils.isNotEmpty(favoritedCityList)) {
-                                for (FavoritedCity favoritedCity : favoritedCityList) {
-                                    if (TextUtils.equals(favoritedCity.getGeoHash(), favoritedCityId)) {
-                                        favoritedCityList.remove(favoritedCity);
-                                        break;
-                                    }
-                                }
-                            }
-                            favoriteListLocalLiveData.setValue(favoritedCityList);
-                        }
+                        favoritesRef.child(favoritedCityId).removeValue();
                     }
                 });
             });
@@ -191,27 +144,18 @@ public class UserRepository {
         });
     }
 
-    private void refreshLocalFavoriteList(@NonNull String uId, @Nullable final List<FavoritedCity> favoritedCities) {
-        if (CollectionUtils.isNotEmpty(favoritedCities)) {
-            for (FavoritedCity favoritedCity : favoritedCities) {
-                favoritedCity.userId = uId;
-            }
-        }
+    public void refreshLocalFavoriteList(@Nullable final List<FavoritedCity> favoritedCities) {
         appExecutors.diskIO().execute(() -> {
-            localFavoritesDataSource.deleteAll();
-            localFavoritesDataSource.insertAll(favoritedCities);
-        });
-    }
-
-    private static class FavoritedCityListDeserializer implements Function<DataSnapshot, List<FavoritedCity>> {
-        @Override
-        public List<FavoritedCity> apply(DataSnapshot dataSnapshot) {
-            List<FavoritedCity> favoriteList = new ArrayList<>();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                FavoritedCity city = snapshot.getValue(FavoritedCity.class);
-                favoriteList.add(city);
+            final User user = localUserDataSource.getUser();
+            if (user != null) {
+                if (CollectionUtils.isNotEmpty(favoritedCities)) {
+                    for (FavoritedCity favoritedCity : favoritedCities) {
+                        favoritedCity.userId = user.getUId();
+                    }
+                }
+                localFavoritesDataSource.deleteAll();
+                localFavoritesDataSource.insertAll(favoritedCities);
             }
-            return favoriteList;
-        }
+        });
     }
 }

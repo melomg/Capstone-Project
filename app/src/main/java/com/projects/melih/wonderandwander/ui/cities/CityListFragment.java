@@ -1,6 +1,7 @@
 package com.projects.melih.wonderandwander.ui.cities;
 
 import android.app.Activity;
+import android.arch.core.util.Function;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -19,12 +20,17 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.projects.melih.wonderandwander.R;
 import com.projects.melih.wonderandwander.common.CollectionUtils;
 import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.databinding.FragmentCityListBinding;
 import com.projects.melih.wonderandwander.model.City;
+import com.projects.melih.wonderandwander.model.FavoritedCity;
 import com.projects.melih.wonderandwander.repository.remote.ErrorState;
+import com.projects.melih.wonderandwander.ui.FirebaseDatabaseManager;
 import com.projects.melih.wonderandwander.ui.base.BaseFragment;
 import com.projects.melih.wonderandwander.ui.citydetail.CityDetailActivity;
 import com.projects.melih.wonderandwander.ui.user.UserViewModel;
@@ -61,7 +67,17 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         //noinspection ConstantConditions
         citiesViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(CitiesViewModel.class);
         userViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(UserViewModel.class);
+
         //TODO show loading
+        userViewModel.getUserLiveData().observe(this, user -> {
+            if (user != null) {
+                final DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference().child("/user-favorites").child(user.getUId());
+                new FirebaseDatabaseManager(CityListFragment.this, favoritesRef, dataSnapshot -> {
+                    List<FavoritedCity> favorites = new FavoritedCityListDeserializer().apply(dataSnapshot);
+                    userViewModel.refreshLocalFavoriteList(favorites);
+                });
+            }
+        });
         citiesViewModel.getCityLiveData().observe(this, city -> {
             List<City> cities = new ArrayList<>();
             if (city != null) {
@@ -190,6 +206,18 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
             case R.id.clear_history:
                 citiesViewModel.clearHistory();
                 break;
+        }
+    }
+
+    private static class FavoritedCityListDeserializer implements Function<DataSnapshot, List<FavoritedCity>> {
+        @Override
+        public List<FavoritedCity> apply(DataSnapshot dataSnapshot) {
+            List<FavoritedCity> favoriteList = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                FavoritedCity city = snapshot.getValue(FavoritedCity.class);
+                favoriteList.add(city);
+            }
+            return favoriteList;
         }
     }
 }
