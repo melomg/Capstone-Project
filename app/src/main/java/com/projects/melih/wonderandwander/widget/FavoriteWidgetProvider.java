@@ -62,6 +62,20 @@ public class FavoriteWidgetProvider extends AppWidgetProvider {
         });
     }
 
+    /**
+     * Updates all widget instances given the widget Ids and display information
+     *
+     * @param context          The calling context
+     * @param appWidgetManager The widget manager
+     * @param favorites        list of favorited cities
+     * @param appWidgetIds     Array of widget Ids to be updated
+     */
+    public static void updateFavoriteWidgets(Context context, AppWidgetManager appWidgetManager, ArrayList<FavoritedCity> favorites, int[] appWidgetIds) {
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, favorites, appWidgetId);
+        }
+    }
+
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         //no-op

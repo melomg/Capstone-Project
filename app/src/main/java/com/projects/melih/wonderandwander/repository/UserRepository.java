@@ -1,11 +1,14 @@
 package com.projects.melih.wonderandwander.repository;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.projects.melih.wonderandwander.R;
 import com.projects.melih.wonderandwander.common.AppExecutors;
 import com.projects.melih.wonderandwander.common.CollectionUtils;
 import com.projects.melih.wonderandwander.common.Utils;
@@ -15,7 +18,9 @@ import com.projects.melih.wonderandwander.repository.local.LocalFavoritesDataSou
 import com.projects.melih.wonderandwander.repository.local.LocalUserDataSource;
 import com.projects.melih.wonderandwander.repository.remote.DataCallback;
 import com.projects.melih.wonderandwander.repository.remote.ErrorState;
+import com.projects.melih.wonderandwander.widget.FavoriteWidgetProvider;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,7 +149,7 @@ public class UserRepository {
         });
     }
 
-    public void refreshLocalFavoriteList(@Nullable final List<FavoritedCity> favoritedCities) {
+    public void refreshLocalFavoriteList(@Nullable final ArrayList<FavoritedCity> favoritedCities) {
         appExecutors.diskIO().execute(() -> {
             final User user = localUserDataSource.getUser();
             if (user != null) {
@@ -156,6 +161,17 @@ public class UserRepository {
                 localFavoritesDataSource.deleteAll();
                 localFavoritesDataSource.insertAll(favoritedCities);
             }
+
+            updateWidgets(favoritedCities);
         });
+    }
+
+    private void updateWidgets(@Nullable ArrayList<FavoritedCity> favoritedCities) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, FavoriteWidgetProvider.class));
+        //Trigger data update to handle the GridView widgets and force a data refresh
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.list_view_favorites);
+        //Now update all widgets
+        FavoriteWidgetProvider.updateFavoriteWidgets(context, appWidgetManager, favoritedCities, appWidgetIds);
     }
 }

@@ -124,7 +124,7 @@ public class UserViewModel extends ViewModel {
         }
     }
 
-    public void refreshLocalFavoriteList(@Nullable final List<FavoritedCity> favoritedCities) {
+    public void refreshFavoriteList(@Nullable final ArrayList<FavoritedCity> favoritedCities) {
         favoritesLiveData.setValue(favoritedCities);
         userRepository.refreshLocalFavoriteList(favoritedCities);
     }

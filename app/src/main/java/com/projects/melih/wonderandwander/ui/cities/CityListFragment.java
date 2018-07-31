@@ -73,8 +73,8 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
             if (user != null) {
                 final DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference().child("/user-favorites").child(user.getUId());
                 new FirebaseDatabaseManager(CityListFragment.this, favoritesRef, dataSnapshot -> {
-                    List<FavoritedCity> favorites = new FavoritedCityListDeserializer().apply(dataSnapshot);
-                    userViewModel.refreshLocalFavoriteList(favorites);
+                    ArrayList<FavoritedCity> favorites = new FavoritedCityListDeserializer().apply(dataSnapshot);
+                    userViewModel.refreshFavoriteList(favorites);
                 });
             }
         });
@@ -209,10 +209,10 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private static class FavoritedCityListDeserializer implements Function<DataSnapshot, List<FavoritedCity>> {
+    private static class FavoritedCityListDeserializer implements Function<DataSnapshot, ArrayList<FavoritedCity>> {
         @Override
-        public List<FavoritedCity> apply(DataSnapshot dataSnapshot) {
-            List<FavoritedCity> favoriteList = new ArrayList<>();
+        public ArrayList<FavoritedCity> apply(DataSnapshot dataSnapshot) {
+            ArrayList<FavoritedCity> favoriteList = new ArrayList<>();
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 FavoritedCity city = snapshot.getValue(FavoritedCity.class);
                 favoriteList.add(city);
