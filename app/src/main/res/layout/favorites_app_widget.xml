@@ -8,8 +8,11 @@
         style="@style/Text.NunitoSemiBold.H6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/normal_size"
-        android:layout_marginStart="@dimen/normal_size"
+        android:background="@color/colorPrimary"
+        android:paddingTop="@dimen/normal_size"
+        android:paddingStart="@dimen/normal_size"
+        android:paddingEnd="@dimen/normal_size"
+        android:paddingBottom="@dimen/normal_size"
         android:text="@string/my_favorite_cities"/>
 
     <ListView

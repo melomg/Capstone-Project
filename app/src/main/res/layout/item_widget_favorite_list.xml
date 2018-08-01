@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/gray_light"
     android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/favorite_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:padding="@dimen/large_size"
+        android:paddingStart="@dimen/normal_size"
+        android:paddingEnd="@dimen/normal_size"
+        android:paddingTop="@dimen/normal_size"
         android:textColor="@color/black"
         tools:text="Istanbul"/>
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/city_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_below="@+id/favorite_name"
+        android:paddingStart="@dimen/normal_size"
+        android:paddingEnd="@dimen/normal_size"
+        android:paddingBottom="@dimen/normal_size"
+        tools:text="Istanbul, Turkey"/>
+</RelativeLayout>

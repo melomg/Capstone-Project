@@ -21,6 +21,7 @@ public class FavoriteWidgetListAdapter extends ArrayAdapter<FavoritedCity> {
 
     static class FavoriteViewHolder {
         TextView textViewFavoriteName;
+        TextView textViewFavoriteFullName;
     }
 
     FavoriteWidgetListAdapter(@NonNull Context context, List<FavoritedCity> favorites) {
@@ -38,6 +39,7 @@ public class FavoriteWidgetListAdapter extends ArrayAdapter<FavoritedCity> {
             // configure view holder
             FavoriteViewHolder viewHolder = new FavoriteViewHolder();
             viewHolder.textViewFavoriteName = view.findViewById(R.id.favorite_name);
+            viewHolder.textViewFavoriteFullName = view.findViewById(R.id.city_full_name);
             view.setTag(viewHolder);
         }
 
@@ -46,6 +48,7 @@ public class FavoriteWidgetListAdapter extends ArrayAdapter<FavoritedCity> {
         final FavoritedCity favoritedCity = favorites.get(position);
         if (favoritedCity != null) {
             holder.textViewFavoriteName.setText(favoritedCity.getName());
+            holder.textViewFavoriteFullName.setText(favoritedCity.getFullName());
         }
 
         return view;

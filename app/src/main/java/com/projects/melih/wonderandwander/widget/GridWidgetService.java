@@ -84,9 +84,8 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.item_widget_favorite_list);
 
         FavoritedCity favoritedCity = favorites.get(position);
-        final String cityName = favoritedCity.getName();
-        //TODO improve UI
-        views.setTextViewText(R.id.favorite_name, cityName);
+        views.setTextViewText(R.id.favorite_name, favoritedCity.getName());
+        views.setTextViewText(R.id.city_full_name, favoritedCity.getFullName());
         return views;
     }
 
