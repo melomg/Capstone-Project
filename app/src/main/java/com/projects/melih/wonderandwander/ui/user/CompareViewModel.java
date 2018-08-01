@@ -59,10 +59,16 @@ public class CompareViewModel extends ViewModel {
         if (city != null) {
             if (citiesRepository.isCompareListContains(city)) {
                 errorLiveData.setValue(ErrorState.ALREADY_ADDED_TO_COMPARE_LIST);
+            } else if (citiesRepository.addToCompareList(city)) {
+                errorLiveData.setValue(ErrorState.NO_ERROR);
             } else {
-                citiesRepository.addToCompareList(city);
+                errorLiveData.setValue(ErrorState.EXCEEDS_MAX_COMPARE_SIZE);
             }
         }
+    }
+
+    public void clearCompareList() {
+        citiesRepository.clearCompareList();
     }
 
     private void updateCities() {

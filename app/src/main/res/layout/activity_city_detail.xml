@@ -20,14 +20,25 @@
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/compare"
             style="@style/Widget.Design.FloatingActionButton"
+            contentPadding="@dimen/large_size"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:srcCompat="@drawable/ic_compare"
-            app:backgroundTint="@color/red"
-            contentPadding="@dimen/large_size"
             android:layout_margin="@dimen/large_size"
+            app:backgroundTint="@color/red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:rippleColor="@color/red_transparent"/>
+            app:rippleColor="@color/red_transparent"
+            app:srcCompat="@drawable/ic_compare"/>
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

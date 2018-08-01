@@ -6,16 +6,15 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.github.mikephil.charting.data.BarEntry;
 import com.projects.melih.wonderandwander.R;
 import com.projects.melih.wonderandwander.common.CollectionUtils;
+import com.projects.melih.wonderandwander.common.Utils;
 import com.projects.melih.wonderandwander.databinding.FragmentCompareBinding;
 import com.projects.melih.wonderandwander.model.Category;
 import com.projects.melih.wonderandwander.model.City;
@@ -32,11 +31,12 @@ import javax.inject.Inject;
 /**
  * Created by Melih Gültekin on 02.07.2018
  */
-public class CompareFragment extends BaseFragment {
+public class CompareFragment extends BaseFragment implements View.OnClickListener {
     @Inject
     public ViewModelProvider.Factory viewModelFactory;
     private FragmentCompareBinding binding;
-    CompareListAdapter compareListAdapter;
+    private CompareListAdapter compareListAdapter;
+    private CompareViewModel compareViewModel;
 
     public static CompareFragment newInstance() {
         return new CompareFragment();
@@ -45,7 +45,7 @@ public class CompareFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_compare, container, false);
-        CompareViewModel compareViewModel = ViewModelProviders.of(this, viewModelFactory).get(CompareViewModel.class);
+        compareViewModel = ViewModelProviders.of(this, viewModelFactory).get(CompareViewModel.class);
         compareViewModel.getComparedCitiesLiveData().observe(this, cities -> {
             if (cities != null) {
                 updateUI(cities);
@@ -62,10 +62,23 @@ public class CompareFragment extends BaseFragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayout.VERTICAL, false));
         binding.recyclerView.setHasFixedSize(false);
         binding.recyclerView.setAdapter(compareListAdapter);
+
+        binding.delete.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Utils.await(v);
+        switch (v.getId()) {
+            case R.id.delete:
+                compareViewModel.clearCompareList();
+                break;
+        }
     }
 
     private void updateUI(@NonNull List<City> cities) {
         if (cities.size() > 1) {
+            showCompareViewHideEmptyView();
             binding.firstCity.setText(cities.get(0).getName());
             binding.secondCity.setText(cities.get(1).getName());
             Map<String, List<String>> categoriesMap = new HashMap<>();
@@ -92,6 +105,18 @@ public class CompareFragment extends BaseFragment {
                 i++;
             }
             compareListAdapter.submitCategoryPairList(categoriesMap);
+        } else {
+            showEmptyViewHideCompareView();
         }
+    }
+
+    private void showCompareViewHideEmptyView() {
+        binding.compareView.setVisibility(View.VISIBLE);
+        binding.emptyView.setVisibility(View.GONE);
+    }
+
+    private void showEmptyViewHideCompareView() {
+        binding.emptyView.setVisibility(View.VISIBLE);
+        binding.compareView.setVisibility(View.GONE);
     }
 }

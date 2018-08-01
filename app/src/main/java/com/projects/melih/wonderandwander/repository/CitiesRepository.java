@@ -136,14 +136,8 @@ public class CitiesRepository {
         return true;
     }
 
-    public boolean removeFromCompareList(@NonNull City city) {
-        for (City comparedCity : comparedCities) {
-            if (TextUtils.equals(comparedCity.getGeoHash(), city.getGeoHash())) {
-                comparedCities.remove(comparedCity);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
-                return true;
-            }
-        }
-        return false;
+    public void clearCompareList() {
+        comparedCities.clear();
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
     }
 }

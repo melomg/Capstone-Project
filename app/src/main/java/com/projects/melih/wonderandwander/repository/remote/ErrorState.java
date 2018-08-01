@@ -17,6 +17,7 @@ public final class ErrorState {
     public static final int FAILED_SAVE_USER = FAILED_GET_USER + 1;
     public static final int FAILED_DELETE_USER = FAILED_SAVE_USER + 1;
     public static final int ALREADY_ADDED_TO_COMPARE_LIST = FAILED_DELETE_USER + 1;
+    public static final int EXCEEDS_MAX_COMPARE_SIZE = ALREADY_ADDED_TO_COMPARE_LIST + 1;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef(value = {

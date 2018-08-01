@@ -74,7 +74,13 @@ public class CityDetailActivity extends BaseActivity implements View.OnClickList
             if (errorState != null) {
                 switch (errorState) {
                     case ErrorState.ALREADY_ADDED_TO_COMPARE_LIST:
-                        //TODO show alert
+                        showToast(R.string.already_added_to_compare_list);
+                        break;
+                    case ErrorState.EXCEEDS_MAX_COMPARE_SIZE:
+                        showToast(R.string.exceeds_max_compare_size);
+                        break;
+                    case ErrorState.NO_ERROR:
+                        showToast(R.string.success_add_to_compare);
                         break;
                 }
             }
@@ -87,9 +93,11 @@ public class CityDetailActivity extends BaseActivity implements View.OnClickList
         });
         citiesViewModel.getLoadingLiveData().observe(this, isLoading -> {
             if ((isLoading != null) && isLoading) {
-                //TODO show loading
+                binding.progress.setVisibility(View.VISIBLE);
+                binding.progress.show();
             } else {
-                //TODO hide loading
+                binding.progress.setVisibility(View.GONE);
+                binding.progress.hide();
             }
         });
 
@@ -103,8 +111,6 @@ public class CityDetailActivity extends BaseActivity implements View.OnClickList
             final String name = favoritedCity.getName();
             if (name != null) {
                 citiesViewModel.search(name);
-            } else {
-                //TODO show empty view
             }
         }
         binding.compare.setOnClickListener(this);

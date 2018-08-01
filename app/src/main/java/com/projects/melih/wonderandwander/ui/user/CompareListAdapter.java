@@ -1,5 +1,6 @@
 package com.projects.melih.wonderandwander.ui.user;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,12 +23,14 @@ import java.util.Map;
  */
 class CompareListAdapter extends RecyclerView.Adapter<CompareListAdapter.CategoryViewHolder> {
     private Map<String, List<String>> categoryPairList;
+    private Context context;
 
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new CategoryViewHolder(DataBindingUtil.inflate(inflater, R.layout.item_compare, parent, false));
+        context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        return new CategoryViewHolder(DataBindingUtil.inflate(inflater, R.layout.item_compare, parent, false), context);
     }
 
     @Override
@@ -54,16 +57,18 @@ class CompareListAdapter extends RecyclerView.Adapter<CompareListAdapter.Categor
 
     static class CategoryViewHolder extends RecyclerView.ViewHolder {
         private final ItemCompareBinding binding;
+        private final Context context;
 
-        CategoryViewHolder(@NonNull ItemCompareBinding binding) {
+        CategoryViewHolder(@NonNull ItemCompareBinding binding, Context context) {
             super(binding.getRoot());
             this.binding = binding;
+            this.context = context;
         }
 
         void bindTo(@Nullable final List<String> categoryPair, @Nullable final String key) {
             if (categoryPair != null) {
-                binding.firstCategoryValue.setText(categoryPair.get(0));
-                binding.secondCategoryValue.setText(categoryPair.get(1));
+                binding.firstCategoryValue.setText(context.getString(R.string.score_out_of_10, categoryPair.get(0)));
+                binding.secondCategoryValue.setText(context.getString(R.string.score_out_of_10, categoryPair.get(1)));
             }
             binding.category.setText(key);
         }

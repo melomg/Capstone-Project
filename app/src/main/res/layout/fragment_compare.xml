@@ -9,52 +9,85 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/first_city"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:fontFamily="@font/nunito_regular"
-            android:textSize="14sp"
-            android:textAlignment="center"
-            android:layout_marginTop="@dimen/normal_size"
-            android:layout_marginStart="@dimen/large_size"
-            app:fontFamily="@font/nunito_bold"
-            app:layout_constraintEnd_toStartOf="@+id/second_city"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Istanbul"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/gray"
-            app:layout_constraintBottom_toBottomOf="@+id/first_city"
-            app:layout_constraintStart_toEndOf="@+id/first_city"
-            app:layout_constraintTop_toTopOf="@+id/first_city"/>
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/second_city"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:fontFamily="@font/nunito_regular"
-            android:layout_marginEnd="@dimen/large_size"
-            android:textSize="14sp"
-            android:textAlignment="center"
-            app:fontFamily="@font/nunito_bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/first_city"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/first_city"
-            tools:text="Berlin"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/empty_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/min_size"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/first_city"/>
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/orange"
+            android:text="@string/no_data_to_compare"
+            app:fontFamily="@font/nunito_bold"
+            tools:visibility="visible"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/compare_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/first_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nunito_regular"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_marginTop="@dimen/normal_size"
+                android:layout_marginStart="@dimen/large_size"
+                app:fontFamily="@font/nunito_bold"
+                app:layout_constraintEnd_toStartOf="@+id/second_city"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Istanbul"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/gray"
+                app:layout_constraintBottom_toBottomOf="@+id/first_city"
+                app:layout_constraintStart_toEndOf="@+id/first_city"
+                app:layout_constraintTop_toTopOf="@+id/first_city"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/second_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/nunito_regular"
+                android:layout_marginEnd="@dimen/large_size"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                app:fontFamily="@font/nunito_bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/first_city"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/first_city"
+                tools:text="Berlin"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/min_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/first_city"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/delete"
+                style="@style/Widget.Design.FloatingActionButton"
+                contentPadding="@dimen/large_size"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/large_size"
+                app:backgroundTint="@color/red"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:rippleColor="@color/red_transparent"
+                app:srcCompat="@drawable/ic_delete"/>
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>
