@@ -45,7 +45,7 @@ import timber.log.Timber;
 /**
  * Created by Melih Gültekin on 26.06.2018
  */
-public class CityListFragment extends BaseFragment implements View.OnClickListener {
+public abstract class BaseCityListFragment extends BaseFragment implements View.OnClickListener {
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     @Inject
@@ -55,10 +55,6 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
     private UserViewModel userViewModel;
     private CityListAdapter searchAdapter;
     private CityListAdapter lastSearchedCitiesAdapter;
-
-    public static CityListFragment newInstance() {
-        return new CityListFragment();
-    }
 
     @Nullable
     @Override
@@ -72,7 +68,7 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
         userViewModel.getUserLiveData().observe(this, user -> {
             if (user != null) {
                 final DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference().child("/user-favorites").child(user.getUId());
-                new FirebaseDatabaseManager(CityListFragment.this, favoritesRef, dataSnapshot -> {
+                new FirebaseDatabaseManager(BaseCityListFragment.this, favoritesRef, dataSnapshot -> {
                     ArrayList<FavoritedCity> favorites = new FavoritedCityListDeserializer().apply(dataSnapshot);
                     userViewModel.refreshFavoriteList(favorites);
                 });

@@ -3,115 +3,122 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary100">
+        android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary100">
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/search"
-                style="@style/SearchButton"
-                android:drawableEnd="@drawable/ic_search_black"
-                android:freezesText="true"
-                android:layout_margin="@dimen/normal_size"
-                android:text="@string/search_city"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <View
-                android:id="@+id/current_search_divider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/gray_dark"
-                app:layout_constraintEnd_toEndOf="@+id/search"
-                app:layout_constraintStart_toStartOf="@+id/search"
-                app:layout_constraintTop_toBottomOf="@+id/search"/>
-
-            <com.projects.melih.wonderandwander.components.AutofitRecyclerView
-                android:id="@+id/recycler_view"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:clipToPadding="false"
-                android:numColumns="auto_fit"
-                android:padding="@dimen/x_min_size"
-                app:itemWidth="@dimen/list_item_width"
-                app:layout_constraintTop_toBottomOf="@+id/current_search_divider"
-                tools:listitem="@layout/item_city_list"/>
+                android:layout_height="wrap_content">
 
-            <android.support.constraint.Barrier
-                android:id="@+id/barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="current_search_divider,recycler_view"/>
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/search"
+                    style="@style/SearchButton"
+                    android:drawableEnd="@drawable/ic_search_black"
+                    android:freezesText="true"
+                    android:layout_margin="@dimen/normal_size"
+                    android:text="@string/search_city"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-            <View
-                android:id="@+id/last_searches_divider"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/gray_dark"
-                android:layout_marginBottom="@dimen/normal_size"
-                android:elevation="@dimen/cardview_default_elevation"
-                android:visibility="invisible"
-                app:layout_constraintTop_toBottomOf="@+id/barrier"/>
+                <View
+                    android:id="@+id/current_search_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_dark"
+                    app:layout_constraintEnd_toEndOf="@+id/search"
+                    app:layout_constraintStart_toStartOf="@+id/search"
+                    app:layout_constraintTop_toBottomOf="@+id/search"/>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/last_searches"
-                style="@style/Text.NunitoBold.H6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/normal_size"
-                android:text="@string/last_searches"
-                app:layout_constraintStart_toStartOf="@+id/last_searches_divider"
-                app:layout_constraintTop_toBottomOf="@+id/last_searches_divider"
-                app:layout_goneMarginTop="@dimen/button_height"/>
+                <com.projects.melih.wonderandwander.components.AutofitRecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:clipToPadding="false"
+                    android:numColumns="auto_fit"
+                    android:padding="@dimen/x_min_size"
+                    app:itemWidth="@dimen/list_item_width"
+                    app:layout_constraintTop_toBottomOf="@+id/current_search_divider"
+                    tools:listitem="@layout/item_city_list"/>
 
-            <Button
-                android:id="@+id/clear_history"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                android:clickable="true"
-                android:backgroundTint="@color/colorAccent"
-                android:text="@string/clear_history"
-                android:background="?android:attr/selectableItemBackground"
-                android:focusable="true"
-                android:visibility="gone"
-                android:layout_marginEnd="@dimen/normal_size"
-                app:layout_constraintBaseline_toBaselineOf="@+id/last_searches"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/last_searches"
-                tools:visibility="visible"/>
+                <android.support.constraint.Barrier
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="current_search_divider,recycler_view"/>
 
-            <com.projects.melih.wonderandwander.components.AutofitRecyclerView
-                android:id="@+id/last_searches_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:clipToPadding="false"
-                android:numColumns="auto_fit"
-                android:padding="@dimen/x_min_size"
-                app:itemWidth="@dimen/list_item_width"
-                app:layout_constraintTop_toBottomOf="@+id/clear_history"
-                tools:listitem="@layout/item_city_list"/>
+                <View
+                    android:id="@+id/last_searches_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/gray_dark"
+                    android:layout_marginBottom="@dimen/normal_size"
+                    android:elevation="@dimen/cardview_default_elevation"
+                    android:visibility="invisible"
+                    app:layout_constraintTop_toBottomOf="@+id/barrier"/>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/empty_view_last_searches"
-                style="@style/Text.NunitoSemiBoldItalic.H6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/normal_size"
-                android:text="@string/empty_last_searches"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clear_history"
-                tools:visibility="visible"/>
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/last_searches"
+                    style="@style/Text.NunitoBold.H6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/normal_size"
+                    android:text="@string/last_searches"
+                    app:layout_constraintStart_toStartOf="@+id/last_searches_divider"
+                    app:layout_constraintTop_toBottomOf="@+id/last_searches_divider"
+                    app:layout_goneMarginTop="@dimen/button_height"/>
+
+                <Button
+                    android:id="@+id/clear_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:clickable="true"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="@string/clear_history"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:focusable="true"
+                    android:visibility="gone"
+                    android:layout_marginEnd="@dimen/normal_size"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/last_searches"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/last_searches"
+                    tools:visibility="visible"/>
+
+                <com.projects.melih.wonderandwander.components.AutofitRecyclerView
+                    android:id="@+id/last_searches_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+                    android:clipToPadding="false"
+                    android:numColumns="auto_fit"
+                    android:padding="@dimen/x_min_size"
+                    app:itemWidth="@dimen/list_item_width"
+                    app:layout_constraintTop_toBottomOf="@+id/clear_history"
+                    tools:listitem="@layout/item_city_list"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/empty_view_last_searches"
+                    style="@style/Text.NunitoSemiBoldItalic.H6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/normal_size"
+                    android:text="@string/empty_last_searches"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clear_history"
+                    tools:visibility="visible"/>
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
+
+        <include layout="@layout/view_ads"/>
+    </RelativeLayout>
 </layout>
