@@ -118,7 +118,7 @@ public class UserRepository {
                         childUpdates.put("/" + favoritedCity.getGeoHash(), postValues);
                         favoritesRef.updateChildren(childUpdates);
                     } else {
-                        //TODO show authenticate error
+                        callback.onComplete(null, ErrorState.AUTHENTICATE_ERROR);
                     }
                 });
             });

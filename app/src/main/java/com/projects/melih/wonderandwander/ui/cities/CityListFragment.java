@@ -108,6 +108,9 @@ public class CityListFragment extends BaseFragment implements View.OnClickListen
                     case ErrorState.NO_NETWORK:
                         showToast(R.string.network_error);
                         break;
+                    case ErrorState.AUTHENTICATE_ERROR:
+                        showToast(R.string.auth_error);
+                        break;
                 }
             }
         });

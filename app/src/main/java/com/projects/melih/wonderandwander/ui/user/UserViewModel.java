@@ -45,8 +45,6 @@ public class UserViewModel extends ViewModel {
                 userRepository.getLocalFavoriteList((data, localErrorState) -> {
                     if (localErrorState == ErrorState.NO_ERROR) {
                         favoritesLiveData.setValue(data);
-                    } else {
-                        //TODO error
                     }
                 });
             } else {
@@ -83,7 +81,8 @@ public class UserViewModel extends ViewModel {
     public void addCityToFavoriteList(@NonNull final City city) {
         userRepository.pushCityToFavoriteList(new FavoritedCity(city.getGeoHash(), city.getFullName(), city.getName(), city.getImageUrl()), (cityGeoHash, errorState) -> {
             errorLiveData.setValue(errorState);
-            favoritesLiveData.setValue(favoritesLiveData.getValue());
+            final List<FavoritedCity> favorites = favoritesLiveData.getValue();
+            favoritesLiveData.setValue((favorites == null) ? new ArrayList<>() : favorites);
         });
     }
 

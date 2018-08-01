@@ -11,7 +11,8 @@ import java.lang.annotation.RetentionPolicy;
 public final class ErrorState {
     public static final int NO_ERROR = 0;
     public static final int FAILED = NO_ERROR + 1;
-    public static final int NO_NETWORK = FAILED + 1;
+    public static final int AUTHENTICATE_ERROR = FAILED + 1;
+    public static final int NO_NETWORK = AUTHENTICATE_ERROR + 1;
     public static final int EMPTY = NO_NETWORK + 1;
     public static final int FAILED_GET_USER = EMPTY + 1;
     public static final int FAILED_SAVE_USER = FAILED_GET_USER + 1;
