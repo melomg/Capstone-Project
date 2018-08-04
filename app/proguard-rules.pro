@@ -68,3 +68,6 @@
 -keepclassmembers class com.projects.melih.wonderandwander.model.** {
   *;
 }
+
+### ErrorProne ###
+-dontwarn com.google.errorprone.annotations.*

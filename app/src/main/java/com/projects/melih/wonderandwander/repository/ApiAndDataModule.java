@@ -110,6 +110,7 @@ public class ApiAndDataModule {
 
     @Singleton
     @Provides
+    @Nullable
     StethoInterceptor provideStethoInterceptor() {
         if (BuildConfig.DEBUG) {
             return new StethoInterceptor();
