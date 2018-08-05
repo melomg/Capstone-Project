@@ -19,9 +19,20 @@ Demonstrates using Dagger 2.15+ in MVVM app with Android Architecture Components
   - Retrofit 2.3.0+
 
 ## Getting Started
-
-You need to set your own `banner_ad_unit_id` and `map_key` in the `strings.xml` file and place `google_services.json` file in the `app/` directory (at the root of the Android Studio app module).
-
+In order to run the project successfully, you need to:
+  - create a Firebase project and enable Maps, Places Sdks for Android.
+  - activate Google identity provider from **Authentication** page. For full integration of Firebase, check [Firebase Setup](https://firebase.google.com/docs/android/setup).
+  - create a keys.xml file in `/app/src/free/res/values` directory and put your own id values for `banner_ad_id` and `map_id` keys. 
+  - download `google_services.json` file and place it in the `app/` directory (at the root of the Android Studio app module).
+  - add `keystore.properties` file in root directory which includes:
+    ```
+    keyAlias={keyAlias}
+    keyPassword={keyPassword}
+    storeFile={storeFile}
+    storePassword {storePassword}
+    ```
+ - and `jks` keystore file to root directory.
+  
 ## Dependency
 
   - [Support Libraries](https://developer.android.com/topic/libraries/support-library/setup): for better design and compatibility.
