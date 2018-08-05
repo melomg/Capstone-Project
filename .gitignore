@@ -36,6 +36,10 @@ proguard/
 # Android Studio captures folder
 captures/
 
+# Keystore files
+*.jks
+keystore.properties
+
 # Android Studio #
 .idea
 *.iml
@@ -55,3 +59,7 @@ gradlew
 *.sketch
 sampledata/
 schemas/
+
+*.json
+/app/src/free/res/values/keys.xml
+/app/src/paid/res/values/keys.xml

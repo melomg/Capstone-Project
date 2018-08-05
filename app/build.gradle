@@ -18,7 +18,6 @@ android {
     testBuildType "debug"
 
     signingConfigs {
-        //TODO add keystore.properties file and jks keystore file
         free {
             storeFile file(keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
