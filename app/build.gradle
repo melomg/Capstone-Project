@@ -48,6 +48,7 @@ android {
         debug {
             signingConfig null
             debuggable true
+            testCoverageEnabled true
         }
         release {
             debuggable false

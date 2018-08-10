@@ -1,0 +1,97 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build:
+    working_directory: ~/wonderandwander
+
+    docker:
+      - image: circleci/android:api-25-alpha
+
+    environment:
+      ANDROID_HOME: /opt/android/sdk
+      JVM_OPTS: -Xmx3200m
+
+    steps:
+      - checkout
+
+      # Restore cached dependencies (if any)
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+      - run:
+          name: Ensure Setup environment Bash Script Has Permission
+          command: chmod +x .circleci/ci-scripts/circleci_env_setup.sh
+
+      - run:
+          name: Setup environment
+          command: .circleci/ci-scripts/circleci_env_setup.sh
+
+      # Prepare the container for the build
+      #- run:
+      #    name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+      #    command: chmod +x 'pwd'/.gradlew
+
+      - run:
+          name: Ensure Sdk Manager Bash Script Has Permission
+          command: chmod +x .circleci/ci-scripts/ensure-sdkmanager.sh
+
+      # disable temporarily because of circleci ensure-sdkmanager.sh: No such file or directory error
+      - run:
+          name: Ensure Android SDK install is up-to-date
+          command: .circleci/ci-scripts/ensure-sdkmanager.sh
+
+      - run:
+          name: Ensure Sdk Manager Bash Script Has Permission
+          command: chmod +x .circleci/ci-scripts/ci-mock-google-services-setup.sh
+
+      - run:
+          name: Create mock Play Services JSON
+          command: .circleci/ci-scripts/ci-mock-google-services-setup.sh
+
+      # Run the main job command, delegating to Gradle
+      # See https://issuetracker.google.com/issues/62217354 for the parallelism option
+      #- run:
+      #    name: Run Gradle :check command
+      #    command: ./gradlew check --continue -Djava.util.concurrent.ForkJoinPool.common.parallelism=2
+
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+
+      - save_cache:
+          paths:
+            # Android SDK
+            - /usr/local/android-sdk-linux/tools
+            - /usr/local/android-sdk-linux/platform-tools
+            - /usr/local/android-sdk-linux/build-tools
+            - /usr/local/android-sdk-linux/licenses
+            - /usr/local/android-sdk-linux/extras/google/m2repository
+
+            # Gradle dependencies
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+
+      - run:
+          name: Run Tests
+          command: ./gradlew lint test
+
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+
+      - store_test_results:
+          path: app/build/test-results
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          context: wonderandwander

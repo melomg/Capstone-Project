@@ -50,12 +50,9 @@ keystore.properties
 #Libs
 lib/build/
 
-gradlew
 /app/src/main/res/values/fabric.xml
 /app/src/main/res/values/keys.xml
 
-*.jar
-/gradle.properties
 *.sketch
 sampledata/
 schemas/
