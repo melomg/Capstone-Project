@@ -16,14 +16,14 @@ if [ ! -e ${JSON_PATH} ]; then
       "client": [
         {
           "client_info": {
-            "mobilesdk_app_id": "1:XXXXXXXXXXXX:android:XXXXXXXXXXXXXXXX",
+            "mobilesdk_app_id": "'${MOBILE_SDK_APP_ID_FREE}'",
             "android_client_info": {
               "package_name": "com.projects.melih.wonderandwander.free"
             }
           },
           "oauth_client": [
             {
-              "client_id": "XXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com",
+              "client_id": "'${CLIENT_ID_FREE}'.apps.googleusercontent.com",
               "client_type": 1,
               "android_info": {
                 "package_name": "com.projects.melih.wonderandwander.free",
@@ -31,13 +31,16 @@ if [ ! -e ${JSON_PATH} ]; then
               }
             },
             {
-              "client_id": "XXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com",
+              "client_id": "'${SECOND_CLIENT_ID_FREE}'.apps.googleusercontent.com",
               "client_type": 3
             }
           ],
           "api_key": [
             {
-              "current_key": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+              "current_key": "'${FIRST_CURRENT_KEY}'"
+            },
+            {
+              "current_key": "'${SECOND_CURRENT_KEY}'"
             }
           ],
           "services": {
@@ -46,7 +49,12 @@ if [ ! -e ${JSON_PATH} ]; then
             },
             "appinvite_service": {
               "status": 1,
-              "other_platform_oauth_client": []
+              "other_platform_oauth_client": [
+                {
+                  "client_id": "'${SECOND_CLIENT_ID_FREE}'.apps.googleusercontent.com",
+                  "client_type": 3
+                }
+              ]
             },
             "ads_service": {
               "status": 2
