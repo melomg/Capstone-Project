@@ -7,8 +7,7 @@ export PAID_XML_PATH="$APP_MODULE_PATH/src/paid/res/values/keys.xml"
 if [ ! -e ${FREE_XML_PATH} ]; then
     echo "Writing mock keys.xml file to $FREE_XML_PATH..."
 
-    echo '
-      <?xml version="1.0" encoding="utf-8"?>
+    echo '<?xml version="1.0" encoding="utf-8"?>
       <resources>
         <string name="banner_ad_id">'${FREE_BANNER_ADD_ID}'</string>
         <string name="map_id">'${FREE_MAP_ID}'</string>
@@ -23,8 +22,7 @@ fi
 if [ ! -e ${PAID_XML_PATH} ]; then
     echo "Writing mock keys.xml file to $FREE_XML_PATH..."
 
-    echo '
-      <?xml version="1.0" encoding="utf-8"?>
+    echo '<?xml version="1.0" encoding="utf-8"?>
       <resources>
         <string name="banner_ad_id"></string>
         <string name="map_id">'${PAID_MAP_ID}'</string>
