@@ -29,6 +29,14 @@ jobs:
           name: Setup environment
           command: .circleci/ci-scripts/circleci_env_setup.sh
 
+      - run:
+          name: Ensure Setup Keys Bash Script Has Permission
+          command: chmod +x .circleci/ci-scripts/ci-mock-keys-xml-setup.sh
+
+      - run:
+          name: Setup Keys
+          command: .circleci/ci-scripts/ci-mock-keys-xml-setup.sh
+
       # Prepare the container for the build
       #- run:
       #    name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
