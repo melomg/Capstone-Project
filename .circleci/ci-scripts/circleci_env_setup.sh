@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 export KEYSTORE_PROPERTIES=$HOME"/wonderandwander/keystore.properties"
+export FABRIC_PROPERTIES=$HOME"/wonderandwander/app/fabric.properties"
 export STORE_FILE_LOCATION=$HOME"/wonderandwander/${STORE_FILE}"
 
 function copyEnvVarsToProperties {
@@ -16,6 +17,17 @@ function copyEnvVarsToProperties {
         echo "keyPassword=${KEY_PASSWORD}" >> ${KEYSTORE_PROPERTIES}
         echo "storeFile=${STORE_FILE_LOCATION}" >> ${KEYSTORE_PROPERTIES}
         echo "storePassword ${STORE_PASSWORD}" >> ${KEYSTORE_PROPERTIES}
+    fi
+
+    echo "Keystore Properties should exist at $KEYSTORE_PROPERTIES"
+
+    if [ ! -f "$FABRIC_PROPERTIES" ]
+    then
+        echo "${FABRIC_PROPERTIES} does not exist...Creating file"
+
+        touch ${FABRIC_PROPERTIES}
+
+        echo "apiSecret=${FABRIC_KEY}" >> ${FABRIC_PROPERTIES}
     fi
 }
 
