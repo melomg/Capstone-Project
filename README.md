@@ -1,6 +1,10 @@
 # WonderAndWander
 
-WonderAndWander app is a simple app that helps you to decide whether a city is the one you are looking for, in every aspect. You can search cities, see most important things from safety to cost of living about cities. WonderAndWander app will store the cities you favorited if you logged in. This way you never need to remember which city you liked once upon a time. It also helps you to compare the cities so you can decide better. Don't wait, wonder and wander now.
+<p align="center"><img src="https://github.com/melomg/Capstone-Project/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="WonderAndWander" height="120px"></p>
+
+:zap: WonderAndWander app is a simple app that helps you to decide whether a city is the one you are looking for, in every aspect. You can search cities, see most important things from safety to cost of living about cities. WonderAndWander app will store the cities you favorited if you logged in. This way you never need to remember which city you liked once upon a time. It also helps you to compare the cities so you can decide better. Don't wait, wonder and wander now.
+
+[![Build Status](https://circleci.com/gh/melomg/Capstone-Project/tree/master.svg?style=shield)](https://circleci.com/gh/melomg/Capstone-Project)
 
 ### Main features:
   - Logs users with FirebaseUI Auth
