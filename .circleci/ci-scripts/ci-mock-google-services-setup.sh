@@ -59,7 +59,7 @@ if [ ! -e ${JSON_PATH} ]; then
             "ads_service": {
               "status": 2
             }
-          }
+          },
           "admob_app_id": "'${ADMOB_APP_ID}'"
         },
         {
