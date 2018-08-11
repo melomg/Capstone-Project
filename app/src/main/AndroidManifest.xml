@@ -3,6 +3,9 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.projects.melih.wonderandwander">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:name=".WonderAndWanderApplication"
         android:allowBackup="true"
@@ -45,6 +48,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key"/>
+
+        <!-- TODO add your api key value-->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value=""/>
     </application>
 
 </manifest>

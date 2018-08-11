@@ -2,6 +2,7 @@ package com.projects.melih.wonderandwander;
 
 import android.os.StrictMode;
 
+import com.crashlytics.android.Crashlytics;
 import com.projects.melih.wonderandwander.di.DaggerSingletonComponent;
 import com.projects.melih.wonderandwander.di.SingletonComponent;
 import com.squareup.leakcanary.LeakCanary;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.support.DaggerApplication;
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 /**
@@ -35,6 +37,10 @@ public class WonderAndWanderApplication extends DaggerApplication {
                     .build());
         }
         super.onCreate();
+
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        }
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
