@@ -27,7 +27,7 @@ if [ ! -e ${JSON_PATH} ]; then
               "client_type": 1,
               "android_info": {
                 "package_name": "com.projects.melih.wonderandwander.free",
-                "certificate_hash": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                "certificate_hash": "'${CERTIFICATE_HASH_FREE}'"
               }
             },
             {
@@ -52,6 +52,53 @@ if [ ! -e ${JSON_PATH} ]; then
               "other_platform_oauth_client": [
                 {
                   "client_id": "'${SECOND_CLIENT_ID_FREE}'.apps.googleusercontent.com",
+                  "client_type": 3
+                }
+              ]
+            },
+            "ads_service": {
+              "status": 2
+            }
+          }
+        },
+        {
+          "client_info": {
+            "mobilesdk_app_id": "'${MOBILE_SDK_APP_ID_PAID}'",
+            "android_client_info": {
+              "package_name": "com.projects.melih.wonderandwander.paid"
+            }
+          },
+          "oauth_client": [
+            {
+              "client_id": "'${CLIENT_ID_PAID}'.apps.googleusercontent.com",
+              "client_type": 1,
+              "android_info": {
+                "package_name": "com.projects.melih.wonderandwander.paid",
+                "certificate_hash": "'${CERTIFICATE_HASH_PAID}'"
+              }
+            },
+            {
+              "client_id": "'${SECOND_CLIENT_ID_PAID}'.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ],
+          "api_key": [
+            {
+              "current_key": "'${FIRST_CURRENT_KEY}'"
+            },
+            {
+              "current_key": "'${SECOND_CURRENT_KEY}'"
+            }
+          ],
+          "services": {
+            "analytics_service": {
+              "status": 1
+            },
+            "appinvite_service": {
+              "status": 2,
+              "other_platform_oauth_client": [
+                {
+                  "client_id": "'${SECOND_CLIENT_ID_PAID}'.apps.googleusercontent.com",
                   "client_type": 3
                 }
               ]
