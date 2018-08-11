@@ -16,31 +16,19 @@ if [ ! -e ${JSON_PATH} ]; then
       "client": [
         {
           "client_info": {
-            "mobilesdk_app_id": "1:XXXXXXXXXXXXX:android:XXXXXXXXXXXX",
+            "mobilesdk_app_id": "1:XXXXXXXXXXXX:android:XXXXXXXXXXXXXXXX",
             "android_client_info": {
               "package_name": "com.projects.melih.wonderandwander.free"
             }
           },
           "oauth_client": [
             {
-              "client_id": "XXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com",
+              "client_id": "XXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com",
               "client_type": 1,
               "android_info": {
                 "package_name": "com.projects.melih.wonderandwander.free",
                 "certificate_hash": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
               }
-            },
-            {
-              "client_id": "XXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com",
-              "client_type": 1,
-              "android_info": {
-                "package_name": "com.projects.melih.wonderandwander.free",
-                "certificate_hash": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-              }
-            },
-            {
-              "client_id": "XXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com",
-              "client_type": 3
             },
             {
               "client_id": "XXXXXXXXXXXX-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com",
@@ -53,6 +41,9 @@ if [ ! -e ${JSON_PATH} ]; then
             }
           ],
           "services": {
+            "analytics_service": {
+              "status": 1
+            },
             "appinvite_service": {
               "status": 1,
               "other_platform_oauth_client": []
