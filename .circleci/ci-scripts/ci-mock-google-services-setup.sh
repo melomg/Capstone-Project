@@ -60,6 +60,7 @@ if [ ! -e ${JSON_PATH} ]; then
               "status": 2
             }
           }
+          "admob_app_id": "'${ADMOB_APP_ID}'"
         },
         {
           "client_info": {

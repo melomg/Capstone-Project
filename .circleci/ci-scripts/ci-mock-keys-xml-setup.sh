@@ -10,6 +10,7 @@ if [ ! -e ${FREE_XML_PATH} ]; then
     echo '<?xml version="1.0" encoding="utf-8"?>
       <resources>
         <string name="banner_ad_id">'${FREE_BANNER_ADD_ID}'</string>
+        <string name="admob_app_id">'${ADMOB_APP_ID}'</string>
         <string name="map_id">'${FREE_MAP_ID}'</string>
       </resources>
     ' > ${FREE_XML_PATH}
@@ -25,6 +26,7 @@ if [ ! -e ${PAID_XML_PATH} ]; then
     echo '<?xml version="1.0" encoding="utf-8"?>
       <resources>
         <string name="banner_ad_id"></string>
+        <string name="admob_app_id"></string>
         <string name="map_id">'${PAID_MAP_ID}'</string>
       </resources>
     ' > ${PAID_XML_PATH}

@@ -18,7 +18,7 @@ import static com.projects.melih.wonderandwander.ui.main.BottomNavigationPagerAd
 /**
  * Created by Melih Gültekin on 15.06.2018
  */
-public class MainActivity extends BaseActivity {
+public class BaseMainActivity extends BaseActivity {
     private ActivityMainBinding binding;
     private ViewPager.OnPageChangeListener listener;
 

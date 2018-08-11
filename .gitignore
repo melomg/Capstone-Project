@@ -58,6 +58,7 @@ sampledata/
 schemas/
 
 *.json
+/app/fabric.properties
 /app/src/free/res/values/keys.xml
 /app/src/paid/res/values/keys.xml
-/app/fabric.properties
+/app/src/freeDebug/res/values/keys.xml
