@@ -20,6 +20,7 @@ Demonstrates using Dagger 2.15+ in MVVM app with Android Architecture Components
 
 ## Getting Started
 In order to run the project successfully, you need to:
+  - add your Fabric key to Manifest.xml file. For full integration of Fabric, check [Crashlytics install](https://fabric.io/kits/android/crashlytics/install)
   - create a Firebase project and enable Maps, Places Sdks for Android.
   - activate Google identity provider from **Authentication** page. For full integration of Firebase, check [Firebase Setup](https://firebase.google.com/docs/android/setup).
   - create a keys.xml file in `/app/src/free/res/values` directory and put your own id values for `banner_ad_id` and `map_id` keys. 
@@ -56,6 +57,7 @@ Database
   - [Ads Play Services](https://developers.google.com/admob/android/quick-start): Ads will be shown to free app’s users. The app
 displays test ads in debug variant.
   - [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart): To show scores of a city as chart. 
+  - [Fabric Crashlytics](https://fabric.io/kits/android/crashlytics/install): Crash reporting tool.
 
 ## Versioning
 
