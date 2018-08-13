@@ -20,7 +20,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/search"
                     style="@style/SearchButton"
-                    android:drawableEnd="@drawable/ic_search_black"
+                    android:drawableEnd="@drawable/ic_search"
                     android:freezesText="true"
                     android:layout_margin="@dimen/normal_size"
                     android:text="@string/search_city"

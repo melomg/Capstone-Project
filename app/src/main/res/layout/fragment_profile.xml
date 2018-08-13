@@ -39,13 +39,13 @@
                 app:layout_constraintBottom_toBottomOf="@+id/name_area"
                 app:layout_constraintStart_toStartOf="@+id/name_area"
                 app:layout_constraintTop_toTopOf="@+id/name_area"
-                app:srcCompat="@drawable/ic_profile_black"/>
+                app:srcCompat="@drawable/ic_profile"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/hi"
                 style="@style/Text.NunitoSemiBold"
                 android:layout_width="0dp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:text="@string/hi"
                 android:layout_marginTop="@dimen/large_size"
                 android:layout_marginStart="@dimen/large_size"
@@ -57,7 +57,7 @@
                 android:id="@+id/username"
                 style="@style/Text.NunitoBold.H6"
                 android:layout_width="0dp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:paddingBottom="@dimen/large_size"
                 android:text="@{user.displayName}"
                 app:layout_constraintEnd_toEndOf="@+id/name_area"
@@ -91,6 +91,7 @@
                 style="@style/Text.NunitoSemiBold.H6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:layout_marginTop="@dimen/normal_size"
                 android:layout_marginStart="@dimen/normal_size"
                 android:text="@string/my_favorite_cities"/>

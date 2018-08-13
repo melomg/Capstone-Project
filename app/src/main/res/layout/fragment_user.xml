@@ -17,15 +17,15 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                android:background="@color/white"
+                android:background="@color/colorPrimary"
                 android:layout_centerHorizontal="true"
-                app:tabBackground="@drawable/bg_tab_selector"
+                app:tabBackground="@color/colorPrimary"
                 app:tabGravity="fill"
-                app:tabIndicatorColor="@color/colorPrimaryDark"
+                app:tabIndicatorColor="@color/colorAccent"
                 app:tabMaxWidth="0dp"
                 app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/colorPrimaryDark"
-                app:tabTextColor="@color/black">
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabTextColor="@color/white">
 
                 <android.support.design.widget.TabItem
                     android:layout_width="match_parent"

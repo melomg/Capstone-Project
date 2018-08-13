@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#75CFCD</color>
-    <color name="colorPrimaryDark">#FA3336</color>
-    <color name="colorAccent">#000000</color>
-    <color name="colorPrimary100">#AEE2E1</color>
+    <color name="colorPrimary">#253446</color>
+    <color name="colorPrimaryDark">#192531</color>
+    <color name="colorAccent">#2AA3EF</color>
+    <color name="colorPrimary100">#1B2835</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
@@ -15,7 +15,7 @@
     <color name="orange">#FF9900</color>
     <color name="green">#009900</color>
     <color name="blue">#000099</color>
-    <color name="black_transparent_10">#16000000</color>
+    <color name="black_transparent_10">#16FFFFFF</color>
     <color name="black_transparent_40">#64000000</color>
 
     <color name="chart_red">#D75957</color>
