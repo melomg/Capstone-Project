@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,6 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
     private FragmentCityListBinding binding;
     private CitiesViewModel citiesViewModel;
     private UserViewModel userViewModel;
-    private CityListAdapter searchAdapter;
     private CityListAdapter lastSearchedCitiesAdapter;
 
     @Nullable
@@ -64,7 +64,6 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
         citiesViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(CitiesViewModel.class);
         userViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(UserViewModel.class);
 
-        //TODO show loading
         userViewModel.getUserLiveData().observe(this, user -> {
             if (user != null) {
                 final DatabaseReference favoritesRef = FirebaseDatabase.getInstance().getReference().child("/user-favorites").child(user.getUId());
@@ -74,12 +73,22 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
                 });
             }
         });
+        citiesViewModel.getLoadingLiveData().observe(this, isLoading -> {
+            if ((isLoading != null) && isLoading) {
+                binding.progress.setVisibility(View.VISIBLE);
+                binding.progress.show();
+            } else {
+                binding.progress.setVisibility(View.GONE);
+                binding.progress.hide();
+            }
+        });
         citiesViewModel.getCityLiveData().observe(this, city -> {
+            List<FavoritedCity> favoritedCityList = userViewModel.getFavoritesLiveData().getValue();
             List<City> cities = new ArrayList<>();
             if (city != null) {
                 cities.add(city);
             }
-            searchAdapter.submitCityList(cities, userViewModel.getFavoritesLiveData().getValue());
+            updateSearchResultCity(city, favoritedCityList);
             binding.lastSearchesDivider.setVisibility(CollectionUtils.isNotEmpty(cities) ? View.VISIBLE : View.INVISIBLE);
         });
         citiesViewModel.getLastSearchedCitiesLiveData().observe(this, cities -> {
@@ -95,7 +104,7 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
         userViewModel.getFavoritesLiveData().observe(this, favoritedCities -> {
             if (favoritedCities != null) {
                 lastSearchedCitiesAdapter.updateCitiesFavoriteInfo(favoritedCities);
-                searchAdapter.updateCitiesFavoriteInfo(favoritedCities);
+                updateSearchResultCity(citiesViewModel.getCityLiveData().getValue(), favoritedCities);
             }
         });
         userViewModel.getErrorLiveData().observe(this, errorCode -> {
@@ -116,22 +125,6 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        searchAdapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
-            @Override
-            public void onFavoriteDelete(@NonNull City city) {
-                userViewModel.removeFromFavoriteList(city.getGeoHash());
-            }
-
-            @Override
-            public void onFavoriteAdded(@NonNull City city) {
-                userViewModel.addCityToFavoriteList(city);
-            }
-
-            @Override
-            public void onItemClick(@NonNull City city) {
-                startActivity(CityDetailActivity.newIntent(context, city));
-            }
-        });
         lastSearchedCitiesAdapter = new CityListAdapter(new CityListAdapter.CityItemListener() {
             @Override
             public void onFavoriteDelete(@NonNull City city) {
@@ -149,14 +142,12 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
             }
         });
 
-        binding.recyclerView.setHasFixedSize(false);
-        binding.recyclerView.setNestedScrollingEnabled(false);
-        binding.recyclerView.setAdapter(searchAdapter);
-
         binding.lastSearchesRecyclerView.setHasFixedSize(false);
         binding.lastSearchesRecyclerView.setNestedScrollingEnabled(false);
         binding.lastSearchesRecyclerView.setAdapter(lastSearchedCitiesAdapter);
 
+        binding.searchResult.favoriteArea.setOnClickListener(this);
+        binding.searchResult.getRoot().setOnClickListener(this);
         binding.search.setOnClickListener(this);
         binding.clearHistory.setOnClickListener(this);
     }
@@ -185,6 +176,7 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
     @Override
     public void onClick(View v) {
         Utils.await(v);
+        final City city = citiesViewModel.getCityLiveData().getValue();
         switch (v.getId()) {
             case R.id.search:
                 try {
@@ -205,6 +197,39 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
             case R.id.clear_history:
                 citiesViewModel.clearHistory();
                 break;
+            case R.id.search_result:
+                if (city != null) {
+                    startActivity(CityDetailActivity.newIntent(context, city));
+                }
+                break;
+            case R.id.favorite_area:
+                if (city != null) {
+                    if (binding.searchResult.favoriteCheck.isChecked()) {
+                        binding.searchResult.favoriteCheck.setChecked(false);
+                        userViewModel.removeFromFavoriteList(city.getGeoHash());
+                    } else {
+                        binding.searchResult.favoriteCheck.setChecked(true);
+                        userViewModel.addCityToFavoriteList(city);
+                    }
+                }
+                break;
+        }
+    }
+
+    private void updateSearchResultCity(@Nullable City city, @Nullable List<FavoritedCity> favoritedCityList) {
+        if ((city != null) && CollectionUtils.isNotEmpty(favoritedCityList)) {
+            city.setFavorited(false);
+            for (FavoritedCity favoritedCity : favoritedCityList) {
+                if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
+                    city.setFavorited(true);
+                    break;
+                }
+            }
+            binding.searchResult.setCity(city);
+            binding.searchResult.favoriteCheck.setChecked(city.isFavorited());
+            binding.searchResult.getRoot().setVisibility(View.VISIBLE);
+        } else {
+            binding.searchResult.getRoot().setVisibility(View.GONE);
         }
     }
 

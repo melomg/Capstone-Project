@@ -15,7 +15,8 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/search"
@@ -35,30 +36,45 @@
                     app:layout_constraintStart_toStartOf="@+id/search"
                     app:layout_constraintTop_toBottomOf="@+id/search"/>
 
-                <com.projects.melih.wonderandwander.components.AutofitRecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="match_parent"
+                <android.support.v4.widget.ContentLoadingProgressBar
+                    android:id="@+id/progress"
+                    style="?android:attr/progressBarStyle"
                     android:layout_height="wrap_content"
-                    android:scrollbars="vertical"
-                    android:clipToPadding="false"
-                    android:numColumns="auto_fit"
-                    android:padding="@dimen/x_min_size"
-                    app:itemWidth="@dimen/list_item_width"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:shadowColor="@color/white"
+                    android:layout_marginTop="@dimen/normal_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/current_search_divider"
-                    tools:listitem="@layout/item_city_list"/>
+                    tools:visibility="visible"/>
+
+                <include
+                    android:id="@+id/search_result"
+                    layout="@layout/item_city_list"
+                    android:padding="@dimen/x_min_size"
+                    android:layout_width="@dimen/list_item_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_size"
+                    android:layout_marginTop="@dimen/normal_size"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progress"
+                    tools:visibility="visible"/>
 
                 <android.support.constraint.Barrier
                     android:id="@+id/barrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="current_search_divider,recycler_view"/>
+                    app:constraint_referenced_ids="current_search_divider,search_result"/>
 
                 <View
                     android:id="@+id/last_searches_divider"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="@color/gray_dark"
+                    android:layout_marginTop="@dimen/normal_size"
                     android:layout_marginBottom="@dimen/normal_size"
                     android:elevation="@dimen/cardview_default_elevation"
                     android:visibility="invisible"
