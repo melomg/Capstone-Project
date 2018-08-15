@@ -1,10 +1,8 @@
-# WonderAndWander
+# WonderAndWander [![Build Status](https://circleci.com/gh/melomg/Capstone-Project/tree/master.svg?style=shield)](https://circleci.com/gh/melomg/Capstone-Project) ![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
 
 <p align="center"><img src="https://github.com/melomg/Capstone-Project/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="WonderAndWander" height="120px"></p>
 
 :zap: WonderAndWander app is a simple app that helps you to decide whether a city is the one you are looking for, in every aspect. You can search cities, see most important things from safety to cost of living about cities. WonderAndWander app will store the cities you favorited if you logged in. This way you never need to remember which city you liked once upon a time. It also helps you to compare the cities so you can decide better. Don't wait, wonder and wander now.
-
-[![Build Status](https://circleci.com/gh/melomg/Capstone-Project/tree/master.svg?style=shield)](https://circleci.com/gh/melomg/Capstone-Project)
 
 ### Main features:
   - Logs users with FirebaseUI Auth
@@ -21,6 +19,18 @@ Demonstrates using Dagger 2.15+ in MVVM app with Android Architecture Components
   - Data Binding
   - Architecture Components
   - Retrofit 2.3.0+
+  
+### Screenshots
+
+#### Phone
+
+Login Screen               |  Profile Screen           |  Search Screen
+:-------------------------:|:-------------------------:|:-------------------------:
+ ![](art/login_phone.png)  | ![](art/profile_phone.png)| ![](art/search_phone.png)
+
+Compare Screen             |  City Detail Screen       |  Widget Screen
+:-------------------------:|:-------------------------:|:-------------------------:
+![](art/compare_phone.png) | ![](art/city_detail_phone.png) | ![](art/widget_phone.png)
 
 ## Getting Started
 In order to run the project successfully, you need to:
@@ -75,4 +85,4 @@ See also the list of [contributors](https://github.com/melomg/Capstone-Project/g
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
