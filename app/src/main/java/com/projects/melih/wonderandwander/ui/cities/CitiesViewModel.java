@@ -25,6 +25,7 @@ public class CitiesViewModel extends ViewModel {
     private final SingleLiveEvent<Integer> errorLiveData;
     private final MutableLiveData<Boolean> loadingLiveData;
     private final MutableLiveData<City> cityLiveData;
+    private final MutableLiveData<Boolean> locationAvailableLiveData;
     private final LiveData<List<City>> lastSearchedCitiesLiveData;
     private final CitiesRepository citiesRepository;
     private Call<ResponseCities> callCities;
@@ -36,6 +37,7 @@ public class CitiesViewModel extends ViewModel {
         errorLiveData = new SingleLiveEvent<>();
         loadingLiveData = new MutableLiveData<>();
         cityLiveData = new MutableLiveData<>();
+        locationAvailableLiveData = new MutableLiveData<>();
         lastSearchedCitiesLiveData = citiesRepository.getLastSearchedCitiesLiveData();
     }
 
@@ -53,6 +55,14 @@ public class CitiesViewModel extends ViewModel {
 
     public void setCity(City city) {
         cityLiveData.setValue(city);
+    }
+
+    public LiveData<Boolean> getLocationAvailableLiveData() {
+        return locationAvailableLiveData;
+    }
+
+    public void setLocationAvailable(boolean isLocationAvailable) {
+        locationAvailableLiveData.setValue(isLocationAvailable);
     }
 
     public LiveData<List<City>> getLastSearchedCitiesLiveData() {

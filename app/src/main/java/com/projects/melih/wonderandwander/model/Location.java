@@ -2,7 +2,6 @@ package com.projects.melih.wonderandwander.model;
 
 import android.support.annotation.Nullable;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -17,7 +16,7 @@ public class Location {
 
     @SerializedName("latlon")
     @Nullable
-    private LatLng latLng;
+    private LatLon latLng;
 
     @Nullable
     public String getGeoHash() {
@@ -29,11 +28,11 @@ public class Location {
     }
 
     @Nullable
-    public LatLng getLatLng() {
+    public LatLon getLatLng() {
         return latLng;
     }
 
-    public void setLatLng(@Nullable LatLng latLng) {
+    public void setLatLng(@Nullable LatLon latLng) {
         this.latLng = latLng;
     }
 }

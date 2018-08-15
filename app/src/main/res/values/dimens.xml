@@ -12,4 +12,5 @@
     <dimen name="radius_4">4dp</dimen>
     <dimen name="radius_16">16dp</dimen>
     <dimen name="bottom_sheet_peak_height">280dp</dimen>
+    <dimen name="lite_map_height">180dp</dimen>
 </resources>

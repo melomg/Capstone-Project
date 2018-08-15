@@ -9,4 +9,6 @@
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar"/>
 </resources>
