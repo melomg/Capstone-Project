@@ -64,6 +64,7 @@ android {
             signingConfig null
             debuggable true
             testCoverageEnabled true
+            applicationIdSuffix ".test"
         }
         release {
             debuggable false
