@@ -28,6 +28,7 @@
     <string name="already_added_to_compare_list">You\'ve already added this city</string>
     <string name="exceeds_max_compare_size">You\'ve already added two cities to compare, please clear compared cities and try again</string>
     <string name="success_add_to_compare">City successfully added to Compare List</string>
+    <string name="score_out_of_100">Score: %1$.1f</string>
 
     <!-- CompareFragment -->
     <string name="no_data_to_compare">There should be two cities to compare</string>
@@ -36,4 +37,5 @@
     <string name="appwidget_empty_view">Favorites are empty</string>
     <string name="appwidget_text">My Favorite Cities</string>
     <string name="score_out_of_10">%1$s/10</string>
+    <string name="total_score">Total Score</string>
 </resources>

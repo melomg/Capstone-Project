@@ -49,6 +49,34 @@
                         android:contentDescription="@null"
                         app:srcCompat="@drawable/ic_back"/>
                 </android.support.v7.widget.Toolbar>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="end"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/black_transparent_40"
+                        app:layout_constraintBottom_toBottomOf="@+id/score"
+                        app:layout_constraintEnd_toEndOf="@+id/score"
+                        app:layout_constraintStart_toStartOf="@+id/score"
+                        app:layout_constraintTop_toTopOf="@+id/score"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/score"
+                        style="@style/Text.NunitoBold.H6"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="@dimen/large_size"
+                        android:paddingStart="@dimen/large_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="Score: 8.2"/>
+                </android.support.constraint.ConstraintLayout>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 

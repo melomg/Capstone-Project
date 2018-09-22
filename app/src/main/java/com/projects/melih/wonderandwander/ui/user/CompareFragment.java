@@ -85,6 +85,7 @@ public class CompareFragment extends BaseFragment implements View.OnClickListene
             int i = 0;
             for (City city : cities) {
                 final List<Category> scoresOfCategories = city.getScoresOfCategories();
+                scoresOfCategories.add(0, new Category(context.getString(R.string.total_score), city.getTeleportCityScore() / 10));
                 if (CollectionUtils.isNotEmpty(scoresOfCategories)) {
                     for (Category score : scoresOfCategories) {
                         final String key = score.getName();

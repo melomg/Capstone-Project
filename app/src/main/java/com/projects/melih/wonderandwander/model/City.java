@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 /**
  * Created by Melih Gültekin on 20.06.2018
  */
@@ -223,9 +225,9 @@ public class City implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    @Nullable
+    @Nonnull
     public List<Category> getScoresOfCategories() {
-        return scoresOfCategories;
+        return (scoresOfCategories == null) ? new ArrayList<>() : scoresOfCategories;
     }
 
     public void setScoresOfCategories(@Nullable List<Category> scoresOfCategories) {

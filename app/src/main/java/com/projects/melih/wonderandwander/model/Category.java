@@ -64,6 +64,11 @@ public class Category implements Parcelable {
     public Category() {
     }
 
+    public Category(@Nullable String name, double scoreOutOf10) {
+        this.name = name;
+        this.scoreOutOf10 = scoreOutOf10;
+    }
+
     private Category(Parcel in) {
         this.color = in.readString();
         this.name = in.readString();

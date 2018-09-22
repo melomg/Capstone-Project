@@ -204,6 +204,8 @@ public class CityDetailActivity extends BaseActivity implements View.OnClickList
 
         updateImage(city.getImageUrl());
 
+        binding.score.setText(getString(R.string.score_out_of_100, city.getTeleportCityScore()));
+
         citiesViewModel.setLocationAvailable(true);
 
         final List<Category> scoresOfCategories = city.getScoresOfCategories();
