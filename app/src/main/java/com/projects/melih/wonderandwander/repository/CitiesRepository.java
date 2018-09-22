@@ -25,6 +25,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import dagger.Lazy;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,25 +39,25 @@ public class CitiesRepository {
     private static final int CITY_STORAGE_LIMIT = 10;
     private static final String EMBED_URL_SCORES = "city:search-results/city:item/city:urban_area/ua:scores";
     private static final String EMBED_URL_IMAGES = "city:search-results/city:item/city:urban_area/ua:images";
-    private final Context context;
-    private final LocalCityDataSource localCityDataSource;
-    private final WonderAndWanderService service;
-    private final AppExecutors appExecutors;
+    private final Lazy<Context> lazyContext;
+    private final Lazy<LocalCityDataSource> lazyLocalCityDataSource;
+    private final Lazy<WonderAndWanderService> lazyService;
+    private final Lazy<AppExecutors> lazyAppExecutors;
     private LiveData<List<City>> lastSearchedCitiesLiveData;
     @NonNull
     private List<City> comparedCities = new ArrayList<>();
 
     @Inject
-    CitiesRepository(@NonNull Context applicationContext, @NonNull LocalCityDataSource localCityDataSource, @NonNull WonderAndWanderService service, @NonNull AppExecutors appExecutors) {
-        this.context = applicationContext;
-        this.localCityDataSource = localCityDataSource;
-        this.service = service;
-        this.appExecutors = appExecutors;
+    CitiesRepository(@NonNull Lazy<Context> applicationContext, @NonNull Lazy<LocalCityDataSource> localCityDataSource, @NonNull Lazy<WonderAndWanderService> service, @NonNull Lazy<AppExecutors> appExecutors) {
+        this.lazyContext = applicationContext;
+        this.lazyLocalCityDataSource = localCityDataSource;
+        this.lazyService = service;
+        this.lazyAppExecutors = appExecutors;
     }
 
     public LiveData<List<City>> getLastSearchedCitiesLiveData() {
         if (lastSearchedCitiesLiveData == null) {
-            lastSearchedCitiesLiveData = localCityDataSource.getLastSearchedCities();
+            lastSearchedCitiesLiveData = lazyLocalCityDataSource.get().getLastSearchedCities();
         }
         return lastSearchedCitiesLiveData;
     }
@@ -64,10 +65,10 @@ public class CitiesRepository {
     @Nullable
     public Call<ResponseCities> fetchCitiesFromNetwork(@NonNull String cityName, @NonNull DataCallback<List<City>> callback) {
         Call<ResponseCities> call = null;
-        if (!Utils.isNetworkConnected(context)) {
+        if (!Utils.isNetworkConnected(lazyContext.get())) {
             callback.onComplete(null, ErrorState.NO_NETWORK);
         } else {
-            call = service.getCity(cityName, LIMIT, EMBED_URL_SCORES, EMBED_URL_IMAGES);
+            call = lazyService.get().getCity(cityName, LIMIT, EMBED_URL_SCORES, EMBED_URL_IMAGES);
             call.enqueue(new Callback<ResponseCities>() {
                 @Override
                 public void onResponse(@NonNull Call<ResponseCities> call, @NonNull Response<ResponseCities> response) {
@@ -91,7 +92,8 @@ public class CitiesRepository {
     }
 
     private void addToLastSearchedCities(List<City> cities) {
-        appExecutors.diskIO().execute(() -> {
+        lazyAppExecutors.get().diskIO().execute(() -> {
+            final LocalCityDataSource localCityDataSource = lazyLocalCityDataSource.get();
             int numberOfRows = localCityDataSource.getNumberOfRows();
             for (City city : cities) {
                 if (numberOfRows == CITY_STORAGE_LIMIT) {
@@ -103,7 +105,7 @@ public class CitiesRepository {
     }
 
     public void removeLastSearchedCities() {
-        appExecutors.diskIO().execute(localCityDataSource::deleteAll);
+        lazyAppExecutors.get().diskIO().execute(lazyLocalCityDataSource.get()::deleteAll);
     }
 
     @NonNull
@@ -132,12 +134,12 @@ public class CitiesRepository {
             }
         }
         comparedCities.add(city);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
+        LocalBroadcastManager.getInstance(lazyContext.get()).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
         return true;
     }
 
     public void clearCompareList() {
         comparedCities.clear();
-        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
+        LocalBroadcastManager.getInstance(lazyContext.get()).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
     }
 }
