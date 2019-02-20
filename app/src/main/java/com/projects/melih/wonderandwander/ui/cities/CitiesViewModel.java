@@ -76,15 +76,11 @@ public class CitiesViewModel extends ViewModel {
         loadingLiveData.setValue(true);
         callCities = citiesRepository.fetchCitiesFromNetwork(cityName, (cities, errorState) -> {
             loadingLiveData.setValue(false);
-            if (errorState == ErrorState.NO_ERROR) {
-                if (CollectionUtils.isNotEmpty(cities)) {
-                    final City city = cities.get(0);
-                    cityLiveData.setValue(city);
-                } else {
-                    errorLiveData.setValue(ErrorState.EMPTY);
-                }
+            if (CollectionUtils.isNotEmpty(cities)) {
+                final City city = cities.get(0);
+                cityLiveData.setValue(city);
             } else {
-                errorLiveData.setValue(errorState);
+                cityLiveData.setValue(null);
             }
         });
     }

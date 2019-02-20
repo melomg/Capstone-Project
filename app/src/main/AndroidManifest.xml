@@ -50,10 +50,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key"/>
 
-        <!-- TODO add your api key value-->
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value=""/>
+            android:value="e93ec8e6280cf89998b7b79771688802b92869fc"/>
     </application>
 
 </manifest>

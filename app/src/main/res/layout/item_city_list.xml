@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="city"
             type="com.projects.melih.wonderandwander.model.City"/>
@@ -40,6 +42,7 @@
                     android:id="@+id/image"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:minHeight="@dimen/empty_view_height"
                     android:contentDescription="@null"
                     android:scaleType="centerCrop"
                     app:imageUrl="@{city.imageUrl}"

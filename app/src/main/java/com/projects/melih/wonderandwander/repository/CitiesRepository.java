@@ -20,6 +20,7 @@ import com.projects.melih.wonderandwander.repository.remote.WonderAndWanderServi
 import com.projects.melih.wonderandwander.repository.remote.response.ResponseCities;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -96,6 +97,7 @@ public class CitiesRepository {
             final LocalCityDataSource localCityDataSource = lazyLocalCityDataSource.get();
             int numberOfRows = localCityDataSource.getNumberOfRows();
             for (City city : cities) {
+                city.setTimeSpan(Calendar.getInstance().getTimeInMillis());
                 if (numberOfRows == CITY_STORAGE_LIMIT) {
                     localCityDataSource.deleteFirstCity();
                 }

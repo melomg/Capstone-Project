@@ -2,5 +2,6 @@
 <resources>
     <declare-styleable name="AutofitRecyclerView">
         <attr name="itemWidth" format="dimension"/>
+        <attr name="supportsChangeAnimations" format="boolean"/>
     </declare-styleable>
 </resources>

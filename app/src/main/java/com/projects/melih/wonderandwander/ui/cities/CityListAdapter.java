@@ -48,38 +48,20 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
     }
 
     void submitCityList(@Nullable List<City> cityList, @Nullable List<FavoritedCity> favoritedCityList) {
-        if (CollectionUtils.isNotEmpty(cityList) && CollectionUtils.isNotEmpty(favoritedCityList)) {
+        if (CollectionUtils.isNotEmpty(cityList)) {
             for (City city : cityList) {
                 city.setFavorited(false);
-                for (FavoritedCity favoritedCity : favoritedCityList) {
-                    if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
-                        city.setFavorited(true);
-                        break;
+                if (CollectionUtils.isNotEmpty(favoritedCityList)) {
+                    for (FavoritedCity favoritedCity : favoritedCityList) {
+                        if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
+                            city.setFavorited(true);
+                            break;
+                        }
                     }
                 }
             }
         }
         differ.submitList(cityList);
-    }
-
-    public void updateCitiesFavoriteInfo(@NonNull List<FavoritedCity> favoritedCities) {
-        List<City> cityList = differ.getCurrentList();
-        int favoriteListSize = favoritedCities.size();
-        for (City city : cityList) {
-            int i = 0;
-            city.setFavorited(false);
-            int favoriteLookupSize = favoriteListSize;
-            boolean lookupDoneForTheCity = false;
-            while ((favoriteLookupSize > 0) && !lookupDoneForTheCity && (i < favoriteListSize)) {
-                if (TextUtils.equals(favoritedCities.get(i).getGeoHash(), city.getGeoHash())) {
-                    favoriteLookupSize--;
-                    city.setFavorited(true);
-                    lookupDoneForTheCity = true;
-                }
-                i++;
-            }
-        }
-        notifyDataSetChanged();
     }
 
     static class CityViewHolder extends RecyclerView.ViewHolder {

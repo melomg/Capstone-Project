@@ -84,12 +84,8 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
         });
         citiesViewModel.getCityLiveData().observe(this, city -> {
             List<FavoritedCity> favoritedCityList = userViewModel.getFavoritesLiveData().getValue();
-            List<City> cities = new ArrayList<>();
-            if (city != null) {
-                cities.add(city);
-            }
             updateSearchResultCity(city, favoritedCityList);
-            binding.lastSearchesDivider.setVisibility(CollectionUtils.isNotEmpty(cities) ? View.VISIBLE : View.INVISIBLE);
+            binding.lastSearchesDivider.setVisibility((city == null) ? View.INVISIBLE : View.VISIBLE);
         });
         citiesViewModel.getLastSearchedCitiesLiveData().observe(this, cities -> {
             lastSearchedCitiesAdapter.submitCityList(cities, userViewModel.getFavoritesLiveData().getValue());
@@ -103,7 +99,7 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
         });
         userViewModel.getFavoritesLiveData().observe(this, favoritedCities -> {
             if (favoritedCities != null) {
-                lastSearchedCitiesAdapter.updateCitiesFavoriteInfo(favoritedCities);
+                lastSearchedCitiesAdapter.submitCityList(citiesViewModel.getLastSearchedCitiesLiveData().getValue(), favoritedCities);
                 updateSearchResultCity(citiesViewModel.getCityLiveData().getValue(), favoritedCities);
             }
         });
@@ -133,6 +129,16 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
 
             @Override
             public void onFavoriteAdded(@NonNull City city) {
+                // If user not logged in, we should mark the city as favorited
+                // and since favorite list will return as empty, we will be able to dispatch the update
+                List<FavoritedCity> favorites = new ArrayList<>();
+                final List<FavoritedCity> tempList = userViewModel.getFavoritesLiveData().getValue();
+                if (tempList != null) {
+                    favorites.addAll(tempList);
+                }
+                favorites.add(new FavoritedCity(city.getGeoHash(), city.getFullName(), city.getName(), city.getImageUrl()));
+                lastSearchedCitiesAdapter.submitCityList(citiesViewModel.getLastSearchedCitiesLiveData().getValue(), favorites);
+
                 userViewModel.addCityToFavoriteList(city);
             }
 
@@ -179,6 +185,7 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
         final City city = citiesViewModel.getCityLiveData().getValue();
         switch (v.getId()) {
             case R.id.search:
+                binding.emptySearch.setVisibility(View.GONE);
                 try {
                     AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
                             .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
@@ -217,20 +224,24 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
     }
 
     private void updateSearchResultCity(@Nullable City city, @Nullable List<FavoritedCity> favoritedCityList) {
-        if ((city != null) && CollectionUtils.isNotEmpty(favoritedCityList)) {
-            city.setFavorited(false);
-            for (FavoritedCity favoritedCity : favoritedCityList) {
-                if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
-                    city.setFavorited(true);
-                    break;
+        if (city != null) {
+            if (CollectionUtils.isNotEmpty(favoritedCityList)) {
+                city.setFavorited(false);
+                for (FavoritedCity favoritedCity : favoritedCityList) {
+                    if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
+                        city.setFavorited(true);
+                        break;
+                    }
                 }
             }
-            binding.searchResult.setCity(city);
             binding.searchResult.favoriteCheck.setChecked(city.isFavorited());
             binding.searchResult.getRoot().setVisibility(View.VISIBLE);
+            binding.emptySearch.setVisibility(View.GONE);
         } else {
             binding.searchResult.getRoot().setVisibility(View.GONE);
+            binding.emptySearch.setVisibility(View.VISIBLE);
         }
+        binding.searchResult.setCity(city);
     }
 
     private static class FavoritedCityListDeserializer implements Function<DataSnapshot, ArrayList<FavoritedCity>> {

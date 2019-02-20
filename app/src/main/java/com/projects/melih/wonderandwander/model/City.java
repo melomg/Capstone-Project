@@ -89,6 +89,8 @@ public class City implements Parcelable {
 
     private boolean isFavorited;
 
+    private long timeSpan;
+
     public City() {
         geoHash = "";//TODO create a unique string
     }
@@ -301,6 +303,14 @@ public class City implements Parcelable {
         isFavorited = favorited;
     }
 
+    public long getTimeSpan() {
+        return timeSpan;
+    }
+
+    public void setTimeSpan(long timeSpan) {
+        this.timeSpan = timeSpan;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -331,6 +341,7 @@ public class City implements Parcelable {
         dest.writeDouble(this.latitude);
         dest.writeDouble(this.longitude);
         dest.writeByte(this.isFavorited ? (byte) 1 : (byte) 0);
+        dest.writeLong(this.timeSpan);
     }
 
     protected City(Parcel in) {
@@ -359,6 +370,7 @@ public class City implements Parcelable {
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
         this.isFavorited = in.readByte() != 0;
+        this.timeSpan = in.readLong();
     }
 
     public static final Parcelable.Creator<City> CREATOR = new Parcelable.Creator<City>() {
