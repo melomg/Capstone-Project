@@ -99,7 +99,7 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
         });
         userViewModel.getFavoritesLiveData().observe(this, favoritedCities -> {
             if (favoritedCities != null) {
-                lastSearchedCitiesAdapter.submitCityList(citiesViewModel.getLastSearchedCitiesLiveData().getValue(), favoritedCities);
+                lastSearchedCitiesAdapter.updateCitiesFavoriteInfo(favoritedCities);
                 updateSearchResultCity(citiesViewModel.getCityLiveData().getValue(), favoritedCities);
             }
         });
@@ -129,16 +129,6 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
 
             @Override
             public void onFavoriteAdded(@NonNull City city) {
-                // If user not logged in, we should mark the city as favorited
-                // and since favorite list will return as empty, we will be able to dispatch the update
-                List<FavoritedCity> favorites = new ArrayList<>();
-                final List<FavoritedCity> tempList = userViewModel.getFavoritesLiveData().getValue();
-                if (tempList != null) {
-                    favorites.addAll(tempList);
-                }
-                favorites.add(new FavoritedCity(city.getGeoHash(), city.getFullName(), city.getName(), city.getImageUrl()));
-                lastSearchedCitiesAdapter.submitCityList(citiesViewModel.getLastSearchedCitiesLiveData().getValue(), favorites);
-
                 userViewModel.addCityToFavoriteList(city);
             }
 
@@ -226,13 +216,13 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
     private void updateSearchResultCity(@Nullable City city, @Nullable List<FavoritedCity> favoritedCityList) {
         if (city != null) {
             if (CollectionUtils.isNotEmpty(favoritedCityList)) {
-                city.setFavorited(false);
-                for (FavoritedCity favoritedCity : favoritedCityList) {
-                    if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
-                        city.setFavorited(true);
-                        break;
-                    }
+            city.setFavorited(false);
+            for (FavoritedCity favoritedCity : favoritedCityList) {
+                if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
+                    city.setFavorited(true);
+                    break;
                 }
+            }
             }
             binding.searchResult.favoriteCheck.setChecked(city.isFavorited());
             binding.searchResult.getRoot().setVisibility(View.VISIBLE);

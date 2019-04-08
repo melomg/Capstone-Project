@@ -64,6 +64,26 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
         differ.submitList(cityList);
     }
 
+    void updateCitiesFavoriteInfo(@NonNull final List<FavoritedCity> favoritedCities) {
+        final List<City> cityList = differ.getCurrentList();
+        final int favoriteListSize = favoritedCities.size();
+        for (final City city : cityList) {
+            int i = 0;
+            city.setFavorited(false);
+            int favoriteLookupSize = favoriteListSize;
+            boolean lookupDoneForTheCity = false;
+            while ((favoriteLookupSize > 0) && !lookupDoneForTheCity && (i < favoriteListSize)) {
+                if (TextUtils.equals(favoritedCities.get(i).getGeoHash(), city.getGeoHash())) {
+                    favoriteLookupSize--;
+                    city.setFavorited(true);
+                    lookupDoneForTheCity = true;
+                }
+                i++;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     static class CityViewHolder extends RecyclerView.ViewHolder {
         private final ItemCityListBinding binding;
         private final CityItemListener cityItemListener;
