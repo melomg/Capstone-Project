@@ -15,7 +15,7 @@ import com.projects.melih.wonderandwander.model.User;
 /**
  * Created by Melih Gültekin on 03.07.2018
  */
-@Database(entities = {User.class, City.class, FavoritedCity.class}, version = 10)
+@Database(entities = {User.class, City.class, FavoritedCity.class}, version = 11)
 @TypeConverters({Converters.class})
 public abstract class WonderAndWanderDatabase extends RoomDatabase {
     private static final Object lock = new Object();

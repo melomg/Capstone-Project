@@ -48,13 +48,15 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
     }
 
     void submitCityList(@Nullable List<City> cityList, @Nullable List<FavoritedCity> favoritedCityList) {
-        if (CollectionUtils.isNotEmpty(cityList) && CollectionUtils.isNotEmpty(favoritedCityList)) {
+        if (CollectionUtils.isNotEmpty(cityList)) {
             for (City city : cityList) {
                 city.setFavorited(false);
-                for (FavoritedCity favoritedCity : favoritedCityList) {
-                    if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
-                        city.setFavorited(true);
-                        break;
+                if (CollectionUtils.isNotEmpty(favoritedCityList)) {
+                    for (FavoritedCity favoritedCity : favoritedCityList) {
+                        if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
+                            city.setFavorited(true);
+                            break;
+                        }
                     }
                 }
             }
@@ -62,10 +64,10 @@ class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.CityViewHolde
         differ.submitList(cityList);
     }
 
-    public void updateCitiesFavoriteInfo(@NonNull List<FavoritedCity> favoritedCities) {
-        List<City> cityList = differ.getCurrentList();
-        int favoriteListSize = favoritedCities.size();
-        for (City city : cityList) {
+    void updateCitiesFavoriteInfo(@NonNull final List<FavoritedCity> favoritedCities) {
+        final List<City> cityList = differ.getCurrentList();
+        final int favoriteListSize = favoritedCities.size();
+        for (final City city : cityList) {
             int i = 0;
             city.setFavorited(false);
             int favoriteLookupSize = favoriteListSize;

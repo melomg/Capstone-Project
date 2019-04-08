@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Dao
 public interface CityDao {
-    @Query("SELECT * from last_searched_cities")
+    @Query("SELECT * from last_searched_cities ORDER BY timeSpan DESC")
     LiveData<List<City>> getLastSearchedCities();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

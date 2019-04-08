@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -35,6 +36,13 @@ public class AutofitRecyclerView extends RecyclerView {
             TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.AutofitRecyclerView);
             columnWidth = array.getDimensionPixelSize(R.styleable.AutofitRecyclerView_itemWidth, -1);
             addItemDecoration(new SpaceItemDecoration(context.getResources().getDimensionPixelSize(R.dimen.x_min_size)));
+            boolean supportsChangeAnimations = array.getBoolean(R.styleable.AutofitRecyclerView_supportsChangeAnimations, true);
+            if (!supportsChangeAnimations) {
+                RecyclerView.ItemAnimator animator = getItemAnimator();
+                if (animator instanceof SimpleItemAnimator) {
+                    ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+                }
+            }
             array.recycle();
         }
         manager = new GridLayoutManager(getContext(), DEFAULT_SPAN_COUNT);

@@ -64,7 +64,6 @@ android {
             signingConfig null
             debuggable true
             testCoverageEnabled true
-            applicationIdSuffix ".test"
         }
         release {
             debuggable false
@@ -90,6 +89,12 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force 'com.google.code.gson:gson:2.8.0'
+        }
     }
 }
 
@@ -170,7 +175,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
         transitive = true
     }
 }

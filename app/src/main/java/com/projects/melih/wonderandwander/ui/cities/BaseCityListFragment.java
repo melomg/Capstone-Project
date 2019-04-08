@@ -84,12 +84,8 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
         });
         citiesViewModel.getCityLiveData().observe(this, city -> {
             List<FavoritedCity> favoritedCityList = userViewModel.getFavoritesLiveData().getValue();
-            List<City> cities = new ArrayList<>();
-            if (city != null) {
-                cities.add(city);
-            }
             updateSearchResultCity(city, favoritedCityList);
-            binding.lastSearchesDivider.setVisibility(CollectionUtils.isNotEmpty(cities) ? View.VISIBLE : View.INVISIBLE);
+            binding.lastSearchesDivider.setVisibility((city == null) ? View.INVISIBLE : View.VISIBLE);
         });
         citiesViewModel.getLastSearchedCitiesLiveData().observe(this, cities -> {
             lastSearchedCitiesAdapter.submitCityList(cities, userViewModel.getFavoritesLiveData().getValue());
@@ -179,6 +175,7 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
         final City city = citiesViewModel.getCityLiveData().getValue();
         switch (v.getId()) {
             case R.id.search:
+                binding.emptySearch.setVisibility(View.GONE);
                 try {
                     AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
                             .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
@@ -217,7 +214,8 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
     }
 
     private void updateSearchResultCity(@Nullable City city, @Nullable List<FavoritedCity> favoritedCityList) {
-        if ((city != null) && CollectionUtils.isNotEmpty(favoritedCityList)) {
+        if (city != null) {
+            if (CollectionUtils.isNotEmpty(favoritedCityList)) {
             city.setFavorited(false);
             for (FavoritedCity favoritedCity : favoritedCityList) {
                 if (TextUtils.equals(city.getGeoHash(), favoritedCity.getGeoHash())) {
@@ -225,12 +223,15 @@ public abstract class BaseCityListFragment extends BaseFragment implements View.
                     break;
                 }
             }
-            binding.searchResult.setCity(city);
+            }
             binding.searchResult.favoriteCheck.setChecked(city.isFavorited());
             binding.searchResult.getRoot().setVisibility(View.VISIBLE);
+            binding.emptySearch.setVisibility(View.GONE);
         } else {
             binding.searchResult.getRoot().setVisibility(View.GONE);
+            binding.emptySearch.setVisibility(View.VISIBLE);
         }
+        binding.searchResult.setCity(city);
     }
 
     private static class FavoritedCityListDeserializer implements Function<DataSnapshot, ArrayList<FavoritedCity>> {
