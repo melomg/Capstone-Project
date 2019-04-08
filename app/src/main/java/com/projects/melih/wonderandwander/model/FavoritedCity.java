@@ -21,10 +21,13 @@ import java.util.Map;
 @IgnoreExtraProperties
 @SuppressWarnings({"unused", "WeakerAccess"})
 @Entity(tableName = "favorites",
-        foreignKeys = @ForeignKey(entity = User.class,
+        foreignKeys = @ForeignKey(
+                entity = User.class,
                 parentColumns = "uId",
                 childColumns = "userId",
-                onDelete = ForeignKey.CASCADE))
+                onDelete = ForeignKey.CASCADE
+        )
+)
 public class FavoritedCity implements Parcelable {
     @PrimaryKey
     @NonNull

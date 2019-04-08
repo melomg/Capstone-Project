@@ -21,6 +21,7 @@ import com.projects.melih.wonderandwander.repository.remote.response.ResponseCit
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,10 +47,13 @@ public class CitiesRepository {
     private final Lazy<AppExecutors> lazyAppExecutors;
     private LiveData<List<City>> lastSearchedCitiesLiveData;
     @NonNull
-    private List<City> comparedCities = new ArrayList<>();
+    private final List<City> comparedCities = new ArrayList<>();
 
     @Inject
-    CitiesRepository(@NonNull Lazy<Context> applicationContext, @NonNull Lazy<LocalCityDataSource> localCityDataSource, @NonNull Lazy<WonderAndWanderService> service, @NonNull Lazy<AppExecutors> appExecutors) {
+    CitiesRepository(@NonNull final Lazy<Context> applicationContext,
+                     @NonNull final Lazy<LocalCityDataSource> localCityDataSource,
+                     @NonNull final Lazy<WonderAndWanderService> service,
+                     @NonNull final Lazy<AppExecutors> appExecutors) {
         this.lazyContext = applicationContext;
         this.lazyLocalCityDataSource = localCityDataSource;
         this.lazyService = service;
@@ -64,46 +68,15 @@ public class CitiesRepository {
     }
 
     @Nullable
-    public Call<ResponseCities> fetchCitiesFromNetwork(@NonNull String cityName, @NonNull DataCallback<List<City>> callback) {
+    public Call<ResponseCities> fetchCitiesFromNetwork(@NonNull final String cityName, @NonNull final DataCallback<List<City>> callback) {
         Call<ResponseCities> call = null;
         if (!Utils.isNetworkConnected(lazyContext.get())) {
             callback.onComplete(null, ErrorState.NO_NETWORK);
         } else {
             call = lazyService.get().getCity(cityName, LIMIT, EMBED_URL_SCORES, EMBED_URL_IMAGES);
-            call.enqueue(new Callback<ResponseCities>() {
-                @Override
-                public void onResponse(@NonNull Call<ResponseCities> call, @NonNull Response<ResponseCities> response) {
-                    final List<City> cities = Utils.createCityListFromResponse(response);
-                    if (CollectionUtils.isNotEmpty(cities)) {
-                        callback.onComplete(cities, ErrorState.NO_ERROR);
-
-                        addToLastSearchedCities(cities);
-                    } else {
-                        callback.onComplete(null, ErrorState.EMPTY);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<ResponseCities> call, @NonNull Throwable t) {
-                    callback.onComplete(null, ErrorState.FAILED);
-                }
-            });
+            call.enqueue(new ResponseCitiesCallback(callback));
         }
         return call;
-    }
-
-    private void addToLastSearchedCities(List<City> cities) {
-        lazyAppExecutors.get().diskIO().execute(() -> {
-            final LocalCityDataSource localCityDataSource = lazyLocalCityDataSource.get();
-            int numberOfRows = localCityDataSource.getNumberOfRows();
-            for (City city : cities) {
-                city.setTimeSpan(Calendar.getInstance().getTimeInMillis());
-                if (numberOfRows == CITY_STORAGE_LIMIT) {
-                    localCityDataSource.deleteFirstCity();
-                }
-                localCityDataSource.insertCity(city);
-            }
-        });
     }
 
     public void removeLastSearchedCities() {
@@ -112,12 +85,12 @@ public class CitiesRepository {
 
     @NonNull
     public List<City> getComparedCities() {
-        return comparedCities;
+        return Collections.unmodifiableList(comparedCities);
     }
 
-    public boolean isCompareListContains(@Nullable City city) {
+    public boolean isCompareListContains(@Nullable final City city) {
         if (city != null) {
-            for (City comparedCity : comparedCities) {
+            for (final City comparedCity : comparedCities) {
                 if (TextUtils.equals(comparedCity.getGeoHash(), city.getGeoHash())) {
                     return true;
                 }
@@ -126,11 +99,11 @@ public class CitiesRepository {
         return false;
     }
 
-    public boolean addToCompareList(@NonNull City city) {
+    public boolean addToCompareList(@NonNull final City city) {
         if (CollectionUtils.size(comparedCities) == Constants.COMPARE_CAPACITY) {
             return false;
         }
-        for (City comparedCity : comparedCities) {
+        for (final City comparedCity : comparedCities) {
             if (TextUtils.equals(comparedCity.getGeoHash(), city.getGeoHash())) {
                 return true;
             }
@@ -143,5 +116,44 @@ public class CitiesRepository {
     public void clearCompareList() {
         comparedCities.clear();
         LocalBroadcastManager.getInstance(lazyContext.get()).sendBroadcast(new Intent(Constants.ACTION_COMPARE));
+    }
+
+    private class ResponseCitiesCallback implements Callback<ResponseCities> {
+        private final DataCallback<List<City>> callback;
+
+        ResponseCitiesCallback(final DataCallback<List<City>> callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        public void onResponse(@NonNull final Call<ResponseCities> call, @NonNull final Response<ResponseCities> response) {
+            final List<City> cities = Utils.createCityListFromResponse(response);
+            if (CollectionUtils.isNotEmpty(cities)) {
+                callback.onComplete(cities, ErrorState.NO_ERROR);
+
+                addToLastSearchedCities(cities);
+            } else {
+                callback.onComplete(null, ErrorState.EMPTY);
+            }
+        }
+
+        @Override
+        public void onFailure(@NonNull final Call<ResponseCities> call, @NonNull final Throwable t) {
+            callback.onComplete(null, ErrorState.FAILED);
+        }
+
+        private void addToLastSearchedCities(final List<City> cities) {
+            lazyAppExecutors.get().diskIO().execute(() -> {
+                final LocalCityDataSource localCityDataSource = lazyLocalCityDataSource.get();
+                final int numberOfRows = localCityDataSource.getNumberOfRows();
+                for (final City city : cities) {
+                    city.setTimeSpan(Calendar.getInstance(Constants.TIME_ZONE_UTC).getTimeInMillis());
+                    if (numberOfRows == CITY_STORAGE_LIMIT) {
+                        localCityDataSource.deleteFirstCity();
+                    }
+                    localCityDataSource.insertCity(city);
+                }
+            });
+        }
     }
 }
